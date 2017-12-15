@@ -4,7 +4,7 @@ Compete agains your Jayway collegues in this AI-controlled car race.
 
 You'll be divided up in 4 teams with 4 people per team. Each team will be given a `Robocar` to name and race with.
 
-## Prerequisites
+## Preparations
 
 You should be familiar with at least some of the technologies listed below:
 
@@ -32,8 +32,8 @@ You'll need to do the following before starting the lab:
 
 These instructions are a condensed version of the [Donkey Car](http://docs.donkeycar.com/) installation.
 
-Install [Etcher](https://etcher.io/) and copy the Raspbian image in `images/donkey.img` to the SD-card
+1. Install [Etcher](https://etcher.io/) and copy the customized Raspbian image in `images/donkey.img` to the SD-card
 
 ![Etcher](https://etcher.io/static/screenshot.gif)
 
-Install the SD-card in the car and boot it up. 
+2. Install the SD-card in the car and boot it up.
