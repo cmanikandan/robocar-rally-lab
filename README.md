@@ -24,9 +24,16 @@ You'll need to do the following before starting the lab:
 1. Each team member must set up the AWS CLI and be able to access the account both via the CLI and the web console.
 1. Clone this repository.
 
-## Setup
+## Instructions
 
-TODO
+### Prepare the car
 
-## 
+![Donkey Car](http://www.donkeycar.com/uploads/7/8/1/7/7817903/donkey-car-graphic_orig.jpg)
 
+These instructions are a condensed version of the [Donkey Car](http://docs.donkeycar.com/) installation.
+
+Install [Etcher](https://etcher.io/) and copy the Raspbian image in `images/donkey.img` to the SD-card
+
+![Etcher](https://etcher.io/static/screenshot.gif)
+
+Install the SD-card in the car and boot it up. 
