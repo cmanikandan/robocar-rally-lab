@@ -1,51 +1,57 @@
 # Prepare the car
 
-![Donkey Car](http://www.donkeycar.com/uploads/7/8/1/7/7817903/donkey-car-graphic_orig.jpg)
-
 These instructions are a condensed version of the [Donkey Car](http://docs.donkeycar.com/) installation.
 
-1. Install [Etcher](https://etcher.io/) and copy the customized Raspbian image in `images/donkey.img` to the SD-card
+## Install sd-card
+
+Install [Etcher](https://etcher.io/) and copy the customized Raspbian image in `images/donkey.img` to the SD-card, or use a tool like `dd`.
 
 ![Etcher](https://etcher.io/static/screenshot.gif)
 
-2. Install the SD-card in the car and boot it up.
+Install the SD-card in the *Raspberry pi* and boot it up. It has **SSH** already enabled.
 
-3. First thing after boot is to configure wifi. A new and easy way of connecting w.o. the need of a monitor/keyboard or local wifi router is to use direct ethernet connection:
+## Configure network
 
-   1. Connect a TP-cable between your computer and the Pi.
-   2. SSH is already enabled on the image, and a local IP-address is assigned to the Pi using DHCP as soon as the TP-cable is attached. You can now connect using default hostname, user and password:
+First thing after boot is to configure wifi. A new and easy way of connecting w.o. the need of a monitor/keyboard or local wifi router is to use direct ethernet connection (it makes use of diffent techniques such as *Auto MDI-X*, *DHCP* and *IPv4 settings*) :
 
-   ```bash
-   ssh pi@raspberrypi.local
-   ```
-   3. What to do now??
+1. Connect a TP-cable between your computer and the Pi.
+2. On Linux, change the *wired connection* settings on your computer to *link-local*/*Share to other computers* or similar.
+3. SSH is already enabled on the image, and a local IP-address is assigned to the Pi using DHCP as soon as the TP-cable is attached. You can now connect using default username and hostname, and password *pi*.
 
-- wifi (/etc/wpa_supplicant/wpa_supplicant.conf)
-----
+```bash
+ssh pi@raspberrypi.local
+```
+
+Make sure the pre-configured wifi settings in `/etc/wpa_supplicant/wpa_supplicant.conf` are correct by opening it in a editor, e.g:
+
+```bash
+sudo vim /etc/wpa_supplicant/wpa_supplicant.conf
+```
+
+It should look something similar to:
+
+```bash
 country=SE
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
-
 network={
-    ssid="JaywayGuest"
-    psk="jaywayguest"
+  ssid="JaywayGuest"
+  psk="jaywayguest"
 }
------
-https://unix.stackexchange.com/questions/278946/hiding-passwords-in-wpa-supplicant-conf-with-wpa-eap-and-mschap-v2
-------
-4. Hostname
-sudo vi /media/userID/UUID/etc/hostname
-sudo vi /media/userID/UUID/etc/hosts
-5. Install donkey/d2
+```
+
+Next, update `hostname` to reflect your team name:
+```bash
+sudo vim /etc/hostname
+sudo vim /etc/hosts
+```
+
+## Install software
+
+Install donkey/d2
 - cert??? jit??? -- Provisioning!!!!
 - d2 config (after job?)
 http://docs.donkeycar.com/guide/install_software/
-
-
-6. Start driving
-7. calibration!
-http://docs.donkeycar.com/guide/get_driving/
-
 
 - jobs
 -- update SW:
