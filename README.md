@@ -4,18 +4,22 @@ Compete agains your Jayway collegues in this AI-controlled car race.
 
 You'll be divided up in 4 teams with 4 people per team. Each team will be given a `Robocar` to name and race with.
 
-## Preparations
+## Prerequisites
 
 You should be familiar with at least some of the technologies listed below:
 
-- Raspberry pi / Rasbian
-- Bash
-- Python
-- Tensorflow / Keras
-- AI/ML theory
-- AWS IoT
-- AWS SageMaker
-- AWS CloudFormation
+| Tech      |
+-------------
+| Python |
+| Raspberry pi / Rasbian |
+| Tensorflow / Keras |
+| AI/ML theory |
+| AWS IoT |
+| AWS SageMaker |
+| AWS CloudFormation |
+| Bash |
+
+## Preparations
 
 You'll need to do the following before starting the lab:
 
