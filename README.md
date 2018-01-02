@@ -8,16 +8,16 @@ You'll be divided up in 4 teams with 4 people per team. Each team will be given 
 
 You should be familiar with at least some of the technologies listed below:
 
-| Tech      |
--------------
-| Python |
-| Raspberry pi / Rasbian |
-| Tensorflow / Keras |
-| AI/ML theory |
-| AWS IoT |
-| AWS SageMaker |
-| AWS CloudFormation |
-| Bash |
+Tech      |
+------------
+Python |
+Raspberry pi / Rasbian |
+Tensorflow / Keras |
+AI/ML theory |
+AWS IoT |
+AWS SageMaker |
+AWS CloudFormation |
+Bash |
 
 ## Preparations
 
