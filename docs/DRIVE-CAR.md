@@ -1,6 +1,18 @@
 # Driving the car
 
+## Donkey library API
 
-6. Start driving
-7. calibration!
+The donkey library reference can be found here:
+[http://docs.donkeycar.com/utility/donkey](http://docs.donkeycar.com/utility/donkey)
+
+## Driving
+
 http://docs.donkeycar.com/guide/get_driving/
+
+## TODOs
+
+- Add better control
+- Fix start/stop so that it doesn't create a gizilion tubs. Maybe seperate start/stop from train/stop? 
+- IoT Jobs (move somewhere else)
+   - Get training data
+   - 
