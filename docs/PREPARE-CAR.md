@@ -24,7 +24,7 @@ A new and easy way of connecting w.o. the need of a monitor/keyboard or local wi
 ssh pi@raspberrypi.local
 ```
 
-If this doesn't work, try find the IP-address of the PI by e.g. looking in the DHCP leases table:
+If this doesn't work, try find the IP-address of the `pi` by e.g. looking in the DHCP leases table:
 
 ```bash
 cat /var/lib/misc/dnsmasq.leases
@@ -32,17 +32,42 @@ cat /var/lib/misc/dnsmasq.leases
 
 ### Wifi
 
-Once you have wifi up and running, you'll find the IP-address by typing:
+
+#### Bonjour
+
+Once the `pi` is connected to wifi (see [Configure network](#configure-network)), you can SSH to it, but it can be a bit tricky to find its IP-address.
+
+If you're on a Mac and have given your `pi` a unique hostname (see [Configure network](#configure-network)), chances are that *Bonjour* already resolved the hostname. Try connect to it using:
+
+```bash
+ssh pi@<hostname>.local
+```
+
+If you're still using the default hostname `raspberrypi`, it will probably collide with the other teams.
+
+#### Direct connect
+
+If you're still connected using [direct connect](#direct-connect), you'll find the IP-address on the `pi` by typing:
 
 ```bash
 ifconfig
 ```
 
-Then simply SSH to it:
+Then simply SSH to it (from your host computer, duh):
 
 ```bash
 ssh pi@<ip addr>
 ```
+
+#### nmap
+
+The really slow way is to search the network for all devices with port 22 (SSH) open. Since *JaywayGuest* is a /16 type network, there are 16382 subnets and 65534 hosts to search, which will take around 20 minutes:
+
+```bash
+nmap -sS -T5 -p 22 10.0.0.0/16
+```
+
+See [https://explainshell.com/explain?cmd=nmap+10.0.0.1+-T5+-p-+-sS+](https://explainshell.com/explain?cmd=nmap+10.0.0.1+-T5+-p-+-sS+) for a description of the `nmap` options.
 
 ## Configure network
 
@@ -72,8 +97,11 @@ sudo vim /etc/hosts
 
 ## Donkey library API
 
-The donkey library reference can be found here:
-[http://docs.donkeycar.com/utility/donkey](http://docs.donkeycar.com/utility/donkey)
+The lab uses a python library called [Donkey](https://github.com/wroscoe/donkey) to drive and train the car:
+- [https://github.com/wroscoe/donkey](https://github.com/wroscoe/donkey)
+
+The library reference can be found here:
+- [http://docs.donkeycar.com/utility/donkey](http://docs.donkeycar.com/utility/donkey)
 
 ## Calibration
 

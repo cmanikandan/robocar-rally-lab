@@ -2,8 +2,11 @@
 
 ## Donkey library API
 
-The donkey library reference can be found here:
-[http://docs.donkeycar.com/utility/donkey](http://docs.donkeycar.com/utility/donkey)
+The lab uses a python library called [Donkey](https://github.com/wroscoe/donkey) to drive and train the car:
+- [https://github.com/wroscoe/donkey](https://github.com/wroscoe/donkey)
+
+The library reference can be found here:
+- [http://docs.donkeycar.com/utility/donkey](http://docs.donkeycar.com/utility/donkey)
 
 ## Driving
 
