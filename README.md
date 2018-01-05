@@ -37,6 +37,10 @@ You'll need to do the following before starting the lab:
 |     :---:                                   |
 | <img src="docs/donkey-car.jpg" width="200"> |
 
-| [Drive](docs/DRIVE-CAR.md)                    |
+| [Drive](docs/DRIVE-CAR.md)                      |
 |     :---:                                       |
 | <img src="docs/steering-wheel.jpg" width="200"> |
+
+| [Tips n Tricks](docs/TIPS-N-TRICKS.md)          |
+|     :---:                                       |
+| <img src="docs/tips-n-tricks.jpg" width="200">  |

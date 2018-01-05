@@ -4,7 +4,7 @@ For this lab, we use a customized Raspbian image based on the [Donkey Car](https
 
 ## Install sd-card
 
-Install [Etcher](https://etcher.io/) and copy the customized Raspbian image from [s3://robocar-rally-lab](s3://robocar-rally-lab) to the SD-card, or use a tool like `dd`.
+Install [Etcher](https://etcher.io/) and copy the customized Raspbian image from [s3://robocar-rally-lab/donkey.img](s3://robocar-rally-lab/donkey.img) to the SD-card, or use a tool like `dd`.
 
 ![Etcher](https://etcher.io/static/screenshot.gif)
 
@@ -112,17 +112,7 @@ You need to calibrate the steering before it can drive properly, see:
 
 ## Debug
 
-### Configuration
-
-The following is already configured on the customized Raspbian image in [donkey.img]():
-- Locale (en_US.UTF8)
-- Change default password to `pi`
-- Enable **SSH**
-- Enable **camera** interface
-- Enable **I2C** interface
-- Enable **wifi** (Jayway guest). Should be verified in next section.
-
-### Installed software
+### SD-card/Raspbian image
 
 See [SD-card README](../sdcard/README.md)
 

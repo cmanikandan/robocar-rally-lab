@@ -66,4 +66,14 @@ python3 -c 'import keras; print("keras version {}".format(keras.__version__))'
 python3 -c 'import pandas; print("pandas version {}".format(pandas.__version__))'
 python3 -c 'import donkeycar; print("donkeycar version {}".format(donkeycar.__version__))'
 
+# 10. Install nvm, node and npm
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
+source $HOME/.bashrc
+nvm install 8
+nvm use 8
+
+# 11. Install AWS IoT device SDK for JS/Node
+npm install aws-iot-device-sdk
+
+
 echo "Finished installing software"
