@@ -105,8 +105,8 @@ The library reference can be found here:
 
 ## Calibration
 
-TODO
-http://docs.donkeycar.com/guide/get_driving/
+You need to calibrate the steering before it can drive properly, see:
+- [http://docs.donkeycar.com/guide/calibrate/](http://docs.donkeycar.com/guide/calibrate/)
 
 ## Debug
 
