@@ -4,11 +4,13 @@ For this lab, we use a customized Raspbian image based on the [Donkey Car](https
 
 ## Install sd-card
 
-Install [Etcher](https://etcher.io/) and copy the customized Raspbian image in `images/donkey.img` to the SD-card, or use a tool like `dd`.
+Install [Etcher](https://etcher.io/) and copy the customized Raspbian image from [s3://robocar-rally-lab](s3://robocar-rally-lab) to the SD-card, or use a tool like `dd`.
 
 ![Etcher](https://etcher.io/static/screenshot.gif)
 
 Install the SD-card in the *Raspberry pi* and boot it up.
+
+More information on the [SD-card](sdcard/README.md).
 
 ## Connect to pi
 
