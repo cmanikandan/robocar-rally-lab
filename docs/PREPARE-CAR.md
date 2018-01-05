@@ -112,7 +112,7 @@ You need to calibrate the steering before it can drive properly, see:
 
 ### Configuration
 
-The following is already configured on the customized Raspbian image in `images/donkey.img`:
+The following is already configured on the customized Raspbian image in [donkey.img]():
 - Locale (en_US.UTF8)
 - Change default password to `pi`
 - Enable **SSH**
@@ -122,14 +122,7 @@ The following is already configured on the customized Raspbian image in `images/
 
 ### Installed software
 
-We've created a slimmed down version of the [donkey image](http://docs.donkeycar.com/faq/#how-do-i-create-my-own-raspberry-pi-disk).
-
-All software should already be installed, but the instructions can be handy if you're debugging or developing new features.
-
-Installing the [donkey](https://github.com/wroscoe/donkey) software and dependencies:
-```bash
-./install.sh
-```
+See [SD-card README](sdcard/README.md)
 
 ### AWS IoT provisioning
 
