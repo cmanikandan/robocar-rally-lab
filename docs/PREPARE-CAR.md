@@ -10,7 +10,7 @@ Install [Etcher](https://etcher.io/) and copy the customized Raspbian image from
 
 Install the SD-card in the *Raspberry pi* and boot it up.
 
-More information on the [SD-card](sdcard/README.md).
+More information on the [SD-card](../sdcard/README.md).
 
 ## Connect to pi
 
@@ -124,7 +124,7 @@ The following is already configured on the customized Raspbian image in [donkey.
 
 ### Installed software
 
-See [SD-card README](sdcard/README.md)
+See [SD-card README](../sdcard/README.md)
 
 ### AWS IoT provisioning
 
