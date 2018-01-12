@@ -55,6 +55,9 @@ fi
 # 8. Setup donkey
 sudo pip3 install -e $HOME/donkey
 
+# 8.1 Perhaps not necessary (if 9. fails with: RuntimeError: module compiled against API version 0xb but this version of numpy is 0xa)
+#sudo pip3 install numpy --upgrade --ignore-installed
+
 # 9. Create a "car"
 donkey createcar --template donkey2 --path ~/d2
 
@@ -73,7 +76,7 @@ nvm install 8
 nvm use 8
 
 # 11. Install AWS IoT device SDK for JS/Node
-npm install aws-iot-device-sdk
+npm install -g aws-iot-device-sdk
 
 
 echo "Finished installing software"
