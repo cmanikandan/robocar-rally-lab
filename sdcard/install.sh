@@ -78,5 +78,8 @@ nvm use 8
 # 11. Install AWS IoT device SDK for JS/Node
 npm install -g aws-iot-device-sdk
 
+# 12. Install openssl (for AWS IoT cert creation)
+sudo apt-get --yes install openssl
+
 
 echo "Finished installing software"
