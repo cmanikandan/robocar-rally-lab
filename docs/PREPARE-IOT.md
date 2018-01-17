@@ -8,6 +8,8 @@ See instructions on AWS IoT docs:
 - [https://aws.amazon.com/premiumsupport/knowledge-center/iot-self-signed-certificates/](https://aws.amazon.com/premiumsupport/knowledge-center/iot-self-signed-certificates/)
 - [https://docs.aws.amazon.com/iot/latest/developerguide/device-certs-your-own.html](https://docs.aws.amazon.com/iot/latest/developerguide/device-certs-your-own.html)
 
+Make sure you enable `--allow-auto-registration` on the CA certificate.
+
 See below for suggested file names:
 
 | File | Suggested file name |
@@ -45,11 +47,11 @@ Use the following information when creating CSRs:
 | Email                    | robocar@jayway.com |
 | Challenge                | robocar            |
 
-
 ## Store CA information in SSM Parameter Store
 
 The following data needs to be stored in [AWS SSM Parameter Store](https://aws.amazon.com/systems-manager/):
 - CA cert private key
+- CA cert (for easy access)
 
 First, create a KMS key for encrypting the parameters:
 ```bash
@@ -57,12 +59,18 @@ aws kms create-key --description robocar-key
 aws kms create-alias --alias-name alias/robocar-key --target-key-id <key id from output>
 ```
 
-Next, store the CA private key in SSM Parameter Store:
+Next, store the CA private key and CA in SSM Parameter Store:
 ```bash
-aws ssm put-parameter --name robocar.jw-robocar-ca-priv-key --type SecureString --key-id alias/robocar-key --value file://<path to jw-robocar-ca-priv.key>
+aws ssm put-parameter --name /robocar/jw-robocar-ca-priv-key --type SecureString --key-id alias/robocar-key --value file://<path to jw-robocar-ca-priv.key>
+aws ssm put-parameter --name /robocar/jw-robocar-ca --type SecureString --key-id alias/robocar-key --value file://<path to jw-robocar-ca.pem>
 ```
 
 To later get the value, type:
 ```bash
-aws ssm get-parameters --name robocar.jw-robocar-ca-priv-key --with-decryption --query Parameters[0].Value
+aws ssm get-parameter --name /robocar/jw-robocar-ca-priv-key --with-decryption | jq -r '.Parameter.Value'
+```
+
+To get all robocar parameters, type:
+```bash
+aws ssm get-parameters-by-path --path /robocar
 ```

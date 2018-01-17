@@ -110,6 +110,32 @@ The library reference can be found here:
 You need to calibrate the steering before it can drive properly, see:
 - [http://docs.donkeycar.com/guide/calibrate/](http://docs.donkeycar.com/guide/calibrate/)
 
+## AWS IoT provisioning
+
+### Create an SSH key for IoT onboarding
+
+Create an RSA key for the IoT onboarding script:
+
+```bash
+ssh-keygen -t rsa -f ~/robocar_rsa -N ''
+```
+
+Copy the public key to the car:
+```bash
+cat robocar_rsa.pub | ssh pi@<hostname>.local "cat >>.ssh/authorized_keys"
+```
+
+Don't forget to share the private key with the others in the team.
+
+### Create a device certificate
+
+Create a [AWS IoT device certificate](https://docs.aws.amazon.com/iot/latest/developerguide/x509-certs.html) for your car:
+```bash
+./create-device-cert.sh -d <your device/team name>
+```
+
+The certs will automatically be copied to your device using the `SSH` key created in [Create an SSH key for IoT onboarding](#create-an-ssh-key-for-iot-onboarding).
+
 ## Debug
 
 ### SD-card/Raspbian image
@@ -118,7 +144,6 @@ See [SD-card README](../sdcard/README.md)
 
 ### AWS IoT provisioning
 
-- cert??? jit??? -- Provisioning!!!!
 - jobs
 -- update SW:
 --- apt-get update/upgrade
