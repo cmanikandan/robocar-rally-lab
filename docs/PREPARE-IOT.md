@@ -74,3 +74,7 @@ To get all robocar parameters, type:
 ```bash
 aws ssm get-parameters-by-path --path /robocar
 ```
+
+## Set up Just-In-Time-Provisioning
+
+TODO

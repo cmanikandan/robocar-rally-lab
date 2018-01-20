@@ -39,7 +39,11 @@ You'll need to do the following before starting the lab:
 
 | [Drive](docs/DRIVE-CAR.md)                      |
 |     :---:                                       |
-| <img src="docs/steering-wheel.jpg" width="200"> |b
+| <img src="docs/steering-wheel.jpg" width="200"> |
+
+| [AI](docs/AI.md)                      |
+|     :---:                                       |
+| <img src="docs/ai.jpg" width="200"> |
 
 | [Prepare IoT environment](docs/PREPARE-IOT.md)  |
 |     :---:                                       |
