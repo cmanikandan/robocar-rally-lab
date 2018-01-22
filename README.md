@@ -41,7 +41,7 @@ You'll need to do the following before starting the lab:
 |     :---:                                       |
 | <img src="docs/steering-wheel.jpg" width="200"> |
 
-| [AI](docs/AI.md)                      |
+| [Train](docs/AI.md)                             |
 |     :---:                                       |
 | <img src="docs/ai.jpg" width="200"> |
 

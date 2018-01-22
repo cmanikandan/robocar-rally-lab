@@ -18,4 +18,3 @@ http://docs.donkeycar.com/guide/get_driving/
 - Fix start/stop so that it doesn't create a gizilion tubs. Maybe seperate start/stop from train/stop? 
 - IoT Jobs (move somewhere else)
    - Get training data
-   - 
