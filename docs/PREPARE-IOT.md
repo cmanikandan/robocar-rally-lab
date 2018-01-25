@@ -77,4 +77,7 @@ aws ssm get-parameters-by-path --path /robocar
 
 ## Set up Just-In-Time-Provisioning
 
-TODO
+https://forums.aws.amazon.com/thread.jspa?messageID=819800&tstart=0
+https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html
+https://docs.aws.amazon.com/iot/latest/apireference/API_RegistrationConfig.html
+https://docs.aws.amazon.com/cli/latest/reference/iot/update-ca-certificate.html

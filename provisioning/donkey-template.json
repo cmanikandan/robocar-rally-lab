@@ -3,38 +3,25 @@
      "ThingName" : {
        "Type" : "String"
      },
-     "SerialNumber" : {
-       "Type" : "String"
-     },
-     "Location" : {
-       "Type" : "String",
-       "Default" : "WA"
-     },
-     "CSR" : {
+     "CertificateId" : {
        "Type" : "String"    
      }
   },
- 
+
   "Resources" : {
- 
     "thing" : {
       "Type" : "AWS::IoT::Thing",
       "Properties" : {
-        "ThingName" : {"Ref" : "ThingName"},
-        "AttributePayload" : { "version" : "v1", "serialNumber" :  {"Ref" : "SerialNumber"}}, 
-        "ThingTypeName" :  "lightBulb-versionA",
-        "ThingGroups" : ["v1-lightbulbs", {"Ref" : "Location"}]
+        "ThingName" : {"Ref" : "ThingName"}
       }
     },
- 
     "certificate" : {
       "Type" : "AWS::IoT::Certificate",
       "Properties" : {
-        "CertificateSigningRequest": {"Ref" : "CSR"},
+        "CertificatePem": {"Ref" : "CertificateId"},
         "Status" : "ACTIVE"      
       }
-    }
- 
+    },
     "policy" : {
       "Type" : "AWS::IoT::Policy",
       "Properties" : {
@@ -43,11 +30,10 @@
           "Statement": [{
             "Effect": "Allow",
             "Action":["iot:Publish"],
-            "Resource": ["arn:aws:iot:us-east-1:123456789012:topic/foo/bar"]
+            "Resource": ["arn:aws:iot:eu-central-1:648414911232:robocar/speed"]
           }]
         }
       }
     }
   }
- 
 }
