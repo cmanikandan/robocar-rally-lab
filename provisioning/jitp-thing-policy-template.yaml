@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+# https://docs.aws.amazon.com/iot/latest/developerguide/thing-policy-examples.html
+# https://docs.aws.amazon.com/iot/latest/developerguide/thing-policy-variables.html
+# https://docs.aws.amazon.com/iot/latest/developerguide/action-resources.html
+
+Parameters:
+  PolicyName:
+    Type: String
+
+Resources:
+  DonkeyCarThingPolicy:
+    Type: AWS::IoT::Policy
+    Properties:
+      PolicyName: !Ref PolicyName
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: Allow
+            Action:
+              - iot:Connect
+            Resource:
+              - "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:client/${iot:ClientId}"
+            Condition:
+              Bool:
+                iot:Connection.Thing.IsAttached: true
+          -
+            Effect: Allow
+            Action:
+              - iot:Receive
+              - iot:Publish
+            Resource:
+              - !Sub "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:topic/$aws/things/${iot:Connection.Thing.ThingName}/shadow/*"
+              - !Sub "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:topic/${iot:Connection.Thing.ThingTypeName}/*"
+          -
+            Effect: Allow
+            Action:
+              - iot:Subscribe
+            Resource:
+              - !Sub "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:topicfilter/$aws/things/${iot:Connection.Thing.ThingName}/shadow/*"
+              - !Sub "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:topicfilter/${iot:Connection.Thing.ThingTypeName}/*"
+
+Outputs:
+
+  PolicyName:
+    Description: Name of the AWS IoT policy
+    Value: !Ref DonkeyCarThingPolicy
+
+  PolicyArn:
+    Description: Name of the AWS IoT policy
+    Value: !GetAtt DonkeyCarThingPolicy.Arn

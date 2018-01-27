@@ -27,7 +27,7 @@
       "policy" : {
         "Type" : "AWS::IoT::Policy",
         "Properties" : {
-          "PolicyDocument" : "{\"Version\": \"2012-10-17\", \"Statement\": [{ \"Effect\": \"Allow\", \"Action\":[\"iot:Publish\"], \"Resource\": [\"arn:aws:iot:eu-central-1:648414911232:robocar/speed\"] }] }"
+          "PolicyName" : "IotDonkeyCarPolicy"
         }
       }
     }
