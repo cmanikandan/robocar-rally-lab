@@ -7,8 +7,10 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   PolicyName:
     Type: String
+    Default: IotDonkeyCarPolicy
 
 Resources:
+
   DonkeyCarThingPolicy:
     Type: AWS::IoT::Policy
     Properties:
@@ -21,7 +23,7 @@ Resources:
             Action:
               - iot:Connect
             Resource:
-              - "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:client/${iot:ClientId}"
+              - !Sub "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:client/${!iot:ClientId}"
             Condition:
               Bool:
                 iot:Connection.Thing.IsAttached: true
@@ -31,22 +33,22 @@ Resources:
               - iot:Receive
               - iot:Publish
             Resource:
-              - !Sub "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:topic/$aws/things/${iot:Connection.Thing.ThingName}/shadow/*"
-              - !Sub "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:topic/${iot:Connection.Thing.ThingTypeName}/*"
+              - !Sub "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*"
+              - !Sub "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/${!iot:Connection.Thing.ThingTypeName}/*"
           -
             Effect: Allow
             Action:
               - iot:Subscribe
             Resource:
-              - !Sub "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:topicfilter/$aws/things/${iot:Connection.Thing.ThingName}/shadow/*"
-              - !Sub "arn:aws:iot:${AWS:Region}:${AWS:AccountId}:topicfilter/${iot:Connection.Thing.ThingTypeName}/*"
+              - !Sub "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*"
+              - !Sub "arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/${!iot:Connection.Thing.ThingTypeName}/*"
 
 Outputs:
 
   PolicyName:
-    Description: Name of the AWS IoT policy
+    Description: AWS IoT policy name
     Value: !Ref DonkeyCarThingPolicy
 
   PolicyArn:
-    Description: Name of the AWS IoT policy
+    Description: AWS IoT policy ARN
     Value: !GetAtt DonkeyCarThingPolicy.Arn

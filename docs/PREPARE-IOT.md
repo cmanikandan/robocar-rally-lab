@@ -77,12 +77,27 @@ aws ssm get-parameters-by-path --path /robocar
 
 ## Set up Just-In-Time-Provisioning
 
-https://forums.aws.amazon.com/thread.jspa?messageID=819800&tstart=0
-https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html
-https://docs.aws.amazon.com/iot/latest/apireference/API_RegistrationConfig.html
-https://docs.aws.amazon.com/cli/latest/reference/iot/update-ca-certificate.html
+Launch the CF templates with JIPT resources:
+```bash
+aws cloudformation deploy --template-file <repository root>/provisioning/jitp-registration-role-template.yaml --stack-name iot-reg-role --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation deploy --template-file <repository root>/provisioning/jitp-thing-policy-template.yaml --stack-name iot-policy
+```
+
+Register the JITP template:
+```bash
+CERT_ID=$(aws iot list-ca-certificates | jq -r '.certificates[0].certificateId')
+REG_CONFIG=<repository root>/provisioning/jitp-registration-config.json
+aws iot update-ca-certificate --cert-id $CERT_ID --new-auto-registration-status ENABLE --registration-config $REG_CONFIG
 
 ## TODOs
 
 - IoT Jobs (move somewhere else)
    - Get training data
+
+## Debug
+
+Some interesting links:
+- [https://forums.aws.amazon.com/thread.jspa?messageID=819800&tstart=0](https://forums.aws.amazon.com/thread.jspa?messageID=819800&tstart=0)
+- [https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html](https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html)
+- [https://docs.aws.amazon.com/iot/latest/apireference/API_RegistrationConfig.html](https://docs.aws.amazon.com/iot/latest/apireference/API_RegistrationConfig.html)
+- [https://docs.aws.amazon.com/cli/latest/reference/iot/update-ca-certificate.html](https://docs.aws.amazon.com/cli/latest/reference/iot/update-ca-certificate.html)

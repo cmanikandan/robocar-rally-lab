@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  RoleName:
+    Type: String
+    Default: IotRegistrationRole
+
+Resources:
+
+  RobocarIotRegistrationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref RoleName
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - iot.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        -
+          PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: Allow
+                Action: "iot:*"
+                Resource: "*"
+
+Outputs:
+
+  RegistrationRoleName:
+    Description: Registration role name
+    Value: !Ref RobocarIotRegistrationRole
+
+  RegistrationRoleArn:
+    Description: Registraion role ARN
+    Value: !GetAtt RobocarIotRegistrationRole.Arn
