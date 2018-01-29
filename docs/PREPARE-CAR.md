@@ -147,4 +147,8 @@ See [SD-card README](../sdcard/README.md)
 - jobs
 -- update SW:
 --- apt-get update/upgrade
---- npm 
+--- npn
+- hello
+   ```bash
+   DonkeyCar/hello
+   ```

@@ -1,5 +1,8 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
+# No idea what permissins this role needs. Maybe:
+# https://aws.amazon.com/blogs/iot/just-in-time-registration-of-device-certificates-on-aws-iot/
+
 Parameters:
   RoleName:
     Type: String

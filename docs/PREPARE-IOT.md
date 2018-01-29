@@ -79,15 +79,36 @@ aws ssm get-parameters-by-path --path /robocar
 
 Launch the CF templates with JIPT resources:
 ```bash
+# Create a role with default name IotRegistrationRole
 aws cloudformation deploy --template-file <repository root>/provisioning/jitp-registration-role-template.yaml --stack-name iot-reg-role --capabilities CAPABILITY_NAMED_IAM
+# Creates a IoT policy with default name IotDonkeyCarPolicy
 aws cloudformation deploy --template-file <repository root>/provisioning/jitp-thing-policy-template.yaml --stack-name iot-policy
 ```
 
 Register the JITP template:
 ```bash
+# Create registration document (JSON). Needs to be escaped multiple times, which sucks
+ROLE_ARN=$(aws cloudformation describe-stacks --stack-name iot-reg-role --query 'Stacks[0].Outputs[?OutputKey==`RegistrationRoleArn`].OutputValue' --output text)
+P_TEMPL=$(cat <repository root>/provisioning/jitp-provisioning-template.json)
+ESCAPED_P_TEMPL=$(echo "${P_TEMPL//\"/\\\"}" | tr -d '\n')
+REG_CONFIG="{ \"templateBody\": \"${ESCAPED_P_TEMPL}\", \"roleArn\": \"${ROLE_ARN}\" }"
+# Get CA cert id
 CERT_ID=$(aws iot list-ca-certificates | jq -r '.certificates[0].certificateId')
-REG_CONFIG=<repository root>/provisioning/jitp-registration-config.json
-aws iot update-ca-certificate --cert-id $CERT_ID --new-auto-registration-status ENABLE --registration-config $REG_CONFIG
+# Update cert with registration config
+aws iot update-ca-certificate --certificate-id $CERT_ID --new-auto-registration-status ENABLE --registration-config "$REG_CONFIG"
+```
+
+## Testing
+
+When a new device connects and its certificate is activated, the IoT Broker publishes a message on:
+```bash
+$aws/events/certificates/registered/<caCertificateID>
+```
+
+Also, if the device is using the [SD-card](../sdcard/README.md) prepared in the lab, it will publish a `hello` message on:
+```bash
+DonkeyCar/hello
+```
 
 ## TODOs
 
