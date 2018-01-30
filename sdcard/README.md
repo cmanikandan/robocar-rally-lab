@@ -18,3 +18,6 @@ The following is already configured on the customized Raspbian image in [donkey.
 - Enable **camera** interface
 - Enable **I2C** interface
 - Enable **wifi** (Jayway guest). Should be verified in next section.
+
+Here is a handy tool to shrink SD-card images:
+[https://github.com/Drewsif/PiShrink](https://github.com/Drewsif/PiShrink)
