@@ -58,9 +58,6 @@ sudo pip3 install -e $HOME/donkey
 # 8.1 Perhaps not necessary (if 9. fails with: RuntimeError: module compiled against API version 0xb but this version of numpy is 0xa)
 #sudo pip3 install numpy --upgrade --ignore-installed
 
-# 9. Create a "car"
-donkey createcar --template donkey2 --path ~/d2
-
 # Debug prints
 python3 -c 'import h5py; print("h5py version {}".format(h5py.__version__))'
 python3 -c 'import numpy; print("numpy version {}".format(numpy.__version__))'
@@ -68,6 +65,9 @@ python3 -c 'import tensorflow; print("tensorflow version {}".format(tensorflow._
 python3 -c 'import keras; print("keras version {}".format(keras.__version__))'
 python3 -c 'import pandas; print("pandas version {}".format(pandas.__version__))'
 python3 -c 'import donkeycar; print("donkeycar version {}".format(donkeycar.__version__))'
+
+# 9. Create a "car"
+donkey createcar --template donkey2 --path ~/d2
 
 # 10. Install nvm, node and npm
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
@@ -109,5 +109,7 @@ sudo systemctl disable bluetooth
 sudo apt-get --yes install libudev-dev
 cd $HOME/robocar-ble-service && npm install && cd $HOME
 sudo ln -s -t /etc/systemd/system/multi-user.target.wants $HOME/robocar-ble-service/robocar-ble.service
+
+# 15. 
 
 echo "Finished installing software"
