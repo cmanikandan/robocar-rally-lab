@@ -34,7 +34,6 @@ cat /var/lib/misc/dnsmasq.leases
 
 ### Wifi
 
-
 #### Bonjour
 
 Once the `pi` is connected to wifi (see [Configure network](#configure-network)), you can SSH to it, but it can be a bit tricky to find its IP-address.

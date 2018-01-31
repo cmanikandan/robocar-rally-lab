@@ -93,9 +93,8 @@ else
 fi
 
 # 13. Install IoT app
-mkdir -p $HOME/iot/node_modules
-npm install --prefix $HOME/iot $HOME/robocar-rally-lab/iot/package.json
-cp $HOME/robocar-rally-lab/iot/robocar.service $HOME/iot/robocar.service
+cp -rv $HOME/robocar-rally-lab/iot $HOME/iot
+cd $HOME/iot && npm install && cd $HOME
 sudo ln -s -t /etc/systemd/system/multi-user.target.wants/robocar.service $HOME/iot/robocar.service
 
 echo "Finished installing software"
