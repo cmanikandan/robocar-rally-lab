@@ -75,7 +75,27 @@ source $HOME/.bashrc
 nvm install 8
 nvm use 8
 
+# Debug prints
+echo "nvm version $(nvm --version)"
+echo "npm version $(npm -v)"
+echo "node version $(node -v)"
+
 # 11. Install AWS IoT device SDK for JS/Node
 npm install -g aws-iot-device-sdk
+
+# 12. Clone robocar-rally-lab
+if [ ! -d "$HOME/robocar-rally-lab" ]; then
+  git clone https://github.com/jayway/robocar-rally-lab $HOME/robocar-rally-lab
+else
+  cd $HOME/robocar-rally-lab
+  git pull origin master
+  cd $HOME
+fi
+
+# 13. Install IoT app
+mkdir -p $HOME/iot/node_modules
+npm install --prefix $HOME/iot $HOME/robocar-rally-lab/iot/package.json
+cp $HOME/robocar-rally-lab/iot/robocar.service $HOME/iot/robocar.service
+sudo ln -s -t /etc/systemd/system/multi-user.target.wants/robocar.service $HOME/iot/robocar.service
 
 echo "Finished installing software"

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# TODO: aws iot update-ca-certificate --cert-id caCertificateId --new-auto-registration-status ENABLE
 # TODO: create .ssh dir in pi home
 
 set -e
@@ -77,6 +76,25 @@ ssh -i $HOME/.ssh/robocar_rsa "mkdir -p /home/pi/certs"
 scp -i $HOME/.ssh/robocar_rsa $PRIVATE_KEY_PATH pi@${CONNECT_TO}:/home/pi/certs
 scp -i $HOME/.ssh/robocar_rsa $CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
 scp -i $HOME/.ssh/robocar_rsa $CA_CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
+
+# Generate config file for Node app
+IOT_ENDPOINT=a1t9ro997wkd3s.iot.eu-west-1.amazonaws.com
+REGION=eu-west-1
+cat > $TMP/config.json <<EOF
+{
+  "Host":           "${IOT_ENDPOINT}",
+  "Port":           8883,
+  "Region":         "${REGION}",
+  "ClientId":       "${DEVICE_NAME}",
+  "ThingName":      "${DEVICE_NAME}",
+  "ThingTypeName":  "DonkeyCar",
+  "ThingGroupName": "Robocars",
+  "CaCert":         "/home/pi/certs/jw-robocar-ca.pem",
+  "ClientCert":     "/home/pi/certs/${DEVICE_NAME}.pem",
+  "PrivateKey":     "/home/pi/certs/${DEVICE_NAME}-priv.key"
+}
+EOF
+scp -i $HOME/.ssh/robocar_rsa $TMP/config.json pi@${CONNECT_TO}:/home/pi/certs
 
 # Clean up
 rm -rf $TMP

@@ -1,0 +1,13 @@
+[Unit]
+Description=Robocar IoT Service
+After=network.target
+
+[Service]
+ExecStart=node /home/pi/iot/index.js
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

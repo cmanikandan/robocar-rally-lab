@@ -1,0 +1,12 @@
+{
+    "Host":           "a1t9ro997wkd3s.iot.eu-west-1.amazonaws.com",
+    "Port":           8883,
+    "Region":         "eu-west-1",
+    "ClientId":       "<CHANGEME>",
+    "ThingName":      "<CHANGEME>",
+    "ThingTypeName":  "<CHANGEME>",
+    "ThingGroupName": "<CHANGEME>",
+    "CaCert":         "/home/pi/certs/jw-robocar-ca.pem",
+    "ClientCert":     "/home/pi/certs/<CHANGEME>",
+    "PrivateKey":     "/home/pi/certs/<CHANGEME>"
+}

@@ -1,9 +1,0 @@
-{
-    "Host":           "a22j5sm6o3yzc5.iot.us-east-1.amazonaws.com",
-    "Port":           8883,
-    "ClientId":       "MyRaspberryPi",
-    "ThingName":      "MyRaspberryPi",
-    "CaCert":         "root-CA.crt",
-    "ClientCert":     "4bbdc778b9-certificate.pem.crt",
-    "PrivateKey":     "4bbdc778b9-private.pem.key"
-} 
