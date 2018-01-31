@@ -97,4 +97,6 @@ cp -rv $HOME/robocar-rally-lab/iot $HOME/iot
 cd $HOME/iot && npm install && cd $HOME
 sudo ln -s -t /etc/systemd/system/multi-user.target.wants/robocar.service $HOME/iot/robocar.service
 
+# 14. Install BT control for driving
+
 echo "Finished installing software"
