@@ -3,9 +3,7 @@ Description=Robocar IoT Service
 After=network.target
 
 [Service]
-ExecStart=node /home/pi/iot/index.js
-StandardOutput=inherit
-StandardError=inherit
+ExecStart=/home/pi/iot/start.sh
 Restart=always
 User=pi
 

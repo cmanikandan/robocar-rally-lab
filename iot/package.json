@@ -1,16 +1,19 @@
 {
-    "name": "robocar",
-    "version": "0.1.0",
-    "description": "Robocar IoT Thing app",
-    "author": "Jayway",
-    "license": "MIT",
-    "main": "index.js",
-    "dependencies": {
-      "aws-iot-device-sdk": "^2.2.0"
-    },
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/jayway/robocar-rally-lab"
-    }
+  "name": "robocar",
+  "version": "0.1.0",
+  "description": "Robocar IoT Thing app",
+  "author": "Jayway",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "aws-iot-device-sdk": "^2.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jayway/robocar-rally-lab"
   }
+}
   
