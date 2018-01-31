@@ -71,7 +71,7 @@ python3 -c 'import donkeycar; print("donkeycar version {}".format(donkeycar.__ve
 
 # 10. Install nvm, node and npm
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
-source $HOME/.bashrc
+. $HOME/.nvm/nvm.sh
 nvm install 8
 nvm use 8
 
@@ -95,8 +95,19 @@ fi
 # 13. Install IoT app
 cp -rv $HOME/robocar-rally-lab/iot $HOME/iot
 cd $HOME/iot && npm install && cd $HOME
-sudo ln -s -t /etc/systemd/system/multi-user.target.wants/robocar.service $HOME/iot/robocar.service
+sudo ln -s -t /etc/systemd/system/multi-user.target.wants $HOME/iot/robocar.service
 
 # 14. Install BT control for driving
+if [ ! -d "$HOME/robocar-ble-service" ]; then
+  git clone https://github.com/jayway/robocar-ble-service $HOME/robocar-ble-service
+else
+  cd $HOME/robocar-ble-service
+  git pull origin master
+  cd $HOME
+fi
+sudo systemctl disable bluetooth
+sudo apt-get --yes install libudev-dev
+cd $HOME/robocar-ble-service && npm install && cd $HOME
+sudo ln -s -t /etc/systemd/system/multi-user.target.wants $HOME/robocar-ble-service/robocar-ble.service
 
 echo "Finished installing software"
