@@ -92,11 +92,14 @@ network={
 
 Next, update `hostname` to reflect your team name:
 ```bash
-sudo vim /etc/hostname
-sudo vim /etc/hosts
+sudo nano /etc/hostname
+sudo nano /etc/hosts
 ```
 
 Reboot the pi.
+```bash
+sudo reboot now
+```
 
 ## Calibration
 
