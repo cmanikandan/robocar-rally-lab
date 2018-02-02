@@ -1,0 +1,13 @@
+{
+    "name": "jitr-handler",
+    "version": "0.1.0",
+    "description": "Robocar device certificate activation handler",
+    "author": "Jayway",
+    "license": "MIT",
+    "main": "index.js",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/jayway/robocar-rally-lab"
+    }
+  }
+    

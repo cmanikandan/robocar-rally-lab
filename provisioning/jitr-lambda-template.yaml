@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+# https://aws.amazon.com/blogs/iot/just-in-time-registration-of-device-certificates-on-aws-iot/
+
+Parameters:
+
+  CaCertificateId:
+    Type: String
+    Default: fbf275ba443aaffaac321fa2ed2ad79372064f18e964ce14ec9ae0c6e6915bbb
+
+Resources:
+
+  JitrLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs6.10
+      CodeUri: './jitr-lambda'
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - iot:UpdateCertificate
+              Resource: '*'
+      Events:
+        CertificateRegistration:
+          Type: IoTRule
+          Properties:
+            Sql: !Sub "SELECT * FROM '$aws/events/certificates/registered/${CaCertificateId}'"
+            AwsIotSqlVersion: '2016-03-23'

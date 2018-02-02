@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 
 # No idea what permissins this role needs. Maybe:
 # https://aws.amazon.com/blogs/iot/just-in-time-registration-of-device-certificates-on-aws-iot/
@@ -15,7 +15,7 @@ Resources:
     Properties:
       RoleName: !Ref RoleName
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           -
             Effect: Allow
@@ -28,12 +28,12 @@ Resources:
         -
           PolicyName: root
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               -
                 Effect: Allow
-                Action: "iot:*"
-                Resource: "*"
+                Action: 'iot:*'
+                Resource: '*'
 
 Outputs:
 

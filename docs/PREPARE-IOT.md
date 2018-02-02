@@ -75,6 +75,23 @@ To get all robocar parameters, type:
 aws ssm get-parameters-by-path --path /robocar
 ```
 
+## Launch the JITR lambda
+
+When a device attempts to connect with an X.509 certificate that is not known to AWS IoT but was signed by a CA that was registered with AWS IoT, the device certificate will be auto-registered by AWS IoT in a new `PENDING_ACTIVATION` state. AWS IoT will also publish an event to the following topic:
+
+```bash
+$aws/events/certificates/registered/<caCertificateID>
+```
+
+The JITR lambda listens to all incoming registration events, and moves certificate state from `PENDING_ACTIVATION` to `ACTIVE`. Launch it using a CF template:
+
+```bash
+aws cloudformation package 
+aws cloudformation deploy
+```
+
+
+
 ## Set up Just-In-Time-Provisioning
 
 Launch the CF templates with JIPT resources:
