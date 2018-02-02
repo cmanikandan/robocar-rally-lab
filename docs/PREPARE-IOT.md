@@ -86,11 +86,10 @@ $aws/events/certificates/registered/<caCertificateID>
 The JITR lambda listens to all incoming registration events, and moves certificate state from `PENDING_ACTIVATION` to `ACTIVE`. Launch it using a CF template:
 
 ```bash
-aws cloudformation package 
-aws cloudformation deploy
+aws cloudformation package --s3-bucket robocar-rally-lab --s3-prefix robocar --template-file <path to robocar-rally-lab>/provision/jitr-lambda-template.yaml --output-template-file packaged-template.json
+aws cloudformation deploy --template-file packaged-template.json --stack-name JITR-Lambda --capability CAPABILITY_IAM
+rm packaged-template.json
 ```
-
-
 
 ## Set up Just-In-Time-Provisioning
 

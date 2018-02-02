@@ -12,7 +12,7 @@ const AWS = require('aws-sdk');
 //  "certificateRegistrationTimestamp": "<certificateRegistrationTimestamp>"
 //}
 
-/** 
+/**
 This node.js Lambda function code creates and attaches an IoT policy to the 
 just-in-time registered certificate. It also activates the certificate. The Lambda
 function is attached as a rule engine action to the registration topic 
@@ -22,8 +22,9 @@ Saws/events/certificates/registered/<caCertificateID>
 exports.handler = function(event, context, callback) {
   console.log(`Handling certificate activation for ${event}`);
 
+  const certificateId = event.certificateId.toString().trim();
   const params = {
-    certificateId: event.certificateId.toString().trim(),
+    certificateId,
     newStatus: 'ACTIVE'
   };
 
