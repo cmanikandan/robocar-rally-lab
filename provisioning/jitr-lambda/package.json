@@ -8,6 +8,9 @@
     "repository": {
       "type": "git",
       "url": "https://github.com/jayway/robocar-rally-lab"
+    },
+    "dependencies": {
+      "x509": "^0.3.3"
     }
   }
     

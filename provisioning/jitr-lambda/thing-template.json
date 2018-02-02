@@ -1,0 +1,36 @@
+{
+  "Parameters" : {
+     "ThingName" : {
+       "Type" : "String"
+     },
+     "CertificateId" : {
+       "Type" : "String"    
+     },
+     "PolicyName": {
+       "Type": "String"
+     }
+  },
+  "Resources" : {
+    "thing" : {
+      "Type" : "AWS::IoT::Thing",
+      "Properties" : {
+        "ThingName" : {"Ref" : "ThingName"},
+        "ThingTypeName": "DonkeyCar",
+        "ThingGroups": [ "Robocars" ]
+      }
+    },
+    "certificate" : {
+      "Type" : "AWS::IoT::Certificate",
+      "Properties" : {
+        "CertificatePem": {"Ref" : "CertificateId"},
+        "Status" : "ACTIVE"
+      }
+    },
+    "policy" : {
+      "Type" : "AWS::IoT::Policy",
+      "Properties" : {
+        "PolicyName" : {"Ref" : "PolicyName"}
+      }
+    }
+  }
+}

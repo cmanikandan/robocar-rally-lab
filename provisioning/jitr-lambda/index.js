@@ -1,6 +1,9 @@
 'use-strict'
 
 const AWS = require('aws-sdk');
+const x509 = require('x509');
+
+const thingTemplate = require('./thing-template.json')
 
 // Incoming event
 // {
@@ -20,22 +23,53 @@ Saws/events/certificates/registered/<caCertificateID>
 **/
     
 exports.handler = function(event, context, callback) {
-  console.log(`Handling certificate activation for ${event}`);
+  console.log(`Handling certificate activation for ${JSON.stringify(event)}`);
 
-  const certificateId = event.certificateId.toString().trim();
-  const params = {
-    certificateId,
+  const PolicyName = process.env.THING_POLICY_NAME;
+  const CertificateId = event.certificateId.toString().trim();
+  const uparams = {
+    CertificateId,
     newStatus: 'ACTIVE'
   };
 
   const Iot = new AWS.Iot();
-  Iot.updateCertificate(params).promise()
+  Iot.updateCertificate(uparams).promise()
     .then((res) => {
-      console.log(res);   
+      console.log('Certificate updated');
+
+      const dparams = {
+        CertificateId
+      };
+
+      return Iot.describeCertificate(dparams).promise();
+    })
+    .then((res) => {
+      console.log(`Certificate after update ${JSON.stringify(res)}`);
+
+      // https://www.npmjs.com/package/child-process-promise ???
+      // https://gist.github.com/JensWalter/8eab250f28360f696caa8e8c616f0dd8
+      const { certificatePem } = res.certificateDescription;
+      console.log(`CertificatePem: ${certificatePem}`);
+      const subject = x509.getSubject(certificatePem);
+      console.log(`subject: ${subject}`);
+      const { commonName } = subject;
+      console.log(`commonName: ${commonName}`);
+      const rparams = {
+        templateBody: thingTemplate,
+        parameters: {
+          ThingName: commonName,
+          CertificateId,
+          PolicyName
+        }
+      };
+      return Iot.registerThing(params).promise();
+    })
+    .then((res) => {
+      console.log(res);
       return callback(null, `Success, activated the certificate ${certificateId}`);
     })
     .catch((err) => {
-      console.log(err); 
+      console.log(err);
       return callback(err);
     }); 
 }

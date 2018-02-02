@@ -32,7 +32,7 @@ Resources:
             Statement:
               -
                 Effect: Allow
-                Action: 'iot:*'
+                Action: '*'
                 Resource: '*'
 
 Outputs:

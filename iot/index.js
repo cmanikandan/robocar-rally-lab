@@ -12,7 +12,8 @@ function run() {
     clientId: ClientId,
     region: Region,
     host: Host,
-    port: Port
+    port: Port,
+    debug: true
   });
 
   shadow.on('connect', function() {

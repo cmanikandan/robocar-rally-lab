@@ -2,6 +2,9 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 
 # https://aws.amazon.com/blogs/iot/just-in-time-registration-of-device-certificates-on-aws-iot/
+# https://docs.aws.amazon.com/iot/latest/developerguide/thing-policy-examples.html
+# https://docs.aws.amazon.com/iot/latest/developerguide/thing-policy-variables.html
+# https://docs.aws.amazon.com/iot/latest/developerguide/action-resources.html
 
 Parameters:
 
@@ -23,7 +26,7 @@ Resources:
           Statement:
             - Effect: Allow
               Action:
-                - iot:UpdateCertificate
+                - iot:*
               Resource: '*'
       Events:
         CertificateRegistration:
@@ -31,3 +34,38 @@ Resources:
           Properties:
             Sql: !Sub "SELECT * FROM '$aws/events/certificates/registered/${CaCertificateId}'"
             AwsIotSqlVersion: '2016-03-23'
+      Environment:
+        Variables:
+          THING_POLICY_ARN: !GetAtt DonkeyCarThingPolicy.Arn
+          THING_POLICY_NAME: !Ref DonkeyCarThingPolicy
+
+  DonkeyCarThingPolicy:
+    Type: AWS::IoT::Policy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Effect: Allow
+            Action:
+              - iot:Connect
+            Resource:
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:client/${!iot:ClientId}'
+            Condition:
+              Bool:
+                iot:Connection.Thing.IsAttached: true
+          -
+            Effect: Allow
+            Action:
+              - iot:Receive
+              - iot:Publish
+            Resource:
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*'
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/${!iot:Connection.Thing.ThingTypeName}/*'
+          -
+            Effect: Allow
+            Action:
+              - iot:Subscribe
+            Resource:
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*'
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/${!iot:Connection.Thing.ThingTypeName}/*'

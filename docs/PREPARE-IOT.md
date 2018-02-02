@@ -83,35 +83,10 @@ When a device attempts to connect with an X.509 certificate that is not known to
 $aws/events/certificates/registered/<caCertificateID>
 ```
 
-The JITR lambda listens to all incoming registration events, and moves certificate state from `PENDING_ACTIVATION` to `ACTIVE`. Launch it using a CF template:
+The JITR lambda listens to all incoming registration events, activates and provisions a `thing`. Launch it using a CF template:
 
 ```bash
-aws cloudformation package --s3-bucket robocar-rally-lab --s3-prefix robocar --template-file <path to robocar-rally-lab>/provision/jitr-lambda-template.yaml --output-template-file packaged-template.json
-aws cloudformation deploy --template-file packaged-template.json --stack-name JITR-Lambda --capability CAPABILITY_IAM
-rm packaged-template.json
-```
-
-## Set up Just-In-Time-Provisioning
-
-Launch the CF templates with JIPT resources:
-```bash
-# Create a role with default name IotRegistrationRole
-aws cloudformation deploy --template-file <repository root>/provisioning/jitp-registration-role-template.yaml --stack-name iot-reg-role --capabilities CAPABILITY_NAMED_IAM
-# Creates a IoT policy with default name IotDonkeyCarPolicy
-aws cloudformation deploy --template-file <repository root>/provisioning/jitp-thing-policy-template.yaml --stack-name iot-policy
-```
-
-Register the JITP template:
-```bash
-# Create registration document (JSON). Needs to be escaped multiple times, which sucks
-ROLE_ARN=$(aws cloudformation describe-stacks --stack-name iot-reg-role --query 'Stacks[0].Outputs[?OutputKey==`RegistrationRoleArn`].OutputValue' --output text)
-P_TEMPL=$(cat <repository root>/provisioning/jitp-provisioning-template.json)
-ESCAPED_P_TEMPL=$(echo "${P_TEMPL//\"/\\\"}" | tr -d '\n')
-REG_CONFIG="{ \"templateBody\": \"${ESCAPED_P_TEMPL}\", \"roleArn\": \"${ROLE_ARN}\" }"
-# Get CA cert id
-CERT_ID=$(aws iot list-ca-certificates | jq -r '.certificates[0].certificateId')
-# Update cert with registration config
-aws iot update-ca-certificate --certificate-id $CERT_ID --new-auto-registration-status ENABLE --registration-config "$REG_CONFIG"
+./<repository root>/provisioning/deploy-jitr-lambda.sh
 ```
 
 ## Testing
@@ -138,3 +113,23 @@ Some interesting links:
 - [https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html](https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html)
 - [https://docs.aws.amazon.com/iot/latest/apireference/API_RegistrationConfig.html](https://docs.aws.amazon.com/iot/latest/apireference/API_RegistrationConfig.html)
 - [https://docs.aws.amazon.com/cli/latest/reference/iot/update-ca-certificate.html](https://docs.aws.amazon.com/cli/latest/reference/iot/update-ca-certificate.html)
+
+### Not working at the moment
+
+## Set up Just-In-Time-Provisioning
+
+Launch the CF templates with JIPT resources:
+```bash
+aws cloudformation deploy --template-file <repository root>/provisioning/jitp-registration-role-template.yaml --stack-name iot-reg-role --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation deploy --template-file <repository root>/provisioning/jitp-thing-policy-template.yaml --stack-name iot-policy
+```
+
+Register the JITP template:
+```bash
+ROLE_ARN=$(aws cloudformation describe-stacks --stack-name iot-reg-role --query 'Stacks[0].Outputs[?OutputKey==`RegistrationRoleArn`].OutputValue' --output text)
+P_TEMPL=$(cat <repository root>/provisioning/jitp-provisioning-template.json)
+ESCAPED_P_TEMPL=$(echo "${P_TEMPL//\"/\\\"}" | tr -d '\n')
+REG_CONFIG="{ \"templateBody\": \"${ESCAPED_P_TEMPL}\", \"roleArn\": \"${ROLE_ARN}\" }"
+CERT_ID=$(aws iot list-ca-certificates | jq -r '.certificates[0].certificateId')
+aws iot update-ca-certificate --certificate-id $CERT_ID --new-auto-registration-status ENABLE --registration-config "$REG_CONFIG"
+```
