@@ -1,15 +1,15 @@
 'use-strict'
 
 const AWS = require('aws-sdk');
+const x509 = require('x509');
+
+const thingTemplate = require('./thing-template.json')
 
 /**
 This node.js Lambda function is attached as a rule engine action to the registration topic 
-Saws/events/certificates/registered/<caCertificateID>.
-
-It does the following:
-- activate certificate
-- assumes provisioning is done on CA cert
+Saws/events/certificates/registered/<caCertificateID>
 **/
+
 
 // Incoming event
 // {
@@ -23,7 +23,7 @@ It does the following:
 exports.handler = function(event, context, callback) {
   console.log(`Handling certificate activation for ${JSON.stringify(event)}`);
 
-  const thingGroupName = process.env.ThingGroupName;
+  const PolicyName = process.env.THING_POLICY_NAME;
   const CertificateId = event.certificateId.toString().trim();
   const uparams = {
     CertificateId,
@@ -42,12 +42,25 @@ exports.handler = function(event, context, callback) {
       return Iot.describeCertificate(dparams).promise();
     })
     .then((res) => {
-      console.log(res);
+      console.log(`Certificate after update ${JSON.stringify(res)}`);
 
-      const tparams = {
-        thingGroupName
+      // https://www.npmjs.com/package/child-process-promise ???
+      // https://gist.github.com/JensWalter/8eab250f28360f696caa8e8c616f0dd8
+      const { certificatePem } = res.certificateDescription;
+      console.log(`CertificatePem: ${certificatePem}`);
+      const subject = x509.getSubject(certificatePem);
+      console.log(`subject: ${subject}`);
+      const { commonName } = subject;
+      console.log(`commonName: ${commonName}`);
+      const rparams = {
+        templateBody: thingTemplate,
+        parameters: {
+          ThingName: commonName,
+          CertificateId,
+          PolicyName
+        }
       };
-      iot.listThingsInThingGroup(tparams)
+      return Iot.registerThing(params).promise();
     })
     .then((res) => {
       console.log(res);

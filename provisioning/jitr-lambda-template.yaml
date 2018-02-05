@@ -12,6 +12,27 @@ Parameters:
     Type: String
     Default: fbf275ba443aaffaac321fa2ed2ad79372064f18e964ce14ec9ae0c6e6915bbb
 
+  PolicyName:
+    Type: String
+    Default: DonkeyCarThingPolicy
+
+  PolicyArn:
+    Type: String
+
+  ThingTypeName:
+    Type: String
+    Default: Donkey
+
+  ThingTypeArn:
+    Type: String
+
+  ThingGroupName:
+    Type: String
+    Default: RoboCars
+
+  ThingGroupArn:
+    Type: String
+
 Resources:
 
   JitrLambda:
@@ -36,36 +57,9 @@ Resources:
             AwsIotSqlVersion: '2016-03-23'
       Environment:
         Variables:
-          THING_POLICY_ARN: !GetAtt DonkeyCarThingPolicy.Arn
-          THING_POLICY_NAME: !Ref DonkeyCarThingPolicy
-
-  DonkeyCarThingPolicy:
-    Type: AWS::IoT::Policy
-    Properties:
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          -
-            Effect: Allow
-            Action:
-              - iot:Connect
-            Resource:
-              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:client/${!iot:ClientId}'
-            Condition:
-              Bool:
-                iot:Connection.Thing.IsAttached: true
-          -
-            Effect: Allow
-            Action:
-              - iot:Receive
-              - iot:Publish
-            Resource:
-              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*'
-              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/${!iot:Connection.Thing.ThingTypeName}/*'
-          -
-            Effect: Allow
-            Action:
-              - iot:Subscribe
-            Resource:
-              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*'
-              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/${!iot:Connection.Thing.ThingTypeName}/*'
+          THING_POLICY_ARN: !Ref PolicyArn
+          THING_POLICY_NAME: !Ref PolicyName
+          THING_TYPE_ARN: !Ref ThingTypeArn
+          THING_TYPE_NAME: !Ref ThingTypeName
+          THING_GROUP_ARN: !Ref ThingGroupArn
+          THING_GROUP_NAME: !Ref ThingGroupName

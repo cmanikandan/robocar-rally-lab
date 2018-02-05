@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+# Not supported by CloudFormation yet
+# AWS::IoT::ThingType
+# AWS::IoT::ThingGroup
+
+# No idea what permissins this role needs. Maybe:
+# https://aws.amazon.com/blogs/iot/just-in-time-registration-of-device-certificates-on-aws-iot/
+Parameters:
+  RoleName:
+    Type: String
+    Default: IotRegistrationRole
+
+Resources:
+  DonkeyCarThingPolicy:
+    Type: AWS::IoT::Policy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Effect: Allow
+            Action:
+              - iot:Connect
+            Resource:
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:client/${!iot:ClientId}'
+            Condition:
+              Bool:
+                iot:Connection.Thing.IsAttached: true
+          -
+            Effect: Allow
+            Action:
+              - iot:Receive
+              - iot:Publish
+            Resource:
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*'
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topic/${!iot:Connection.Thing.ThingTypeName}/*'
+          -
+            Effect: Allow
+            Action:
+              - iot:Subscribe
+            Resource:
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/$aws/things/${!iot:Connection.Thing.ThingName}/shadow/*'
+              - !Sub 'arn:aws:iot:${AWS::Region}:${AWS::AccountId}:topicfilter/${!iot:Connection.Thing.ThingTypeName}/*'
+
+  RobocarIotRegistrationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref RoleName
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service:
+                - iot.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        -
+          PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              -
+                Effect: Allow
+                Action: '*'
+                Resource: '*'
+
+
+Outputs:
+
+  PolicyName:
+    Value: !Ref DonkeyCarThingPolicy
+
+  PolicyArn:
+    Value: !GetAtt DonkeyCarThingPolicy.Arn
+
+  # Not supported by CloudFormation yet. 
+  ThingTypeName:
+    Value: Donkey
+
+  # Not supported by CloudFormation yet
+  ThingGroupName:
+    Value: RoboCars
+
+  RegistrationRoleName:
+    Value: !Ref RobocarIotRegistrationRole
+
+  RegistrationRoleArn:
+    Value: !GetAtt RobocarIotRegistrationRole.Arn
