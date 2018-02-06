@@ -13,7 +13,7 @@ aws cloudformation deploy \
     --capabilities CAPABILITY_NAMED_IAM
 
 OUTPUTS=$(aws cloudformation describe-stacks --stack-name JITR-Infrastructure --query Stacks[0].Outputs)
-REG_ROLE_ARN=$(echo $OUTPUTS | jq -r '.[] | select(.OutputKey | contains("RegistrationRoleArn")) | .OutputValue')
+#REG_ROLE_ARN=$(echo $OUTPUTS | jq -r '.[] | select(.OutputKey | contains("RegistrationRoleArn")) | .OutputValue')
 POLICY_NAME=$(echo $OUTPUTS | jq -r '.[] | select(.OutputKey | contains("PolicyName")) | .OutputValue')
 POLICY_ARN=$(echo $OUTPUTS | jq -r '.[] | select(.OutputKey | contains("PolicyArn")) | .OutputValue')
 THING_TYPE_NAME=$(echo $OUTPUTS | jq -r '.[] | select(.OutputKey | contains("ThingTypeName")) | .OutputValue')
@@ -54,18 +54,17 @@ aws cloudformation deploy \
 rm $DIR/packaged-template.json
 
 # Register registration-config
-REG_CONFIG=$(node -p "JSON.stringify( { templateBody: JSON.stringify(require('${DIR}/jitp-template')), roleArn: '${REG_ROLE_ARN}' })")
-aws iot update-ca-certificate --certificate-id $CA_CERT_ID --new-auto-registration-status ENABLE --registration-config $REG_CONFIG
+#REG_CONFIG=$(node -p "JSON.stringify( { templateBody: JSON.stringify(require('${DIR}/jitp-template')), roleArn: '${REG_ROLE_ARN}' })")
+aws iot update-ca-certificate --certificate-id $CA_CERT_ID --new-auto-registration-status ENABLE
 
 # Print info
+echo "-----"
 echo $CA_CERT_ID
-echo $CA_ROLE_NAME
 echo $POLICY_NAME
 echo $POLICY_ARN
 echo $THING_TYPE_NAME
 echo $THING_TYPE_ARN
 echo $THING_GROUP_NAME
 echo $THING_GROUP_ARN
-echo "----"
-echo $REG_CONFIG
+echo "-----"
 aws iot describe-ca-certificate --certificate-id $CA_CERT_ID

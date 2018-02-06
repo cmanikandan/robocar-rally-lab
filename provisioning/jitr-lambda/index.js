@@ -1,6 +1,7 @@
 'use-strict'
 
 const AWS = require('aws-sdk');
+const pem = require('pem-promise');
 
 /**
 This node.js Lambda function is attached as a rule engine action to the registration topic 
@@ -23,10 +24,18 @@ It does the following:
 exports.handler = function(event, context, callback) {
   console.log(`Handling certificate activation for ${JSON.stringify(event)}`);
 
-  const thingGroupName = process.env.ThingGroupName;
-  const CertificateId = event.certificateId.toString().trim();
+  const thingGroupName = process.env.THING_GROUP_NAME;
+  const thingGroupArn = process.env.THING_GROUP_ARN;
+  const thingTypeName = process.env.THING_TYPE_NAME;
+  const certificateId = event.certificateId.toString().trim();
+
+  console.log(`thingGroupName: ${thingGroupName}`);
+  console.log(`thingGroupArn: ${thingGroupArn}`);
+  console.log(`thingTypeName: ${thingTypeName}`);
+  console.log(`certificateId: ${certificateId}`);
+
   const uparams = {
-    CertificateId,
+    certificateId,
     newStatus: 'ACTIVE'
   };
 
@@ -36,7 +45,7 @@ exports.handler = function(event, context, callback) {
       console.log('Certificate updated');
 
       const dparams = {
-        CertificateId
+        certificateId
       };
 
       return Iot.describeCertificate(dparams).promise();
@@ -44,10 +53,55 @@ exports.handler = function(event, context, callback) {
     .then((res) => {
       console.log(res);
 
-      const tparams = {
+      const { certificatePem, certificateArn } = res.certificateDescription;
+      console.log(`certificatePem: ${certificatePem}`);
+
+      return Promise.all([pem.readCertificateInfo(certificatePem), certificateArn]);
+    })
+    .then(([ { commonName }, certificateArn ]) => {
+      console.log(`commonName: ${commonName}`);
+      console.log(`certificateArn: ${certificateArn}`);
+
+      var tparams = {
+        thingName: commonName,
+        thingTypeName
+      };
+      return Promise.all([ Iot.createThing(tparams).promise(), certificateArn ]);
+    })
+    .then(([ { thingName, thingArn }, certificateArn ]) => {
+      console.log(`Created thing ${thingName}`);
+      console.log(`certificateArn ${certificateArn}`);
+
+      const gparams = {
+        thingName,
+        thingArn,
+        thingGroupArn,
         thingGroupName
       };
-      iot.listThingsInThingGroup(tparams)
+      return Promise.all([ Iot.addThingToThingGroup(gparams).promise(), thingName, certificateArn ]);
+    })
+    .then(([ _ , thingName, certificateArn ]) => {
+      console.log(`thingName: ${thingName}`);
+      console.log(`certificateArn: ${certificateArn}`);
+
+      var aparams = {
+        principal: certificateArn,
+        thingName
+      };
+      return Iot.attachThingPrincipal(aparams).promise();
+    })
+    .then(() => {
+      const lparams = {
+        thingGroupName
+      };
+      return Iot.listThingsInThingGroup(lparams).promise();
+    })
+    .then((res) => {
+      console.log(res);
+      const laparams = {
+        target: thingGroupArn
+      };
+      return Iot.listAttachedPolicies(laparams).promise();
     })
     .then((res) => {
       console.log(res);

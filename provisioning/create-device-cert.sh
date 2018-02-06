@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# TODO: create .ssh dir in pi home
-
 set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -80,12 +78,17 @@ openssl genrsa -out $PRIVATE_KEY_PATH 2048 &> /dev/null
 openssl req -new -key $PRIVATE_KEY_PATH -out $CSR_PATH -subj "/C=${COUNTRY}/ST=${STATE}/L=${CITY}/O=${ORGANIZATION}/OU=${ORGANIZATION_UNIT}/CN=${COMMON_NAME}" &> /dev/null
 openssl x509 -req -in $CSR_PATH -CA $CA_CERT_PATH -CAkey $CA_PRIVATE_KEY_PATH -CAcreateserial -out $CERT_PATH -days 365 -sha256 &> /dev/null
 
+# Create combined device and JW CA cert (need for JITR)
+CERT_AND_CA_CERT_PATH=$TMP/jw-robocar-ca-${DEVICE_NAME}.pem
+cat $CERT_PATH $CA_CERT_PATH > $CERT_AND_CA_CERT_PATH
+
 # Move certs to device
 ssh -i $HOME/.ssh/robocar_rsa pi@${CONNECT_TO} "mkdir -p /home/pi/certs"
 scp -i $HOME/.ssh/robocar_rsa $PRIVATE_KEY_PATH pi@${CONNECT_TO}:/home/pi/certs
 scp -i $HOME/.ssh/robocar_rsa $CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
 scp -i $HOME/.ssh/robocar_rsa $CA_CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
 scp -i $HOME/.ssh/robocar_rsa $AWS_ROOT_CA_CERT pi@${CONNECT_TO}:/home/pi/certs
+scp -i $HOME/.ssh/robocar_rsa $CERT_AND_CA_CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
 
 # Generate config file for Node app
 IOT_ENDPOINT=a1t9ro997wkd3s.iot.eu-west-1.amazonaws.com
@@ -100,7 +103,7 @@ cat > $TMP/config.json <<EOF
   "ThingTypeName":  "Donkey",
   "ThingGroupName": "RoboCars",
   "CaCert":         "/home/pi/certs/vs-root-ca.pem",
-  "ClientCert":     "/home/pi/certs/${DEVICE_NAME}.pem",
+  "ClientCert":     "/home/pi/certs/jw-robocar-ca-${DEVICE_NAME}.pem",
   "PrivateKey":     "/home/pi/certs/${DEVICE_NAME}-priv.key"
 }
 EOF
