@@ -54,10 +54,8 @@ aws cloudformation deploy \
 rm $DIR/packaged-template.json
 
 # Register registration-config
-P_TEMPL=$(cat $DIR/jitp-template.json)
-ESCAPED_P_TEMPL=$(echo "${P_TEMPL//\"/\\\"}" | tr -d '\n')
-REG_CONFIG="{ \"templateBody\": \"${ESCAPED_P_TEMPL}\", \"roleArn\": \"${REG_ROLE_ARN}\" }"
-#aws iot update-ca-certificate --certificate-id $CA_CERT_ID --new-auto-registration-status ENABLE --registration-config "$REG_CONFIG"
+REG_CONFIG=$(node -p "JSON.stringify( { templateBody: JSON.stringify(require('${DIR}/jitp-template')), roleArn: '${REG_ROLE_ARN}' })")
+aws iot update-ca-certificate --certificate-id $CA_CERT_ID --new-auto-registration-status ENABLE --registration-config $REG_CONFIG
 
 # Print info
 echo $CA_CERT_ID
@@ -70,3 +68,4 @@ echo $THING_GROUP_NAME
 echo $THING_GROUP_ARN
 echo "----"
 echo $REG_CONFIG
+aws iot describe-ca-certificate --certificate-id $CA_CERT_ID

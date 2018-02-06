@@ -97,8 +97,8 @@ cat > $TMP/config.json <<EOF
   "Region":         "${REGION}",
   "ClientId":       "${DEVICE_NAME}",
   "ThingName":      "${DEVICE_NAME}",
-  "ThingTypeName":  "DonkeyCar",
-  "ThingGroupName": "Robocars",
+  "ThingTypeName":  "Donkey",
+  "ThingGroupName": "RoboCars",
   "CaCert":         "/home/pi/certs/vs-root-ca.pem",
   "ClientCert":     "/home/pi/certs/${DEVICE_NAME}.pem",
   "PrivateKey":     "/home/pi/certs/${DEVICE_NAME}-priv.key"
