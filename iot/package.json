@@ -9,7 +9,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "aws-iot-device-sdk": "^2.2.0"
+    "aws-iot-device-sdk": "^2.2.0",
+    "os-utils": "^0.0.14"
   },
   "repository": {
     "type": "git",
