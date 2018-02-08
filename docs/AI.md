@@ -1,13 +1,37 @@
 # Training
 
-## AWS Sagemaker
+## Setup training infrastructure
+
+Create stack from template in train/donkey-server-template.yml
+
+## Copy data from car to S3
+
+Create zip of the tubs
+```bash
+zip -r /tmp/data.zip ~/d2/data/tub*
+```
+
+Copy zip to your host
+```bash
+scp <your car hostname>.local:/tmp/data.zip /tmp/data.zip
+```
+
+Upload to s3
+```bash
+aws s3 cp /tmp/data.zip s3://jayway-robocar-raw-data/<your car name>/data.zip
+```
+## Copy data from S3 to instance
+
+## Start training
+
+## Copy model to Car
 
 ## TODO
 
 General Deep Learning
 - https://medium.com/@jjacquot/lessons-from-training-an-end-to-end-steering-network-cd14c897e8c9
 
-Sagemaker:
+### AWS Sagemaker
 - https://github.com/awslabs/amazon-sagemaker-examples
 
 Math:
