@@ -2,7 +2,7 @@
 
 ## Setup training infrastructure
 
-Create stack from template in train/donkey-server-template.yml
+Create stack from template in [robocar-rally-lab/train/donkey-server-template.yml](https://github.com/jayway/robocar-rally-lab/blob/master/train/donkey-server-template.yml)
 
 ## Copy data from car to S3
 
