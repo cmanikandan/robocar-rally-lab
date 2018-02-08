@@ -18,10 +18,25 @@
 
 ---
 
-##### Prerequisites
+<p style="text-align:center;">
+<img src="images/logo@2x.png" width="100">
+</p>
+</br>
+<p style="text-align:center;">
+<img src="images/ssh.png" width="100">
+</p>
+</br>
+<p style="text-align:center;">
+<img src="images/aws-cli-logo.png" width="100">
+</p>
+</br>
+<p style="text-align:center;">
+<img src="images/testflight.png" width="100">
+</p>
 
-- Git
-- SSH
-- AWS CLI
-- if [ iPhone ] -> TestFlight
+---
+
+##### Start here
+
+[https://github.com/jayway/robocar-rally-lab](https://github.com/jayway/robocar-rally-lab)
 
