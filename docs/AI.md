@@ -1,17 +1,28 @@
 # Training
 
-## Setup training infrastructure
+## Setup training infrastructure on AWS
 
-Create stack from template in [robocar-rally-lab/train/donkey-server-template.yml](https://github.com/jayway/robocar-rally-lab/blob/master/train/donkey-server-template.yml)
+Login to AWS Console
 
-## Copy data from car to S3
+Go to Services -> Cloudformation
 
-Create zip of the tubs
+Create new stack from template
+
+[robocar-rally-lab/train/donkey-server-template.yml](https://github.com/jayway/robocar-rally-lab/blob/master/train/donkey-server-template.yml)
+
+## Extract training data
+
+SSH into the car
+```bash
+ssh pi@<your car hostname>.local
+```
+
+Create zip of the tubs 
 ```bash
 zip -r /tmp/data.zip ~/d2/data/tub*
 ```
 
-Copy zip to your host
+From your host, copy zip from car
 ```bash
 scp <your car hostname>.local:/tmp/data.zip /tmp/data.zip
 ```
@@ -20,25 +31,55 @@ Upload to s3
 ```bash
 aws s3 cp /tmp/data.zip s3://jayway-robocar-raw-data/<your car name>/data.zip
 ```
-## Copy data from S3 to instance
 
-## Start training
+## Train your model 
 
-## Copy model to Car
-
-## Start car with model
-
+SSH into your EC2 instance.
+You find the hostname in cloudformation output on your stack.
 ```bash
-python3 manage.py drive --model <your model>
+ssh ubuntu@<your ec2 host name>
 ```
 
-## Browse to car
+Copy data from s3
+```bash
+aws s3 cp s3://jayway-robocar-raw-data/<your car name>/data.zip /tmp/data.zip
+```
 
-http://<your ca hostname>.local:8887
-  
-set max speed
+Unzip your data
+```bash
+unzip /tmp/data.zip -d ~/d2/data
+```
 
-choose pilot mode local angle
+Train your model
+```bash
+python3.5 ~/d2/manage.py train --model ~/d2/models/<your car name>
+```
+
+## Tranfer your model
+
+Download your model from your EC2 instance to your host
+```bash
+scp ubuntu@<your ec2 host name>:/d2/models/<your car name> /tmp/.
+```
+
+Transfer your model to the car
+```bash
+scp /tmp/<your car name> pi@<your car hostname>.local:/d2/models/.
+```
+
+## Test your model on the car
+[More info on driving](http://docs.donkeycar.com/guide/get_driving/#drive-your-car)
+
+```bash
+ssh pi@<your car hostname>.local
+cd ~/d2
+python3.5 manage.py drive --model ~/d2/models/<your car name>
+```
+
+On your phone, browse to
+```
+http://<your car name>:8887
+```
 
 ## TODO
 
