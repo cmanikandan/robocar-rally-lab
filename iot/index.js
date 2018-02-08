@@ -12,14 +12,12 @@ const ReportTopic = `${ThingTypeName}/${ThingName}`
 function createTop(shadow) {
   function top() {
     console.log(`Reporting stats to ${ReportTopic}`);
-    const memPercentage = os.freememPercentage() * 100;
+    const memPercentage = os.freememPercentage();
     os.cpuUsage((cpuPercentage) => {
-      const data = {
-        cpu: cpuPercentage * 100,
-        mem: memPercentage * 100
-      };
-      shadow.publish(ReportTopic, JSON.stringify(data));
-      console.log(`${ThingName} published ${data} to '${HelloTopic}'`);
+      const mem = memPercentage * 100;
+      const cpu = cpuPercentage * 100;
+      shadow.publish(ReportTopic, JSON.stringify({ cpu, mem }));
+      console.log(`${ThingName} published ${{ cpu, mem }} to '${HelloTopic}'`);
     });
   }
   return top;
