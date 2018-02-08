@@ -9,22 +9,24 @@ const { Host, Port, Region, ClientId, ThingName, ThingTypeName, CaCert, ClientCe
 const HelloTopic = `${ThingTypeName}/hello`;
 const ReportTopic = `${ThingTypeName}/${ThingName}`
 
-let interval = 0;
-
-function top() {
-  console.log(`Reporting stats to ${ReportTopic}`);
-  const memPercentage = os.freememPercentage() * 100;
-  os.cpuUsage((cpuPercentage) => {
-    const data = {
-      cpu: cpuPercentage * 100,
-      mem: memPercentage * 100
-    };
-    shadow.publish(ReportTopic, JSON.stringify(data));
-    console.log(`${ThingName} published ${data} to '${HelloTopic}'`);
-  });
+function createTop(shadow) {
+  function top() {
+    console.log(`Reporting stats to ${ReportTopic}`);
+    const memPercentage = os.freememPercentage() * 100;
+    os.cpuUsage((cpuPercentage) => {
+      const data = {
+        cpu: cpuPercentage * 100,
+        mem: memPercentage * 100
+      };
+      shadow.publish(ReportTopic, JSON.stringify(data));
+      console.log(`${ThingName} published ${data} to '${HelloTopic}'`);
+    });
+  }
+  return top;
 }
 
 function run() {
+
   const shadow = thingShadow({
     keyPath: PrivateKey,
     certPath: ClientCert,
@@ -36,6 +38,8 @@ function run() {
     debug: true
   });
 
+  let interval = 0;  
+
   shadow.on('connect', () => {
     console.log(`${ThingName} connected to https://${Host}:${Port}`);
     
@@ -43,6 +47,7 @@ function run() {
     console.log(`${ThingName} published its name to '${HelloTopic}'`);
 
     console.log('Starting metric loop');
+    const top = createTop(shadow);
     interval = setInterval(top, 1000);
   });
 

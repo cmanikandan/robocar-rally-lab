@@ -3,7 +3,7 @@ Description=Robocar IoT Service
 After=network.target
 
 [Service]
-ExecStart=/home/pi/robocar-rally/iot/start.sh
+ExecStart=/home/pi/robocar-rally-lab/iot/start.sh
 Restart=always
 User=pi
 
