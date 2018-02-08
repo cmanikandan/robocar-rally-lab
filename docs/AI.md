@@ -26,6 +26,20 @@ aws s3 cp /tmp/data.zip s3://jayway-robocar-raw-data/<your car name>/data.zip
 
 ## Copy model to Car
 
+## Start car with model
+
+```bash
+python3 manage.py drive --model <your model>
+```
+
+## Browse to car
+
+http://<your ca hostname>.local:8887
+  
+set max speed
+
+choose pilot mode local angle
+
 ## TODO
 
 General Deep Learning
