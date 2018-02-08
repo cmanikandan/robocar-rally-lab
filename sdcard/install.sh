@@ -93,9 +93,8 @@ else
 fi
 
 # 13. Install IoT app
-cp -rv $HOME/robocar-rally-lab/iot $HOME/iot
-cd $HOME/iot && npm install && cd $HOME
-sudo ln -s -t /etc/systemd/system/multi-user.target.wants $HOME/iot/robocar.service
+cd $HOME/robocar-rally-lab/iot && npm install && cd $HOME
+sudo ln -s -t /etc/systemd/system/multi-user.target.wants $HOME/robocar-rally-lab/iot/robocar.service
 
 # 14. Install BT control for driving
 if [ ! -d "$HOME/robocar-ble-service" ]; then
@@ -109,7 +108,5 @@ sudo systemctl disable bluetooth
 sudo apt-get --yes install libudev-dev
 cd $HOME/robocar-ble-service && npm install && cd $HOME
 sudo ln -s -t /etc/systemd/system/multi-user.target.wants $HOME/robocar-ble-service/robocar-ble.service
-
-# 15. 
 
 echo "Finished installing software"
