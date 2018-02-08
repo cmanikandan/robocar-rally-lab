@@ -1,4 +1,6 @@
 # Training
+We you have completed a good amount of laps on the track it's time to train your model.
+The quality of your training data is really important...
 
 ## Setup training infrastructure on AWS
 
