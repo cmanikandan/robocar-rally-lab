@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Donkey Server EC2 instance
+Description: Donkey Training Server
 
 # See https://aws.amazon.com/blogs/ai/build-an-autonomous-vehicle-on-aws-and-race-it-at-the-reinvent-robocar-rally/
 
@@ -40,29 +40,12 @@ Conditions:
 
 Resources:
 
-  DonkeySg:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Donkey Car needs access to port 8885-8888
-      VpcId: !Ref VpcId
-      SecurityGroupIngress:
-      -
-        IpProtocol: tcp
-        FromPort: 8885
-        ToPort: 8888
-        CidrIp: !Ref SSHAccess
-
-  SshSg:
+  SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: SSH access
       VpcId: !Ref VpcId
       SecurityGroupIngress:
-      -
-        IpProtocol: tcp
-        FromPort: 443
-        ToPort: 443
-        CidrIp: !Ref SSHAccess
       -
         IpProtocol: tcp
         FromPort: 22
@@ -83,7 +66,6 @@ Resources:
           files:
             /tmp/donkey-install.sh:
               content: !Sub |
-                #sudo pip3.5 install keras tensorflow --upgrade
                 sudo pip3.5 install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.5.0-cp35-cp35m-linux_x86_64.whl
                 runuser -l ubuntu -c 'git clone https://github.com/wroscoe/donkey ~/donkeycar'
                 runuser -l ubuntu -c 'sudo pip3.5 install -e donkeycar'
@@ -155,14 +137,11 @@ Resources:
             VolumeSize: "32"
         - DeviceName: "/dev/xvda"
           NoDevice: {}
-      SecurityGroupIds:
-        - !Ref DonkeySg
-        - !Ref SshSg
+      SecurityGroupIds: [ !Ref SecurityGroup ]
       UserData:
         Fn::Base64: !Sub |
           #!bin/bash -xe
           apt-get update
-          #apt-get -y install python-pip
           pip install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
 
           cfn-init -v --stack ${AWS::StackId} --resource Instance --region ${AWS::Region}
