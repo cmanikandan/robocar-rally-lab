@@ -1,0 +1,212 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Donkey Server EC2 instance
+
+# See https://aws.amazon.com/blogs/ai/build-an-autonomous-vehicle-on-aws-and-race-it-at-the-reinvent-robocar-rally/
+
+Mappings:
+  # See http://docs.aws.amazon.com/dlami/latest/devguide/Ubuntu1_0.html
+  dlami:
+    "eu-west-1":
+      "amiId": "ami-1812bb61"
+
+Parameters:
+
+  KeyPair:
+    Description: Amazon EC2 Key Pair
+    Type: String
+    Default: ''
+
+  VpcId:
+    Description: An existing, public VPC
+    Type: AWS::EC2::VPC::Id
+
+  InstanceType:
+    Description: EC2 instance type
+    Type: String
+    Default: g2.2xlarge
+
+  SSHAccess:
+    Description: Source ip for SSH access
+    Type: String
+    Default: "31.209.25.130/32"
+
+  SSHPubKey:
+    Description: Public key authorized for SSH access
+    Type: String
+    Default: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDwnBF1xgsV6FX6BDEKV72Q9CRhR7w/efsLj1s/Ky7P1vTFdnsX8FwtwPZImHauAhpbH90v57sDiPAdN60lvXOXdyGSMAZEPTOPi7ZIHQSUizSXzkEv9xVWFmp86iiVmuPi8aovuOXNHtu3AmxLrsTo+Vypl4zgEI2ybHFcSH8UcYOcpOnG9Z0q4ONIqMP5AIQk0e5NFLp3n/QJumVTQLLDL+J6GKUx7ihiNtLC6q7hi6/Rd8xenoaeeVVt9B+T6j/h6W/UZmW8BTNaekqJNs/4muWYVsVzMdaVqltpLg5DR2qBTQ0W5CpqCyVldaGQemmekNHI7RTre6J874MIGGVXFRC/NRcTc5Uyuy+bETS8ZSP048i6rioNm2yGjVHsHED7rHMBw+7X+Y8Yv4Jq3LgN0Nc6tlfRUKSPN77WlEJiBN5GRXz3lVfDqgsl1STOAOqI4eI7bq/l7sosG6H4dn08G5k5jFeOV708P9ZhWry/BCTLJGPIJYJpocMN2+3VY910DgsZmzmMDvgUsMl23mXqWKNgEEawmOHJ6PcOjKwQOB70vTzIMyauqPBhWQh4hZGgKlf+EvBipeBnvx8h75OQQel38A8uecf8ZB9qe5ymBokPSokOUNlhkYJcfs5i7wKggckiL69lRZSt014IoY2SDr7uhSLXZx7qmf9nhArBrw== jesper@jnmac-2.local"
+
+Conditions:
+  NoKey: !Equals [!Ref 'KeyPair', '']
+
+Resources:
+
+  DonkeySg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Donkey Car needs access to port 8885-8888
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+      -
+        IpProtocol: tcp
+        FromPort: 8885
+        ToPort: 8888
+        CidrIp: !Ref SSHAccess
+
+  SshSg:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: SSH access
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+      -
+        IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: !Ref SSHAccess
+      -
+        IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: !Ref SSHAccess
+
+  Instance:
+    Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Init:
+        configSets:
+          default:
+          - authorized-keys
+          - config-cfn-hup
+          - install-pkgs
+          - donkey-car-install
+        donkey-car-install:
+          files:
+            /tmp/donkey-install.sh:
+              content: !Sub |
+                #sudo pip3.5 install keras tensorflow --upgrade
+                sudo pip3.5 install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.5.0-cp35-cp35m-linux_x86_64.whl
+                runuser -l ubuntu -c 'git clone https://github.com/wroscoe/donkey ~/donkeycar'
+                runuser -l ubuntu -c 'sudo pip3.5 install -e donkeycar'
+                runuser -l ubuntu -c 'donkey createcar --template donkey2 --path ~/d2'
+              mode: "000744"
+              owner: "ubuntu"
+              group: "ubuntu"
+          commands:
+            1-run-install:
+              command: '/tmp/donkey-install.sh'
+              cwd: '~'
+        install-pkgs:
+          packages:
+            apt:
+              build-essential: []
+              python3-dev: []
+              gfortran: []
+              libhdf5-dev: []
+        authorized-keys:
+          commands:
+            add-key:
+              command: !Sub 'echo "${SSHPubKey}" >> /home/ubuntu/.ssh/authorized_keys'
+            restart-sshd:
+              command: 'systemctl restart sshd'
+        config-cfn-hup:
+          files:
+            #cfn-hup configuration
+            '/etc/cfn/cfn-hup.conf':
+              content: !Sub |
+                [main]
+                stack=${AWS::StackId}
+                region=${AWS::Region}
+                interval=1
+            '/etc/cfn/hooks.d/cfn-auto-reloader.conf':
+              content: !Sub |
+                [cfn-auto-reloader-hook]
+                triggers=post.update
+                path=Resources.BastionHost.Metadata.AWS::CloudFormation::Init
+                action=/usr/local/bin/cfn-init -v --stack ${AWS::StackId} --resource BastionHost --region ${AWS::Region}
+            #systemd service
+            '/etc/systemd/system/cfn-hup.service':
+              content: |
+                [Unit]
+                Description=Cloud formation helper daemon
+
+                [Service]
+                ExecStart=/usr/local/bin/cfn-hup
+                Restart=always
+                Type=simple
+
+                [Install]
+                WantedBy=multi-user.target
+
+          commands:
+            enable-cfn-hup:
+              command: 'systemctl enable cfn-hup.service'
+            start-cfn-hup:
+              command: 'systemctl start cfn-hup.service'
+    Properties:
+      InstanceType: !Ref InstanceType
+      ImageId: !FindInMap [dlami, !Ref 'AWS::Region', amiId]
+      IamInstanceProfile: !Ref InstanceProfile
+      KeyName: !If [NoKey, !Ref 'AWS::NoValue', !Ref 'KeyPair']
+      BlockDeviceMappings:
+        - DeviceName: "/dev/sdm"
+          Ebs:
+            VolumeType: "gp2"
+            DeleteOnTermination: "true"
+            VolumeSize: "32"
+        - DeviceName: "/dev/xvda"
+          NoDevice: {}
+      SecurityGroupIds:
+        - !Ref DonkeySg
+        - !Ref SshSg
+      UserData:
+        Fn::Base64: !Sub |
+          #!bin/bash -xe
+          apt-get update
+          #apt-get -y install python-pip
+          pip install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
+
+          cfn-init -v --stack ${AWS::StackId} --resource Instance --region ${AWS::Region}
+          cfn-signal -e $? --stack ${AWS::StackId} --resource Instance --region ${AWS::Region}
+    CreationPolicy:
+      ResourceSignal:
+        Count: '1'
+        Timeout: PT10M
+
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref Role
+
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: logs
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents']
+                Resource: 'arn:aws:logs:*:*:*'
+              - Effect: Allow
+                Action: 's3:*'
+                Resource: ['arn:aws:s3:::jayway-robocar-raw-data','arn:aws:s3:::jayway-robocar-raw-data/*']
+              - Effect: Allow
+                Action: ['s3:ListAllMyBuckets', 's3:GetBucketLocation']
+                Resource: '*'
+
+Outputs:
+  HostUrl:
+    Value: !Sub 'http://${Instance.PublicDnsName}'
+
+  Ssh:
+    Value: !Sub 'ssh ubuntu@${Instance.PublicDnsName}'
