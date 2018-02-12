@@ -6,7 +6,7 @@ You'll be divided up in 4 teams with 4 people per team. Each team will be given 
 
 ## Prerequisites
 
-You should be familiar with at least some of the technologies listed below:
+It helps to be familiar with at least some of the technologies listed below:
 
 | Tech      |
 | --------- | 
