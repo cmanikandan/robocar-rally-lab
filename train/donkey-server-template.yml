@@ -26,14 +26,14 @@ Parameters:
     Default: g2.2xlarge
 
   SSHAccess:
-    Description: Source ip for SSH access
+    Description: Source ip for SSH access. (run curl http://checkip.amazonaws.com to find your ip)
     Type: String
-    Default: "31.209.25.130/32"
+    Default: ""
 
   SSHPubKey:
-    Description: Public key authorized for SSH access
+    Description: Public key authorized for SSH access. (cat ~/.ssh/id_rsa.pub)
     Type: String
-    Default: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDwnBF1xgsV6FX6BDEKV72Q9CRhR7w/efsLj1s/Ky7P1vTFdnsX8FwtwPZImHauAhpbH90v57sDiPAdN60lvXOXdyGSMAZEPTOPi7ZIHQSUizSXzkEv9xVWFmp86iiVmuPi8aovuOXNHtu3AmxLrsTo+Vypl4zgEI2ybHFcSH8UcYOcpOnG9Z0q4ONIqMP5AIQk0e5NFLp3n/QJumVTQLLDL+J6GKUx7ihiNtLC6q7hi6/Rd8xenoaeeVVt9B+T6j/h6W/UZmW8BTNaekqJNs/4muWYVsVzMdaVqltpLg5DR2qBTQ0W5CpqCyVldaGQemmekNHI7RTre6J874MIGGVXFRC/NRcTc5Uyuy+bETS8ZSP048i6rioNm2yGjVHsHED7rHMBw+7X+Y8Yv4Jq3LgN0Nc6tlfRUKSPN77WlEJiBN5GRXz3lVfDqgsl1STOAOqI4eI7bq/l7sosG6H4dn08G5k5jFeOV708P9ZhWry/BCTLJGPIJYJpocMN2+3VY910DgsZmzmMDvgUsMl23mXqWKNgEEawmOHJ6PcOjKwQOB70vTzIMyauqPBhWQh4hZGgKlf+EvBipeBnvx8h75OQQel38A8uecf8ZB9qe5ymBokPSokOUNlhkYJcfs5i7wKggckiL69lRZSt014IoY2SDr7uhSLXZx7qmf9nhArBrw== jesper@jnmac-2.local"
+    Default: ""
 
 Conditions:
   NoKey: !Equals [!Ref 'KeyPair', '']
