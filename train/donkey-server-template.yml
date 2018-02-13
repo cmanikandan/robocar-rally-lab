@@ -66,9 +66,13 @@ Resources:
           files:
             /tmp/donkey-install.sh:
               content: !Sub |
-                sudo pip3.5 install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.5.0-cp35-cp35m-linux_x86_64.whl
+                runuser -l ubuntu -c 'source activate tensorflow_p36'
+                runuser -l ubuntu -c 'sudo pip3 uninstall tensorflow'
+                runuser -l ubuntu -c 'sudo pip3 install tensorflow-gpu==1.4.1'
+                runuser -l ubuntu -c 'sudo pip3 uninstall keras'
+                runuser -l ubuntu -c 'sudo pip3 install keras==2.1.2'
                 runuser -l ubuntu -c 'git clone https://github.com/wroscoe/donkey ~/donkeycar'
-                runuser -l ubuntu -c 'sudo pip3.5 install -e donkeycar'
+                runuser -l ubuntu -c 'sudo pip3 install -e donkeycar'
                 runuser -l ubuntu -c 'donkey createcar --template donkey2 --path ~/d2'
               mode: "000744"
               owner: "ubuntu"
