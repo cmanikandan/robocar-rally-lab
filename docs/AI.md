@@ -42,6 +42,11 @@ You find the hostname in cloudformation output on your stack.
 ssh ubuntu@<your ec2 host name>
 ```
 
+*Source config*
+```bash
+source activate tensorflow_p36
+```
+
 Copy data from s3
 ```bash
 aws s3 cp s3://jayway-robocar-raw-data/<your car name>/data.zip /tmp/data.zip
