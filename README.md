@@ -33,20 +33,20 @@ You'll need to do the following before starting the lab:
 
 ## Instructions
 
-| [Prepare car](docs/PREPARE-CAR.md)          | [Drive](docs/DRIVE-CAR.md) |
+| [1. Prepare car](docs/PREPARE-CAR.md)          | [2. Drive](docs/DRIVE-CAR.md) |
 |     :---:                                   | :---: |
-| [<img src="docs/donkey-car.jpg" width="200">](docs/PREPARE-CAR.md) | [<img src="docs/steering-wheel.jpg" width="200">](docs/DRIVE-CAR.md)
+| [<img src="docs/donkey-car.jpg" width="200">](docs/PREPARE-CAR.md) | [<img src="docs/steering-wheel.jpg" width="200">](docs/DRIVE-CAR.md) |
 
-| [Train](docs/AI.md)                             |
+| [1. Train](docs/AI.md)                             |
 |     :---:                                       |
 | [<img src="docs/ai.jpg" width="200">](docs/AI.md) |
 
-| [Tips n Tricks](docs/TIPS-N-TRICKS.md)          |
-|     :---:                                       |
-| [<img src="docs/tips-n-tricks.jpg" width="200">](docs/TIPS-N-TRICKS.md)  |
+| [Tips n Tricks](docs/TIPS-N-TRICKS.md)          | [Help n Debug](docs/HELP.md) |
+|     :---:                                       | :---: |
+| [<img src="docs/tips-n-tricks.jpg" width="200">](docs/TIPS-N-TRICKS.md)  | [<img src="docs/tips-n-tricks.jpg" width="200">](docs/HELP.md) |
 
 ## Preparations for lab instructors
 
-| [Prepare IoT environment](docs/PREPARE-IOT.md)  |
-|     :---:                                       |
-| [<img src="docs/setup-iot.jpg" width="200">](docs/PREPARE-IOT.md)     |
+| [Prepare IoT environment](docs/PREPARE-IOT.md)  | [SD card](sdcard/README.md) |
+|     :---:                                       | :---: |
+| [<img src="docs/setup-iot.jpg" width="200">](docs/PREPARE-IOT.md)     | [<img src="docs/tips-n-tricks.jpg" width="200">](sdcard/README.md) |
