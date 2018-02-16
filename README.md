@@ -33,22 +33,20 @@ You'll need to do the following before starting the lab:
 
 ## Instructions
 
-| [Prepare car](docs/PREPARE-CAR.md)          |
-|     :---:                                   |
-| <img src="docs/donkey-car.jpg" width="200"> |
-
-| [Drive](docs/DRIVE-CAR.md)                      |
-|     :---:                                       |
-| <img src="docs/steering-wheel.jpg" width="200"> |
+| [Prepare car](docs/PREPARE-CAR.md)          | [Drive](docs/DRIVE-CAR.md) |
+|     :---:                                   | :---: |
+| [<img src="docs/donkey-car.jpg" width="200">](docs/PREPARE-CAR.md) | [<img src="docs/steering-wheel.jpg" width="200">](docs/DRIVE-CAR.md)
 
 | [Train](docs/AI.md)                             |
 |     :---:                                       |
-| <img src="docs/ai.jpg" width="200"> |
-
-| [Prepare IoT environment](docs/PREPARE-IOT.md)  |
-|     :---:                                       |
-| <img src="docs/setup-iot.jpg" width="200">      |
+| [<img src="docs/ai.jpg" width="200">](docs/AI.md) |
 
 | [Tips n Tricks](docs/TIPS-N-TRICKS.md)          |
 |     :---:                                       |
-| <img src="docs/tips-n-tricks.jpg" width="200">  |
+| [<img src="docs/tips-n-tricks.jpg" width="200">](docs/TIPS-N-TRICKS.md)  |
+
+## Preparations for lab instructors
+
+| [Prepare IoT environment](docs/PREPARE-IOT.md)  |
+|     :---:                                       |
+| [<img src="docs/setup-iot.jpg" width="200">](docs/PREPARE-IOT.md)     |
