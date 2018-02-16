@@ -23,12 +23,11 @@ It helps to be familiar with at least some of the technologies listed below:
 
 You'll need to do the following before starting the lab:
 
-1. All team members should have access to the [AWS account](https://648414911232.signin.aws.amazon.com/console). Contact either of the lab assistants with the following info:
-   - Name of the team
-   - Team members
+1. All team members should have access to the [AWS account](https://648414911232.signin.aws.amazon.com/console). Contact the lab assistants if you haven't received your credentials.
 1. Each team member must set up the AWS CLI and be able to access the account both via the [CLI](https://aws.amazon.com/cli) and the [web console](https://648414911232.signin.aws.amazon.com/console).
 1. Clone this repository
    - `git clone https://github.com/jayway/robocar-rally-lab`
+1. Decide on a *car name*
 1. When all the above is done, you'll be given a car.
 
 ## Instructions

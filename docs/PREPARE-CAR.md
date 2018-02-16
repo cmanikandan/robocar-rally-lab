@@ -1,6 +1,6 @@
 # Prepare the car
 
-For this lab, we use a customized Raspbian image based on the [Donkey Car](https://github.com/wroscoe/donkey) project. See [Debug](#debug) for details on how it was created.
+For this lab, we use a customized Raspbian image based on the [Donkey Car](https://github.com/wroscoe/donkey) project. See [SD-card README](../sdcard/README.md) for details on how it was created.
 
 ## Connect to pi
 
@@ -17,6 +17,8 @@ If this doesn't work, try find the IP-address of the `pi` by e.g. looking in the
 ```bash
 cat /var/lib/misc/dnsmasq.leases
 ```
+
+See [Help](HELP.md) if you have problems connecting...
 
 ## Configure Wifi and hostname
 
@@ -38,7 +40,7 @@ network={
 }
 ```
 
-Next, update `hostname` to reflect your team name:
+Next, change hostname (`raspberrypi`) to your *car name*:
 ```bash
 sudo nano /etc/hostname
 sudo nano /etc/hosts
@@ -49,8 +51,12 @@ Reboot the pi
 sudo reboot now
 ```
 
-! TODO: find out WIFI IP after reboot
-! TODO: share with other team members
+Your car will now reboot with your new hostname and a wifi IP-address. Before disconnecting the TP-cable, take a note of the IP-address and share it with your team members:
+
+```bash
+ssh pi@<your car name>.local
+ifconfig
+```
 
 ## Calibration
 
@@ -104,20 +110,3 @@ You will find the app in the following path on the car:
 ```bash
 /home/pi/iot/index.js
 ```
-
-## Debug
-
-### SD-card/Raspbian image
-
-See [SD-card README](../sdcard/README.md)
-
-### AWS IoT provisioning
-
-- jobs
--- update SW:
---- apt-get update/upgrade
---- npn
-- hello
-   ```bash
-   DonkeyCar/hello
-   ```
