@@ -21,6 +21,11 @@ It does the following:
 //  "awsAccountId": "<awsAccountId>",
 //  "certificateRegistrationTimestamp": "<certificateRegistrationTimestamp>"
 //}
+//
+// Also, important to know is that this handler is limited to 10 requests/second
+// (sum of all running lambda containers). See
+// https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot
+//
 exports.handler = function(event, context, callback) {
   console.log(`Handling certificate activation for ${JSON.stringify(event)}`);
 
