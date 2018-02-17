@@ -16,10 +16,6 @@ http://docs.donkeycar.com/guide/get_driving/
 
 We've created a BLE app for IOS you can use for driving. It's available on [TestFlight](https://itunes.apple.com/se/app/testflight/id899247664?mt=8).
 
-1. Install [TestFlight](https://itunes.apple.com/se/app/testflight/id899247664?mt=8).
+1. Install [TestFlight](https://itunes.apple.com/se/app/testflight/id899247664?mt=8)
 2. Get invite from Jayway TestFlight admins
-3. Install RoboRemote.
-
-## TODOs
-
-- Fix start/stop so that it doesn't create a gizilion tubs. Maybe seperate start/stop from train/stop? 
+3. Install RoboRemote
