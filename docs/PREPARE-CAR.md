@@ -46,8 +46,9 @@ sudo nano /etc/hostname
 sudo nano /etc/hosts
 ```
 
-Reboot the pi
+**Ask your team members if you can reboot the car!**:
 ```bash
+# Ask your team members before rebooting...
 sudo reboot now
 ```
 
@@ -70,43 +71,3 @@ You need to calibrate the steering before it can drive properly, see:
 
 The library reference can be found here:
 - [http://docs.donkeycar.com/utility/donkey](http://docs.donkeycar.com/utility/donkey)
-
-## AWS IoT provisioning
-
-### Create an SSH key for IoT onboarding
-
-Create an RSA key for the IoT onboarding script:
-
-```bash
-ssh-keygen -t rsa -f ~/.ssh/robocar_rsa -N ''
-```
-
-Copy the public key to the car:
-```bash
-cat ~/.ssh/robocar_rsa.pub | ssh pi@<hostname>.local "cat >>.ssh/authorized_keys"
-```
-
-Don't forget to share the private key with the others in the team.
-
-### Create a device certificate
-
-The car needs a unique [AWS IoT device certificate](https://docs.aws.amazon.com/iot/latest/developerguide/x509-certs.html) to connect to AWS IOT service. Run the following script on your **host** machine:
-```bash
-cd <?>/robocar-rally-lab/provisioning
-./create-device-cert.sh -d <your device/hostname>
-```
-
-The certs will automatically be copied to your device using the `SSH` key created in [Create an SSH key for IoT onboarding](#create-an-ssh-key-for-iot-onboarding).
-
-There is a small *NodeJS* app pre-installed on the car that will publish a `hello` message on a particular topic in AWS IOT when it is able to connect to the AWS IoT service.
-
-To verify that the car is properly configured, in the [AWS console](https://648414911232.signin.aws.amazon.com/console), in the IoT service left navigation pane, choose **Test**. Subscribe to the `DonkeyCar/hello` topic.
-
-<img src="subscribe-button-topic.png" width="400"> 
-
-Reboot the car.
-
-You will find the app in the following path on the car:
-```bash
-/home/pi/iot/index.js
-```

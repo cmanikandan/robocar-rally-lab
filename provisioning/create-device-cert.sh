@@ -44,6 +44,7 @@ then
     die "Error: $CONNECT_TO not reachable. Cannot connect to car."
   fi
 fi
+echo "Successfully connected to $CONNECT_TO"
 
 # Check if SSH key is available
 [ -f $HOME/.ssh/robocar_rsa ] || die "Error: No SSH key for the car in $HOME/.ssh/robocar_rsa. To create one, see docs/PREPARE-CAR.md"
@@ -74,7 +75,9 @@ CA_CERT_PATH=$TMP/jw-robocar-ca.pem
 aws ssm get-parameter --name /robocar/jw-robocar-ca --with-decryption | jq -r '.Parameter.Value' > $CA_CERT_PATH
 
 # Create device cert
+echo "Creating private RSA key..."
 openssl genrsa -out $PRIVATE_KEY_PATH 2048 &> /dev/null
+echo "Creating x509 certificate..."
 openssl req -new -key $PRIVATE_KEY_PATH -out $CSR_PATH -subj "/C=${COUNTRY}/ST=${STATE}/L=${CITY}/O=${ORGANIZATION}/OU=${ORGANIZATION_UNIT}/CN=${COMMON_NAME}" &> /dev/null
 openssl x509 -req -in $CSR_PATH -CA $CA_CERT_PATH -CAkey $CA_PRIVATE_KEY_PATH -CAcreateserial -out $CERT_PATH -days 365 -sha256 &> /dev/null
 
@@ -84,10 +87,15 @@ cat $CERT_PATH $CA_CERT_PATH > $CERT_AND_CA_CERT_PATH
 
 # Move certs to device
 ssh -i $HOME/.ssh/robocar_rsa pi@${CONNECT_TO} "mkdir -p /home/pi/certs"
+echo "Copying private key to device..."
 scp -i $HOME/.ssh/robocar_rsa $PRIVATE_KEY_PATH pi@${CONNECT_TO}:/home/pi/certs
+echo "Copying x509 cetificate to device..."
 scp -i $HOME/.ssh/robocar_rsa $CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
+echo "Copying Jayway AWS IoT CA certificate to device..."
 scp -i $HOME/.ssh/robocar_rsa $CA_CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
+echo "Copying AWS IoT root certficate (VeriSign) to device..."
 scp -i $HOME/.ssh/robocar_rsa $AWS_ROOT_CA_CERT pi@${CONNECT_TO}:/home/pi/certs
+echo "Copying x509 certificate chain (device and JW CA) to device..."
 scp -i $HOME/.ssh/robocar_rsa $CERT_AND_CA_CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
 
 # Generate config file for Node app
@@ -107,7 +115,12 @@ cat > $TMP/config.json <<EOF
   "PrivateKey":     "/home/pi/certs/${DEVICE_NAME}-priv.key"
 }
 EOF
+echo "Copying IoT config file to device..."
 scp -i $HOME/.ssh/robocar_rsa $TMP/config.json pi@${CONNECT_TO}:/home/pi/certs
+
+echo "Content of config file"
+echo "----------------------"
+cat $TMP/config.json
 
 # Clean up
 rm -rf $TMP

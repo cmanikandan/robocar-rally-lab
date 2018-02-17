@@ -40,12 +40,16 @@ You'll need to do the following before starting the lab:
 |     :---:                                       |
 | [<img src="docs/ai.jpg" width="200">](docs/AI.md) |
 
+| [1. Prepare IoT](docs/PREPARE-IOT.md)                             |
+|     :---:                                       |
+| [<img src="docs/ai.jpg" width="200">](docs/AI.md) |
+
 | [Tips n Tricks](docs/TIPS-N-TRICKS.md)          | [Help n Debug](docs/HELP.md) |
 |     :---:                                       | :---: |
 | [<img src="docs/tips-n-tricks.jpg" width="200">](docs/TIPS-N-TRICKS.md)  | [<img src="docs/tips-n-tricks.jpg" width="200">](docs/HELP.md) |
 
 ## Preparations for lab instructors
 
-| [Prepare IoT environment](docs/PREPARE-IOT.md)  | [SD card](sdcard/README.md) |
+| [Create IoT environment](docs/CREATE-IOT-ENV.md)  | [SD card](sdcard/README.md) |
 |     :---:                                       | :---: |
-| [<img src="docs/setup-iot.jpg" width="200">](docs/PREPARE-IOT.md)     | [<img src="docs/tips-n-tricks.jpg" width="200">](sdcard/README.md) |
+| [<img src="docs/setup-iot.jpg" width="200">](docs/CREATE-IOT-ENV.md)     | [<img src="docs/tips-n-tricks.jpg" width="200">](sdcard/README.md) |
