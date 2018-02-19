@@ -99,3 +99,6 @@ General Deep Learning
 Math:
 - http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.161.3556&rep=rep1&type=pdf
 - https://biasvariance.wordpress.com/2015/08/18/neural-networks-understanding-the-math-behind-backpropagation-part-i/
+
+Python SDK:
+- https://github.com/aws/sagemaker-python-sdk
