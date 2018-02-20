@@ -4,18 +4,27 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-die() { echo "$*"; exit 111; }
+die() {
+  echo $1
+  [ -d "$2" ] && rm -rf $2 && echo "Cleaned up temporary certificates in $2"
+  exit 111
+}
 
 command -v jq >/dev/null 2>&1 || die "Please install jq"
 
 unset DEVICE_NAME
-while getopts ":d:i:" opt; do
+unset DEVICE_IP
+unset LOCAL
+while getopts ":d:i:l:" opt; do
   case $opt in
     d )
       DEVICE_NAME=$OPTARG
       ;;
     i )
       DEVICE_IP=$OPTARG
+      ;;
+    l )
+      LOCAL=$OPTARG
       ;;
     \? )
       die "Error: invalid option: -$OPTARG"
@@ -31,23 +40,6 @@ done
 if [[ $(aws configure get region) != "eu-west-1" ]]; then
   die "Error: Invalid region configured in AWS CLI, must be 'eu-west-1'"
 fi
-
-# Check if device is reachable using .local name
-CONNECT_TO=$DEVICE_NAME.local
-if ! ping -c4 $CONNECT_TO -c 1 &> /dev/null
-then  
-  # Nope, try IP if specified
-  [ -z $DEVICE_IP ] && die "Error: $CONNECT_TO not reachable and -i <IP address> parameter not specified. Cannot connect to car."
-  CONNECT_TO=$DEVICE_IP
-  if ! ping -c4 $CONNECT_TO -c 1 &> /dev/null
-  then
-    die "Error: $CONNECT_TO not reachable. Cannot connect to car."
-  fi
-fi
-echo "Successfully connected to $CONNECT_TO"
-
-# Check if SSH key is available
-[ -f $HOME/.ssh/robocar_rsa ] || die "Error: No SSH key for the car in $HOME/.ssh/robocar_rsa. To create one, see docs/PREPARE-CAR.md"
 
 echo "Using device name '$DEVICE_NAME' to create a certificate..."
 
@@ -85,22 +77,10 @@ openssl x509 -req -in $CSR_PATH -CA $CA_CERT_PATH -CAkey $CA_PRIVATE_KEY_PATH -C
 CERT_AND_CA_CERT_PATH=$TMP/jw-robocar-ca-${DEVICE_NAME}.pem
 cat $CERT_PATH $CA_CERT_PATH > $CERT_AND_CA_CERT_PATH
 
-# Move certs to device
-ssh -i $HOME/.ssh/robocar_rsa pi@${CONNECT_TO} "mkdir -p /home/pi/certs"
-echo "Copying private key to device..."
-scp -i $HOME/.ssh/robocar_rsa $PRIVATE_KEY_PATH pi@${CONNECT_TO}:/home/pi/certs
-echo "Copying x509 cetificate to device..."
-scp -i $HOME/.ssh/robocar_rsa $CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
-echo "Copying Jayway AWS IoT CA certificate to device..."
-scp -i $HOME/.ssh/robocar_rsa $CA_CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
-echo "Copying AWS IoT root certficate (VeriSign) to device..."
-scp -i $HOME/.ssh/robocar_rsa $AWS_ROOT_CA_CERT pi@${CONNECT_TO}:/home/pi/certs
-echo "Copying x509 certificate chain (device and JW CA) to device..."
-scp -i $HOME/.ssh/robocar_rsa $CERT_AND_CA_CERT_PATH pi@${CONNECT_TO}:/home/pi/certs
-
 # Generate config file for Node app
 IOT_ENDPOINT=a1t9ro997wkd3s.iot.eu-west-1.amazonaws.com
 REGION=eu-west-1
+[[ -z "$LOCAL" ]] && DST="/home/pi/certs" || DST=$LOCAL
 cat > $TMP/config.json <<EOF
 {
   "Host":           "${IOT_ENDPOINT}",
@@ -110,17 +90,78 @@ cat > $TMP/config.json <<EOF
   "ThingName":      "${DEVICE_NAME}",
   "ThingTypeName":  "Donkey",
   "ThingGroupName": "RoboCars",
-  "CaCert":         "/home/pi/certs/vs-root-ca.pem",
-  "ClientCert":     "/home/pi/certs/jw-robocar-ca-${DEVICE_NAME}.pem",
-  "PrivateKey":     "/home/pi/certs/${DEVICE_NAME}-priv.key"
+  "CaCert":         "${DST}/vs-root-ca.pem",
+  "ClientCert":     "${DST}/jw-robocar-ca-${DEVICE_NAME}.pem",
+  "PrivateKey":     "${DST}/${DEVICE_NAME}-priv.key"
 }
 EOF
-echo "Copying IoT config file to device..."
-scp -i $HOME/.ssh/robocar_rsa $TMP/config.json pi@${CONNECT_TO}:/home/pi/certs
-
 echo "Content of config file"
 echo "----------------------"
 cat $TMP/config.json
+
+if [[ -z "$LOCAL" ]]; then
+
+  echo "Copying certificates to $DEVICE_NAME"
+
+  # Check if device is reachable using .local name
+  TARGET=$DEVICE_NAME.local
+  if ! ping -c4 $TARGET -c 1 &> /dev/null
+  then
+    # Nope, try IP if specified
+    [ -z $DEVICE_IP ] && die "Error: $TARGET not reachable and -i <IP address> parameter not specified. Cannot connect to car." $TMP
+    TARGET=$DEVICE_IP
+    if ! ping -c4 $TARGET -c 1 &> /dev/null
+    then
+      die "Error: $TARGET not reachable. Cannot connect to car." $TMP
+    fi
+  fi
+
+  # Check if SSH key is available
+  [ -f $HOME/.ssh/robocar_rsa ] || die "Error: No SSH key for the car in $HOME/.ssh/robocar_rsa. To create one, see docs/PREPARE-IOT.md" $TMP
+
+  # Check if we can connect using the RSA key
+  if ! ssh -i $HOME/.ssh/robocar_rsa -T pi@$TARGET &> /dev/null
+  then
+    die "Error: $TARGET not reachable. Cannot connect to car." $TMP_DIR
+  fi
+  echo "Successfully connected to $TARGET"
+
+  # Move certs to device
+  ssh -i $HOME/.ssh/robocar_rsa pi@${TARGET} "mkdir -p ${DST}"
+  echo "Copying private key to device..."
+  scp -i $HOME/.ssh/robocar_rsa $PRIVATE_KEY_PATH pi@${TARGET}:${DST}
+  echo "Copying x509 cetificate to device..."
+  scp -i $HOME/.ssh/robocar_rsa $CERT_PATH pi@${TARGET}:${DST}
+  echo "Copying Jayway AWS IoT CA certificate to device..."
+  scp -i $HOME/.ssh/robocar_rsa $CA_CERT_PATH pi@${TARGET}:${DST}
+  echo "Copying AWS IoT root certficate (VeriSign) to device..."
+  scp -i $HOME/.ssh/robocar_rsa $AWS_ROOT_CA_CERT pi@${TARGET}:${DST}
+  echo "Copying x509 certificate chain (device and JW CA) to device..."
+  scp -i $HOME/.ssh/robocar_rsa $CERT_AND_CA_CERT_PATH pi@${TARGET}:${DST}
+
+  echo "Copying IoT config file to device..."
+  scp -i $HOME/.ssh/robocar_rsa $TMP/config.json pi@${TARGET}:${DST}
+
+else
+
+  echo "Creating local device in $DST"
+  [ ! -d "$LOCAL" ] && die "Error: local directory $LOCAL does not exist" $TMP
+
+  # Move certs to local
+  echo "Copying private key to local..."
+  cp $PRIVATE_KEY_PATH $DST
+  echo "Copying x509 cetificate to local..."
+  cp $CERT_PATH $DST
+  echo "Copying Jayway AWS IoT CA certificate to local..."
+  cp $CA_CERT_PATH $DST
+  echo "Copying AWS IoT root certficate (VeriSign) to local..."
+  cp $AWS_ROOT_CA_CERT $DST
+  echo "Copying x509 certificate chain (device and JW CA) to local..."
+  cp $CERT_AND_CA_CERT_PATH $DST
+
+  echo "Copying IoT config file to local..."
+  scp $TMP/config.json $DST
+fi
 
 # Clean up
 rm -rf $TMP
