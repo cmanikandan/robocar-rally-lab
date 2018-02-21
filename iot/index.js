@@ -16,7 +16,7 @@ function createTop(shadow) {
     os.cpuUsage((cpuPercentage) => {
       const mem = memPercentage * 100;
       const cpu = cpuPercentage * 100;
-      report = JSON.stringify({ cpu, mem });
+      const report = JSON.stringify({ cpu, mem });
       shadow.publish(ReportTopic, report);
       console.log(`${ThingName} published ${report} to '${HelloTopic}'`);
     });
