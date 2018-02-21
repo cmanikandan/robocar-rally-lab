@@ -71,13 +71,77 @@ sudo reboot now
 
 ## The next step is up to you
 
-You can now modify the `iot` application in any way you like.
+You can now modify the [IoT application](../iot/index.js) in any way you like.
 
-A first suggestion to get started is to add *throttle* and *steering angle* to the information reporting.
+### Suggestion: Add 'throttle' and 'steering angle'
 
+A first suggestion to get started is to add *throttle* and *steering angle* to the report.
+
+To simplify development, you can create a dummy IoT car to connect to AWS IoT.
+
+#### Optional: Create and run a local IoT device for development
+
+On your **host computer**, provision a new certificate for your local dev environment:
 ```bash
-ssh pi@<your robocar>
-nano $HOME/robocar-rally-lab/iot/index.js
+cd <robocar-rally-lab root>
+./provisioning/create-device-cert.sh -d <a dummy name> -l <mydir>
+```
+where `<mydir>` is a directory on your computer where you want the x509 certificates and IoT config file to be created.
+
+Next, start the [IoT application](../iot/index.js) using your new config file in `<mydir>/config.json`. You can specify the directory path using the `IOT_CONFIG_PATH` environment variable.
+```bash
+cd <robocar-rally-lab root>/iot
+export IOT_CONFIG_PATH=<mydir>/config.json
+npm run start
 ```
 
-Make the necessary changes and reboot the car.
+#### Adding 'throttle' and 'steering angle'
+
+Add the following snippets to [index.js](../iot/index.js), either directly on your car, or on your development environment if you chose to set one up in the previous step.
+
+Include the [gamepad](https://www.npmjs.com/package/gamepad) library:
+```javascript
+const gamepad = require('gamepad');
+```
+
+Create a reporting function that receives joystick events and reports them to AWS IoT:
+```javascript
+function createMove(shadow) {
+  return (id, axis, value) => {
+    console.log("move", { id, axis, value });
+    const throttle = axis;
+    const angle = value;
+    shadow.publish(ReportTopic, JSON.stringify({ throttle, angle }));
+  };
+}
+```
+
+Initialize [gamepad](https://www.npmjs.com/package/gamepad) and poll for joystick events every 20 ms:
+```javascript
+let gamepadInterval = 0;
+
+shadow.on('connect', () => {
+  console.log(`${ThingName} connected to https://${Host}:${Port}`);
+
+  shadow.publish(HelloTopic, JSON.stringify({ Name: ThingName }));
+  console.log(`${ThingName} published its name to '${HelloTopic}'`);
+
+  gamepad.init();
+  gamepad.on("move", createMove(shadow));
+  gamepadInterval = setInterval(gamepad.processEvents, 20);
+}
+```
+
+Clean up on disconnect:
+```javascript
+shadow.on('close', () => {
+  console.log('Stopping metric loop');
+  clearInterval(interval);
+  interval = 0;
+
+  clearInterval(gamepadInterval);
+  gamepadInterval = 0;
+
+  gamepad.shutdown();
+});
+```

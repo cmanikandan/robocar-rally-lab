@@ -4,7 +4,8 @@
 const thingShadow = require('aws-iot-device-sdk').thingShadow;
 const os = require('os-utils');
 
-const { Host, Port, Region, ClientId, ThingName, ThingTypeName, CaCert, ClientCert, PrivateKey } = require('/home/pi/certs/config.json');
+const configPath = process.env.IOT_CONFIG_PATH || '/home/pi/certs/config.json'
+const { Host, Port, Region, ClientId, ThingName, ThingTypeName, CaCert, ClientCert, PrivateKey } = require(configPath);
 
 const HelloTopic = `${ThingTypeName}/hello`;
 const ReportTopic = `${ThingTypeName}/${ThingName}`
@@ -44,7 +45,6 @@ function run() {
     shadow.publish(HelloTopic, JSON.stringify({ Name: ThingName }));
     console.log(`${ThingName} published its name to '${HelloTopic}'`);
 
-    console.log('Starting metric loop');
     const top = createTop(shadow);
     interval = setInterval(top, 1000);
   });
