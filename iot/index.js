@@ -11,14 +11,14 @@ const HelloTopic = `${ThingTypeName}/hello`;
 const ReportTopic = `${ThingTypeName}/${ThingName}`
 
 function createTop(shadow) {
-  function top() {
-    console.log(`Reporting stats to ${ReportTopic}`);
+  const top = () => {
     const memPercentage = os.freememPercentage();
     os.cpuUsage((cpuPercentage) => {
       const mem = memPercentage * 100;
       const cpu = cpuPercentage * 100;
-      shadow.publish(ReportTopic, JSON.stringify({ cpu, mem }));
-      console.log(`${ThingName} published ${{ cpu, mem }} to '${HelloTopic}'`);
+      report = JSON.stringify({ cpu, mem });
+      shadow.publish(ReportTopic, report);
+      console.log(`${ThingName} published ${report} to '${HelloTopic}'`);
     });
   }
   return top;
@@ -37,7 +37,7 @@ function run() {
     debug: true
   });
 
-  let interval = 0;  
+  let interval = 0;
 
   shadow.on('connect', () => {
     console.log(`${ThingName} connected to https://${Host}:${Port}`);

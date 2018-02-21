@@ -107,16 +107,16 @@ const gamepad = require('gamepad');
 Create a reporting function that receives joystick events and reports them to AWS IoT:
 ```javascript
 function createMove(shadow) {
-  return (id, axis, value) => {
-    console.log("move", { id, axis, value });
+  const move = (id, axis, value) => {
     const throttle = axis;
     const angle = value;
     shadow.publish(ReportTopic, JSON.stringify({ throttle, angle }));
   };
+  return move;
 }
 ```
 
-Initialize [gamepad](https://www.npmjs.com/package/gamepad) and poll for joystick events every 20 ms:
+Initialize [gamepad](https://www.npmjs.com/package/gamepad) and poll for joystick events every 500 ms:
 ```javascript
 let gamepadInterval = 0;
 
@@ -128,7 +128,7 @@ shadow.on('connect', () => {
 
   gamepad.init();
   gamepad.on("move", createMove(shadow));
-  gamepadInterval = setInterval(gamepad.processEvents, 20);
+  gamepadInterval = setInterval(gamepad.processEvents, 500);
 }
 ```
 
