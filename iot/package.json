@@ -9,9 +9,13 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "aws-iot-device-sdk": "^2.2.0",
-    "os-utils": "^0.0.14",
-    "gamepad": "^1.4.2"
+    "aws-iot-device-sdk": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-promise": "^3.6.0"
   },
   "repository": {
     "type": "git",
