@@ -28,8 +28,8 @@ function createTop(shadow) {
 function createMove(shadow) {
   const move = (id, axis, value) => {
     console.log("move", { id, axis, value });
-    const throttle = axis;
-    const angle = value;
+    const throttle = axis == 5 ? value : 0;
+    const angle = axis == 0 ? value : 0;
     shadow.publish(ReportTopic, JSON.stringify({ throttle, angle }));
   };
   return move;
@@ -64,7 +64,7 @@ function run() {
     const move = createMove(shadow);
     gamepad.on("move", move);
     // processEvents will invoke gamepad.on.move events
-    gamepadInterval = setInterval(gamepad.processEvents, 20);
+    gamepadInterval = setInterval(gamepad.processEvents, 500);
   });
 
   shadow.on('close', () => {
