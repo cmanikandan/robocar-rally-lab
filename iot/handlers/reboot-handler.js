@@ -1,6 +1,6 @@
 'use strict';
 
-const logger = require('bunyan');
+const logger = require('../common/logger');
 const { exec } = require('child_process');
 
 const Operation = 'reboot';
@@ -40,23 +40,23 @@ function reboot() {
 }
 
 function handle(error, job) {
-  logger.debug({ message: 'Received new job event', job });
+  logger.debug({ job }, 'Received new job event');
 
   if (error) {
-    logger.error({ message: 'Error in IoT job', error });
+    logger.error({ error }, 'Error in IoT job');
     return reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
   }
 
   function handleStep(status, step) {
     if (status === 'QUEUED' || !step) {
-      logger.info({ message: 'Rebooting system' });
+      logger.info('Rebooting system');
       reportProgress(job, STEP_STARTED);
       reboot();
     } else if (step === STEP_STARTED) {
-      logger.info({ message: 'Reporting successful system reboot' });
+      logger.info('Reporting successful system reboot');
       reportSuccess(job);
     } else {
-      logger.warn({ message: 'Unexpected job state, failing...', step });
+      logger.warn({ step }, 'Unexpected job state, failing...');
       reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
     }
   }

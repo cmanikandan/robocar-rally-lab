@@ -1,9 +1,9 @@
 'use strict';
 
 const jobsModule = require('aws-iot-device-sdk').jobs;
-const logger = require('bunyan');
 
 const RebootHandler = require('./handlers/reboot-handler');
+const logger = require('./common/logger');
 
 const configPath = process.env.IOT_CONFIG_PATH || '/home/pi/certs/config.json';
 /* eslint-disable import/no-dynamic-require */
@@ -25,35 +25,30 @@ function run() {
   });
 
   jobs.on('connect', () => {
-    logger.info({
-      message: 'Connected IoT service',
-      host: Host,
-      port: Port,
-      thing: ThingName
-    });
+    logger.info({ host: Host, port: Port, thing: ThingName }, 'Connected IoT service');
 
     jobs.publish(HelloTopic, JSON.stringify({ Name: ThingName }));
-    logger.debug({ message: 'Published message', thing: ThingName, topic: HelloTopic });
+    logger.debug({ thing: ThingName, topic: HelloTopic }, 'Published message');
   });
 
   jobs.on('close', () => {
-    logger.info({ message: 'Connection closed', thing: ThingName });
+    logger.info({ thing: ThingName }, 'Connection closed');
   });
 
   jobs.on('reconnect', () => {
-    logger.debug({ message: 'Reconnecting to IoT service', thing: ThingName });
+    logger.debug({ thing: ThingName }, 'Reconnecting to IoT service');
   });
 
   jobs.on('offline', () => {
-    logger.debug({ message: 'Offline', thing: ThingName });
+    logger.debug({ thing: ThingName }, 'Offline');
   });
 
   jobs.on('error', (error) => {
-    logger.error({ message: 'Connection error', error, thing: ThingName });
+    logger.error({ error, thing: ThingName }, 'Connection error');
   });
 
   jobs.on('message', (topic, payload) => {
-    logger.debug({ message: 'Received new message', topic, payload });
+    logger.debug({ topic, payload }, 'Received new message');
   });
 
   jobs.subscribeToJobs(ThingName, RebootHandler.Operation, RebootHandler.handle);
