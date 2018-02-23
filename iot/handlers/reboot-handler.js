@@ -31,7 +31,8 @@ function reportFailure(job, errorCode, error) {
 }
 
 function reboot() {
-  exec('sudo /sbin/shutdown -r', (error) => {
+  // exec('sudo /sbin/shutdown -r', (error) => {
+  exec('echo "hello" > /tmp/bob.txt', (error) => {
     if (error) {
       reportFailure('ERR_SYSTEM_CALL_FAILED', error);
     }
@@ -40,6 +41,11 @@ function reboot() {
 
 function handle(error, job) {
   logger.debug({ message: 'Received new job event', job });
+
+  if (error) {
+    logger.error({ message: 'Error in IoT job', error });
+    return reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
+  }
 
   function handleStep(status, step) {
     if (status === 'QUEUED' || !step) {
@@ -53,11 +59,6 @@ function handle(error, job) {
       logger.warn({ message: 'Unexpected job state, failing...', step });
       reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
     }
-  }
-
-  if (error) {
-    logger.error({ message: 'Error in IoT job', error });
-    return reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
   }
 
   const { status: { status, statusDetails: { step } } } = job;
