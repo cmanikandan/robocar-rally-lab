@@ -1,42 +1,70 @@
 'use strict';
 
 const logger = require('bunyan');
+const { exec } = require('child_process');
+
+const Operation = 'reboot';
+
+const STEP_STARTED = 'started';
+const STEP_EXECUTED = 'executed';
+
+function reportProgress(job, step) {
+  job.inProgress({
+    operation: Operation,
+    step
+  });
+}
+
+function reportSuccess(job) {
+  job.succeeded({
+    operation: Operation,
+    step: STEP_EXECUTED
+  });
+}
+
+function reportFailure(job, errorCode, error) {
+  job.failed({
+    operation: Operation,
+    errorCode,
+    error
+  });
+}
+
+function reboot() {
+  exec('sudo /sbin/shutdown -r', (error) => {
+    if (error) {
+      reportFailure('ERR_SYSTEM_CALL_FAILED', error);
+    }
+  });
+}
 
 function handle(error, job) {
-  if (error) {
-    logger.error({ message: 'Error in IoT job', error });
-    return job.failed({
-      operation: job.operation,
-      errorCode: 'ERR_UNEXPECTED',
-      errorMessage: 'reboot job execution in unexpected state'
-    }, showJobsError);
-  }
-
   logger.debug({ message: 'Received new job event', job });
 
-  if (job.status.status === 'QUEUED' ||
-    isUndefined(job.status.statusDetails) ||
-    isUndefined(job.status.statusDetails.step)) {
-
-    job.inProgress({ operation: job.operation, step: 'initiated' }, (err) => {
-      showJobsError(err);
-
-      const delay = (isUndefined(job.document.delay) ? '0' : job.document.delay.toString());
-
-      exec('sudo /sbin/shutdown -r +' + delay, function (err) { 
-        if (!isUndefined(err)) {
-          job.failed({ operation: job.operation, errorCode: 'ERR_SYSTEM_CALL_FAILED', errorMessage: 'unable to execute reboot, check passwordless sudo permissions on agent', error: errorToString(err) }, showJobsError);
-        }
-      });
-    });
-
-  } else if (job.status.statusDetails.step === 'initiated') {
-    job.succeeded({ operation: job.operation, step: 'reboot' }, showJobsError);
-  } else {
-    job.failed({ operation: job.operation, errorCode: 'ERR_UNEXPECTED', errorMessage: 'reboot job execution in unexpected state' }, showJobsError);
+  function handleStep(status, step) {
+    if (status === 'QUEUED' || !step) {
+      logger.info({ message: 'Rebooting system' });
+      reportProgress(job, STEP_STARTED);
+      reboot();
+    } else if (step === STEP_STARTED) {
+      logger.info({ message: 'Reporting successful system reboot' });
+      reportSuccess(job);
+    } else {
+      logger.warn({ message: 'Unexpected job state, failing...', step });
+      reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
+    }
   }
+
+  if (error) {
+    logger.error({ message: 'Error in IoT job', error });
+    return reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
+  }
+
+  const { status: { status, statusDetails: { step } } } = job;
+  return handleStep(status, step);
 }
 
 module.exports = {
+  Operation,
   handle
 };

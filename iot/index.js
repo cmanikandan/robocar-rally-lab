@@ -6,6 +6,7 @@ const logger = require('bunyan');
 const RebootHandler = require('./handlers/reboot-handler');
 
 const configPath = process.env.IOT_CONFIG_PATH || '/home/pi/certs/config.json';
+/* eslint-disable import/no-dynamic-require */
 const {
   Host, Port, Region, ThingName, ThingTypeName, CaCert, ClientCert, PrivateKey
 } = require(configPath);
@@ -55,7 +56,7 @@ function run() {
     logger.debug({ message: 'Received new message', topic, payload });
   });
 
-  jobs.subscribeToJobs(ThingName, 'reboot', RebootHandler.handle);
+  jobs.subscribeToJobs(ThingName, RebootHandler.Operation, RebootHandler.handle);
 }
 
 if (require.main === module) {
