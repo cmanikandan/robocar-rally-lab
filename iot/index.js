@@ -1,16 +1,18 @@
 'use strict';
 
 const jobsModule = require('aws-iot-device-sdk').jobs;
+const logger = require('bunyan');
 
 const RebootHandler = require('./handlers/reboot-handler');
 
-const configPath = process.env.IOT_CONFIG_PATH || '/home/pi/certs/config.json'
-const { Host, Port, Region, ThingName, ThingTypeName, CaCert, ClientCert, PrivateKey } = require(configPath);
+const configPath = process.env.IOT_CONFIG_PATH || '/home/pi/certs/config.json';
+const {
+  Host, Port, Region, ThingName, ThingTypeName, CaCert, ClientCert, PrivateKey
+} = require(configPath);
 
 const HelloTopic = `${ThingTypeName}/hello`;
 
 function run() {
-
   const jobs = jobsModule({
     keyPath: PrivateKey,
     certPath: ClientCert,
@@ -22,30 +24,35 @@ function run() {
   });
 
   jobs.on('connect', () => {
-    console.log(`${ThingName} connected to https://${Host}:${Port}`);
-    
-    shadow.publish(HelloTopic, JSON.stringify({ Name: ThingName }));
-    console.log(`${ThingName} published its name to '${HelloTopic}'`);
+    logger.info({
+      message: 'Connected IoT service',
+      host: Host,
+      port: Port,
+      thing: ThingName
+    });
+
+    jobs.publish(HelloTopic, JSON.stringify({ Name: ThingName }));
+    logger.debug({ message: 'Published message', thing: ThingName, topic: HelloTopic });
   });
 
   jobs.on('close', () => {
-    console.log('close');
+    logger.info({ message: 'Connection closed', thing: ThingName });
   });
 
   jobs.on('reconnect', () => {
-    console.log('reconnect');
+    logger.debug({ message: 'Reconnecting to IoT service', thing: ThingName });
   });
 
   jobs.on('offline', () => {
-    console.log('offline');
+    logger.debug({ message: 'Offline', thing: ThingName });
   });
 
   jobs.on('error', (error) => {
-    console.log('error', error);
+    logger.error({ message: 'Connection error', error, thing: ThingName });
   });
 
   jobs.on('message', (topic, payload) => {
-    console.log(`message ${JSON.stringify(payload)} received on ${topic}`);
+    logger.debug({ message: 'Received new message', topic, payload });
   });
 
   jobs.subscribeToJobs(ThingName, 'reboot', RebootHandler.handle);

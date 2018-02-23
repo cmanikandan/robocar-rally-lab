@@ -9,7 +9,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "aws-iot-device-sdk": "^2.2.0"
+    "aws-iot-device-sdk": "^2.2.0",
+    "bunyan": "^1.8.12"
   },
   "devDependencies": {
     "eslint": "^4.18.1",
