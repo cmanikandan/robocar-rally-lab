@@ -1,16 +1,25 @@
 {
-    "name": "jitr-handler",
-    "version": "0.1.0",
-    "description": "Robocar device certificate activation handler",
-    "author": "Jayway",
-    "license": "MIT",
-    "main": "index.js",
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/jayway/robocar-rally-lab"
-    },
-    "dependencies": {
-      "pem-promise": "^1.0.0"
-    }
+  "name": "jitr-handler",
+  "version": "0.1.0",
+  "description": "Robocar device certificate activation handler",
+  "author": "Jayway",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "pem-promise": "^1.0.0",
+    "bunyan": "^1.8.12"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-promise": "^3.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jayway/robocar-rally-lab"
   }
-    
+}

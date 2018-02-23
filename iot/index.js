@@ -8,7 +8,7 @@ const logger = require('./common/logger');
 const configPath = process.env.IOT_CONFIG_PATH || '/home/pi/certs/config.json';
 /* eslint-disable import/no-dynamic-require */
 const {
-  Host, Port, Region, ThingName, ThingTypeName, CaCert, ClientCert, PrivateKey
+  Host, Port, Region, ClientId, ThingName, ThingTypeName, CaCert, ClientCert, PrivateKey
 } = require(configPath);
 
 const HelloTopic = `${ThingTypeName}/hello`;
@@ -18,6 +18,7 @@ function run() {
     keyPath: PrivateKey,
     certPath: ClientCert,
     caPath: CaCert,
+    clientId: ClientId,
     region: Region,
     host: Host,
     port: Port,
@@ -25,7 +26,7 @@ function run() {
   });
 
   jobs.on('connect', () => {
-    logger.info({ host: Host, port: Port, thing: ThingName }, 'Connected IoT service');
+    logger.info({ host: Host, port: Port, thing: ThingName }, 'Connected to IoT service');
 
     jobs.publish(HelloTopic, JSON.stringify({ Name: ThingName }));
     logger.debug({ thing: ThingName, topic: HelloTopic }, 'Published message');
