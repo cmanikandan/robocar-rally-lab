@@ -37,13 +37,13 @@ You'll need to do the following before starting the lab:
     <td>
       <img src="docs/donkey-car.jpg" width="200">
       <figcaption>
-        <a href="/jayway/robocar-rally-lab/blob/master/docs/PREPARE-CAR.md">1. Prepare car</a>
+        <a href="/docs/PREPARE-CAR.md">1. Prepare car</a>
       </figcaption>
     </td>
     <td>
       <img src="docs/steering-wheel.jpg" width="200">
       <figcaption>
-        <a href="/jayway/robocar-rally-lab/blob/master/docs/DRIVE-CAR.md">2. Drive car</a>
+        <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
       </figcaption>
     </td> 
   </tr>
@@ -56,7 +56,7 @@ You'll need to do the following before starting the lab:
     <td>
       <img src="docs/ai.jpg" width="200">
       <figcaption>
-        <a href="/jayway/robocar-rally-lab/blob/master/docs/AI.md">1. Train</a>
+        <a href="/docs/AI.md">1. Train</a>
       </figcaption>
     </td>
   </tr>
@@ -69,7 +69,7 @@ You'll need to do the following before starting the lab:
     <td>
       <img src="docs/ai.jpg" width="200">
       <figcaption>
-        <a href="/jayway/robocar-rally-lab/blob/master/docs/PREPARE-IOT.md">1. Prepare IoT</a>
+        <a href="/docs/PREPARE-IOT.md">1. Prepare IoT</a>
       </figcaption>
     </td>
   </tr>
