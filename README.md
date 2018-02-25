@@ -32,17 +32,50 @@ You'll need to do the following before starting the lab:
 
 ## Instructions
 
-| [1. Prepare car](docs/PREPARE-CAR.md)          | [2. Drive](docs/DRIVE-CAR.md) |
-|     :---:                                   | :---: |
-| [<img src="docs/donkey-car.jpg" width="200">](docs/PREPARE-CAR.md) | [<img src="docs/steering-wheel.jpg" width="200">](docs/DRIVE-CAR.md) |
+<table>
+  <tr>
+    <td>
+      <img src="docs/donkey-car.jpg" width="200">
+      <figcaption>
+        <a href="/jayway/robocar-rally-lab/blob/master/docs/PREPARE-CAR.md">1. Prepare car</a>
+      </figcaption>
+    </td>
+    <td>
+      <img src="docs/steering-wheel.jpg" width="200">
+      <figcaption>
+        <a href="/jayway/robocar-rally-lab/blob/master/docs/DRIVE-CAR.md">2. Drive car</a>
+      </figcaption>
+    </td> 
+  </tr>
+</table>
 
-| [1. Train](docs/AI.md)                             |
-|     :---:                                       |
-| [<img src="docs/ai.jpg" width="200">](docs/AI.md) |
+---
 
-| [1. Prepare IoT](docs/PREPARE-IOT.md)                             |
-|     :---:                                       |
-| [<img src="docs/ai.jpg" width="200">](docs/AI.md) |
+<table>
+  <tr>
+    <td>
+      <img src="docs/ai.jpg" width="200">
+      <figcaption>
+        <a href="/jayway/robocar-rally-lab/blob/master/docs/AI.md">1. Train</a>
+      </figcaption>
+    </td>
+  </tr>
+</table>
+
+---
+
+<table>
+  <tr>
+    <td>
+      <img src="docs/ai.jpg" width="200">
+      <figcaption>
+        <a href="/jayway/robocar-rally-lab/blob/master/docs/PREPARE-IOT.md">1. Prepare IoT</a>
+      </figcaption>
+    </td>
+  </tr>
+</table>
+
+---
 
 | [Tips n Tricks](docs/TIPS-N-TRICKS.md)          | [Help n Debug](docs/HELP.md) |
 |     :---:                                       | :---: |
