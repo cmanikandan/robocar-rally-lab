@@ -2,14 +2,16 @@
 
 const jobsModule = require('aws-iot-device-sdk').jobs;
 
-const RebootHandler = require('./handlers/reboot-handler');
-const logger = require('./common/logger');
+const EchoHandlerModule = require('./handlers/echo-handler');
+const RebootHandlerModule = require('./handlers/reboot-handler');
 
 const configPath = process.env.IOT_CONFIG_PATH || '/home/pi/certs/config.json';
-/* eslint-disable import/no-dynamic-require */
 const {
   Host, Port, Region, ClientId, ThingName, ThingTypeName, CaCert, ClientCert, PrivateKey
+/* eslint-disable-next-line */
 } = require(configPath);
+
+const logger = require('./common/logger');
 
 const HelloTopic = `${ThingTypeName}/hello`;
 
@@ -24,6 +26,9 @@ function run() {
     port: Port,
     debug: true
   });
+
+  const EchoHandler = EchoHandlerModule({ jobs, ThingTypeName, ThingName });
+  const RebootHandler = RebootHandlerModule();
 
   jobs.on('connect', () => {
     logger.info({ host: Host, port: Port, thing: ThingName }, 'Connected to IoT service');
@@ -52,6 +57,7 @@ function run() {
     logger.debug({ topic, payload }, 'Received new message');
   });
 
+  jobs.subscribeToJobs(ThingName, EchoHandler.Operation, EchoHandler.handle);
   jobs.subscribeToJobs(ThingName, RebootHandler.Operation, RebootHandler.handle);
 }
 

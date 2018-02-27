@@ -65,7 +65,7 @@ function handle(error, job) {
   return handleStep(status, step);
 }
 
-module.exports = {
+module.exports = () => ({
   Operation,
   handle
-};
+});
