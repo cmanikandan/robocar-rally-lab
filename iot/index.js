@@ -5,6 +5,9 @@ const aws = require('aws-iot-device-sdk');
 const echo = require('./handlers/echo-handler');
 const reboot = require('./handlers/reboot-handler');
 
+const jobsServiceCreator = require('./services/jobsservice');
+const iotServiceCreator = require('./services/iotservice');
+
 const log = require('./common/log');
 
 const configPath = process.env.IOT_CONFIG_PATH || '/home/pi/certs/config.json';
@@ -13,12 +16,10 @@ const {
 /* eslint-disable-next-line */
 } = require(configPath);
 
-const HelloTopic = `${ThingTypeName}/hello`;
-
 function main() {
   const logger = log.createLogger({ level: 'debug' });
 
-  const jobs = aws.jobs({
+  const client = aws.jobs({
     keyPath: PrivateKey,
     certPath: ClientCert,
     caPath: CaCert,
@@ -29,46 +30,25 @@ function main() {
     debug: true
   });
 
+  const JobsService = jobsServiceCreator(client, ThingName, logger);
+  const IotService = iotServiceCreator(client, Host, Port, ThingName, ThingTypeName, logger);
+
   const EchoHandler = new echo.EchoHandler({
     thingName: ThingName,
     thingTypeName: ThingTypeName,
-    iotService: jobs,
+    iotService: IotService,
+    jobsService: JobsService,
     logger
   });
 
   const RebootHandler = new reboot.RebootHandler({
+    jobsService: JobsService,
     logger
   });
 
-  jobs.on('connect', () => {
-    logger.info({ host: Host, port: Port, thing: ThingName }, 'Connected to IoT service');
-
-    jobs.publish(HelloTopic, JSON.stringify({ Name: ThingName }));
-    logger.debug({ thing: ThingName, topic: HelloTopic }, 'Published message');
-  });
-
-  jobs.on('close', () => {
-    logger.info({ thing: ThingName }, 'Connection closed');
-  });
-
-  jobs.on('reconnect', () => {
-    logger.debug({ thing: ThingName }, 'Reconnecting to IoT service');
-  });
-
-  jobs.on('offline', () => {
-    logger.debug({ thing: ThingName }, 'Offline');
-  });
-
-  jobs.on('error', (error) => {
-    logger.error({ error, thing: ThingName }, 'Connection error');
-  });
-
-  jobs.on('message', (topic, payload) => {
-    logger.debug({ topic, payload }, 'Received new message');
-  });
-
-  jobs.subscribeToJobs(ThingName, EchoHandler.Operation, (error, job) => EchoHandler.handle(error, job));
-  jobs.subscribeToJobs(ThingName, RebootHandler.Operation, (error, job) => RebootHandler.handle(error, job));
+  JobsService.registerHandler(EchoHandler);
+  JobsService.registerHandler(RebootHandler);
+  JobsService.start();
 }
 
 if (require.main === module) {

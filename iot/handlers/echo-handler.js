@@ -1,45 +1,18 @@
 'use strict';
 
-// TODO: Remove me
-const STEP_STARTED = 'started';
-const STEP_FINISHED = 'finished';
-
-// TODO: Remove me
-function reportProgress(operation, job, step) {
-  job.inProgress({
-    operation,
-    step
-  });
-}
-
-// TODO: Remove me
-function reportSuccess(operation, job) {
-  job.succeeded({
-    operation,
-    step: STEP_FINISHED
-  });
-}
-
-// TODO: Remove me
-function reportFailure(operation, job, errorCode, error) {
-  job.failed({
-    operation,
-    errorCode,
-    error
-  });
-}
-
 class EchoHandler {
   constructor({
     thingName,
     thingTypeName,
     iotService,
+    jobsService,
     logger
   }) {
     this.operation = 'echo';
     this.thing = thingName;
     this.topic = `${thingTypeName}/echo`;
     this.iotService = iotService;
+    this.jobsService = jobsService;
     this.logger = logger;
   }
 
@@ -56,15 +29,15 @@ class EchoHandler {
     this.logger.debug({ topic: this.topic, payload }, 'Published message');
   }
 
-  handleStep(job, status, step, message) {
-    if (status === 'QUEUED' || !step) {
+  executeJob(job, status, message) {
+    if (status === 'QUEUED') {
       this.logger.info('Handling echo job');
-      reportProgress(this.operation, job, STEP_STARTED);
+      this.jobsService.reportProgress(job);
       this.echo(message);
-      reportSuccess(this.operation, job);
+      this.jobsService.reportSuccess(job);
     } else {
-      this.logger.warn({ step }, 'Unexpected job state, failing...');
-      reportFailure(this.operation, job, 'ERR_UNEXPECTED', 'job in unexpected state');
+      this.logger.warn('Unexpected job state, failing...');
+      this.jobsService.reportFailure(job, 'job in unexpected state');
     }
   }
 
@@ -73,11 +46,11 @@ class EchoHandler {
 
     if (error) {
       this.logger.error({ error }, 'Error in IoT job');
-      return reportFailure(this.operation, job, 'ERR_UNEXPECTED', 'job in unexpected state');
+      this.jobsService.reportFailure(job, 'job in unexpected state');
     }
 
-    const { document: { message } = {}, status: { status, statusDetails: { step } = {} } } = job;
-    return this.handleStep(job, status, step, message);
+    const { document: { message } = {}, status: { status } } = job;
+    return this.executeJob(job, status, message);
   }
 }
 

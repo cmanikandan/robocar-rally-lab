@@ -2,79 +2,54 @@
 
 const { exec } = require('child_process');
 
-// TODO: Remove me
 const STEP_STARTED = 'started';
-const STEP_EXECUTED = 'executed';
-
-// TODO: Remove me
-function reportProgress(operation, job, step) {
-  job.inProgress({
-    operation,
-    step
-  });
-}
-
-// TODO: Remove me
-function reportSuccess(operation, job) {
-  job.succeeded({
-    operation,
-    step: STEP_EXECUTED
-  });
-}
-
-// TODO: Remove me
-function reportFailure(operation, job, errorCode, error) {
-  job.failed({
-    operation,
-    errorCode,
-    error
-  });
-}
 
 class RebootHandler {
   constructor({
+    jobsService,
     logger
   }) {
+    this.jobsService = jobsService;
     this.logger = logger;
   }
 
-  static get Operation() {
+  get Operation() {
     return this.operation;
   }
 
-  static reboot() {
-    // exec('sudo /sbin/shutdown -r', (error) => {
-    exec('echo "hello" > /tmp/bob.txt', (error) => {
+  reboot(job) {
+    exec('sudo /sbin/shutdown -k', (error) => {
       if (error) {
-        reportFailure(this.operation, 'ERR_SYSTEM_CALL_FAILED', error);
+        this.jobsService.reportFailure(job, error);
+      } else {
+        // Hacky way of reporting success. Wait 1 second before actually rebooting...
+        this.jobsService.reportSuccess(job);
+        exec('sudo /sbin/shutdown -r 1000');
       }
     });
   }
 
+  executeJobStep(job, status, step) {
+    if (status === 'QUEUED') {
+      this.logger.info('Rebooting system');
+      this.jobsService.reportProgress(job);
+      this.reboot();
+    } else {
+      this.logger.warn({ step }, 'Unexpected job state, failing...');
+      this.jobsService.reportFailure(job, 'job in unexpected state');
+    }
+  }
+
   handle(error, job) {
-    console.log(this.logger);
+    this.logger.debug({ job }, 'Received new job event');
 
     if (error) {
       this.logger.error({ error }, 'Error in IoT job');
-      return reportFailure(this.operation, job, 'ERR_UNEXPECTED', 'job in unexpected state');
-    }
-
-    function handleStep(status, step) {
-      if (status === 'QUEUED' || !step) {
-        this.logger.info('Rebooting system');
-        reportProgress(this.operation, job, STEP_STARTED);
-        this.reboot();
-      } else if (step === STEP_STARTED) {
-        this.logger.info('Reporting successful system reboot');
-        reportSuccess(this.operation, job);
-      } else {
-        this.logger.warn({ step }, 'Unexpected job state, failing...');
-        reportFailure(this.operation, job, 'ERR_UNEXPECTED', 'job in unexpected state');
-      }
+      this.jobsService.reportFailure(job, 'job in unexpected state');
     }
 
     const { status: { status, statusDetails: { step } = {} } } = job;
-    return handleStep(status, step);
+    return this.executeJobStep(job, status, step);
   }
 }
 
