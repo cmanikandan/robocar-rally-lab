@@ -2,8 +2,6 @@
 
 const { exec } = require('child_process');
 
-const STEP_STARTED = 'started';
-
 class RebootHandler {
   constructor({
     jobsService,
