@@ -1,11 +1,11 @@
 'use strict';
 
-const jobsModule = require('aws-iot-device-sdk').jobs;
+const aws = require('aws-iot-device-sdk');
 
 const echo = require('./handlers/echo-handler');
 const reboot = require('./handlers/reboot-handler');
 
-const { createLogger } = require('./common/logger');
+const log = require('./common/log');
 
 const configPath = process.env.IOT_CONFIG_PATH || '/home/pi/certs/config.json';
 const {
@@ -13,13 +13,12 @@ const {
 /* eslint-disable-next-line */
 } = require(configPath);
 
-
 const HelloTopic = `${ThingTypeName}/hello`;
 
 function main() {
-  const logger = createLogger({ level: 'debug' });
+  const logger = log.createLogger({ level: 'debug' });
 
-  const jobs = jobsModule({
+  const jobs = aws.jobs({
     keyPath: PrivateKey,
     certPath: ClientCert,
     caPath: CaCert,
