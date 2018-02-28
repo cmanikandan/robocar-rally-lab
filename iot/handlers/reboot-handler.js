@@ -1,73 +1,83 @@
 'use strict';
 
-const { createLogger } = require('../common/logger');
 const { exec } = require('child_process');
 
-const logger = createLogger({ level: 'debug' });
-
-const Operation = 'reboot';
-
+// TODO: Remove me
 const STEP_STARTED = 'started';
 const STEP_EXECUTED = 'executed';
 
-function reportProgress(job, step) {
+// TODO: Remove me
+function reportProgress(operation, job, step) {
   job.inProgress({
-    operation: Operation,
+    operation,
     step
   });
 }
 
-function reportSuccess(job) {
+// TODO: Remove me
+function reportSuccess(operation, job) {
   job.succeeded({
-    operation: Operation,
+    operation,
     step: STEP_EXECUTED
   });
 }
 
-function reportFailure(job, errorCode, error) {
+// TODO: Remove me
+function reportFailure(operation, job, errorCode, error) {
   job.failed({
-    operation: Operation,
+    operation,
     errorCode,
     error
   });
 }
 
-function reboot() {
-  // exec('sudo /sbin/shutdown -r', (error) => {
-  exec('echo "hello" > /tmp/bob.txt', (error) => {
+class RebootHandler {
+  constructor({
+    logger
+  }) {
+    this.logger = logger;
+  }
+
+  static get Operation() {
+    return this.operation;
+  }
+
+  static reboot() {
+    // exec('sudo /sbin/shutdown -r', (error) => {
+    exec('echo "hello" > /tmp/bob.txt', (error) => {
+      if (error) {
+        reportFailure(this.operation, 'ERR_SYSTEM_CALL_FAILED', error);
+      }
+    });
+  }
+
+  handle(error, job) {
+    console.log(this.logger);
+
     if (error) {
-      reportFailure('ERR_SYSTEM_CALL_FAILED', error);
+      this.logger.error({ error }, 'Error in IoT job');
+      return reportFailure(this.operation, job, 'ERR_UNEXPECTED', 'job in unexpected state');
     }
-  });
+
+    function handleStep(status, step) {
+      if (status === 'QUEUED' || !step) {
+        this.logger.info('Rebooting system');
+        reportProgress(this.operation, job, STEP_STARTED);
+        this.reboot();
+      } else if (step === STEP_STARTED) {
+        this.logger.info('Reporting successful system reboot');
+        reportSuccess(this.operation, job);
+      } else {
+        this.logger.warn({ step }, 'Unexpected job state, failing...');
+        reportFailure(this.operation, job, 'ERR_UNEXPECTED', 'job in unexpected state');
+      }
+    }
+
+    const { status: { status, statusDetails: { step } = {} } } = job;
+    return handleStep(status, step);
+  }
 }
 
-function handle(error, job) {
-  logger.debug({ job }, 'Received new job event');
-
-  if (error) {
-    logger.error({ error }, 'Error in IoT job');
-    return reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
-  }
-
-  function handleStep(status, step) {
-    if (status === 'QUEUED' || !step) {
-      logger.info('Rebooting system');
-      reportProgress(job, STEP_STARTED);
-      reboot();
-    } else if (step === STEP_STARTED) {
-      logger.info('Reporting successful system reboot');
-      reportSuccess(job);
-    } else {
-      logger.warn({ step }, 'Unexpected job state, failing...');
-      reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
-    }
-  }
-
-  const { status: { status, statusDetails: { step } } } = job;
-  return handleStep(status, step);
-}
-
-module.exports = () => ({
-  Operation,
-  handle
-});
+module.exports = {
+  RebootHandler
+};

@@ -1,65 +1,86 @@
 'use strict';
 
-const { createLogger } = require('../common/logger');
-
-const logger = createLogger({ level: 'debug' });
-
-const Operation = 'echo';
-
+// TODO: Remove me
 const STEP_STARTED = 'started';
 const STEP_FINISHED = 'finished';
 
-function reportProgress(job, step) {
+// TODO: Remove me
+function reportProgress(operation, job, step) {
   job.inProgress({
-    operation: Operation,
+    operation,
     step
   });
 }
 
-function reportSuccess(job) {
+// TODO: Remove me
+function reportSuccess(operation, job) {
   job.succeeded({
-    operation: Operation,
+    operation,
     step: STEP_FINISHED
   });
 }
 
-function reportFailure(job, errorCode, error) {
+// TODO: Remove me
+function reportFailure(operation, job, errorCode, error) {
   job.failed({
-    operation: Operation,
+    operation,
     errorCode,
     error
   });
 }
 
-function echo(job, device, topic, thing, message) {
-  device.publish(topic, JSON.stringify({ thing, message }));
-  logger.debug({ thing, topic, msg: message }, 'Published message');
-}
+class EchoHandler {
+  constructor({
+    thingName,
+    thingTypeName,
+    iotService,
+    logger
+  }) {
+    this.operation = 'echo';
+    this.thing = thingName;
+    this.topic = `${thingTypeName}/echo`;
+    this.iotService = iotService;
+    this.logger = logger;
+  }
 
-module.exports = ({ Device, ThingTypeName, ThingName }) => ({
-  Operation,
+  get Operation() {
+    return this.operation;
+  }
+
+  echo(message) {
+    const payload = {
+      thing: this.thing,
+      message
+    };
+    this.iotService.publish(this.topic, JSON.stringify(payload));
+    this.logger.debug({ topic: this.topic, payload }, 'Published message');
+  }
+
+  handleStep(job, status, step, message) {
+    if (status === 'QUEUED' || !step) {
+      this.logger.info('Handling echo job');
+      reportProgress(this.operation, job, STEP_STARTED);
+      this.echo(message);
+      reportSuccess(this.operation, job);
+    } else {
+      this.logger.warn({ step }, 'Unexpected job state, failing...');
+      reportFailure(this.operation, job, 'ERR_UNEXPECTED', 'job in unexpected state');
+    }
+  }
+
   handle(error, job) {
-    logger.debug({ job }, 'Received new job event');
+    this.logger.debug({ job }, 'Received new job event');
 
     if (error) {
-      logger.error({ error }, 'Error in IoT job');
-      return reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
-    }
-
-    function handleStep(status, step, message) {
-      if (status === 'QUEUED' || !step) {
-        logger.info('Handling echo job');
-        reportProgress(job, STEP_STARTED);
-        const topic = `${ThingTypeName}/echo`;
-        echo(job, Device, topic, ThingName, message);
-        reportSuccess(job);
-      } else {
-        logger.warn({ step }, 'Unexpected job state, failing...');
-        reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
-      }
+      this.logger.error({ error }, 'Error in IoT job');
+      return reportFailure(this.operation, job, 'ERR_UNEXPECTED', 'job in unexpected state');
     }
 
     const { document: { message } = {}, status: { status, statusDetails: { step } = {} } } = job;
-    return handleStep(status, step, message);
+    return this.handleStep(job, status, step, message);
   }
-});
+}
+
+module.exports = {
+  EchoHandler
+};
