@@ -1,5 +1,6 @@
 'use strict';
 
+const { createLogger } = require('./common/logger');
 const jobsModule = require('aws-iot-device-sdk').jobs;
 
 const EchoHandlerModule = require('./handlers/echo-handler');
@@ -11,7 +12,7 @@ const {
 /* eslint-disable-next-line */
 } = require(configPath);
 
-const logger = require('./common/logger');
+const logger = createLogger({ level: 'debug' });
 
 const HelloTopic = `${ThingTypeName}/hello`;
 
@@ -27,7 +28,7 @@ function run() {
     debug: true
   });
 
-  const EchoHandler = EchoHandlerModule({ jobs, ThingTypeName, ThingName });
+  const EchoHandler = EchoHandlerModule({ Device: jobs, ThingTypeName, ThingName });
   const RebootHandler = RebootHandlerModule();
 
   jobs.on('connect', () => {

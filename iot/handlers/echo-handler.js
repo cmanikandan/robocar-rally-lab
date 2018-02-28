@@ -1,6 +1,8 @@
 'use strict';
 
-const logger = require('../common/logger');
+const { createLogger } = require('../common/logger');
+
+const logger = createLogger({ level: 'debug' });
 
 const Operation = 'echo';
 
@@ -29,9 +31,9 @@ function reportFailure(job, errorCode, error) {
   });
 }
 
-function echo(job, Device, EchoTopic, ThingName) {
-  Device.publish(EchoTopic, JSON.stringify({ Name: ThingName }));
-  logger.debug({ thing: ThingName, topic: EchoTopic }, 'Published message');
+function echo(job, device, topic, thing, message) {
+  device.publish(topic, JSON.stringify({ thing, message }));
+  logger.debug({ thing, topic, msg: message }, 'Published message');
 }
 
 module.exports = ({ Device, ThingTypeName, ThingName }) => ({
@@ -44,20 +46,20 @@ module.exports = ({ Device, ThingTypeName, ThingName }) => ({
       return reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
     }
 
-    function handleStep(status, step) {
+    function handleStep(status, step, message) {
       if (status === 'QUEUED' || !step) {
         logger.info('Handling echo job');
         reportProgress(job, STEP_STARTED);
         const topic = `${ThingTypeName}/echo`;
-        echo(job, Device, topic, ThingName);
-        job.reportSuccess(job);
+        echo(job, Device, topic, ThingName, message);
+        reportSuccess(job);
       } else {
         logger.warn({ step }, 'Unexpected job state, failing...');
         reportFailure(job, 'ERR_UNEXPECTED', 'job in unexpected state');
       }
     }
 
-    const { status: { status, statusDetails: { step } } } = job;
-    return handleStep(status, step);
+    const { document: { message } = {}, status: { status, statusDetails: { step } = {} } } = job;
+    return handleStep(status, step, message);
   }
 });

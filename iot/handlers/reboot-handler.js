@@ -1,7 +1,9 @@
 'use strict';
 
-const logger = require('../common/logger');
+const { createLogger } = require('../common/logger');
 const { exec } = require('child_process');
+
+const logger = createLogger({ level: 'debug' });
 
 const Operation = 'reboot';
 

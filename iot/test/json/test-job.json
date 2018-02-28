@@ -1,0 +1,11 @@
+{
+    "id": "a95ffb5f-7dd4-441c-abc1-a70027547014",
+    "document": {
+        "operation": "echo",
+        "message": "Hello Robocar!"
+    },
+    "operation": "echo",
+    "status": {
+        "status": "QUEUED"
+    }
+}
