@@ -83,6 +83,6 @@ You'll need to do the following before starting the lab:
 
 ## Preparations for lab instructors
 
-| [Create IoT environment](docs/CREATE-IOT-ENV.md)  | [SD card](sdcard/README.md) |
+| [Create IoT environment](docs/CREATE-JITR.md)  | [SD card](sdcard/README.md) |
 |     :---:                                       | :---: |
 | [<img src="docs/setup-iot.jpg" width="200">](docs/CREATE-IOT-ENV.md)     | [<img src="docs/sdcard.jpg" width="200">](sdcard/README.md) |
