@@ -75,7 +75,7 @@ You'll need to do the following before starting the lab:
     <td>
       <img src="docs/prepare-iot-thing.jpg" width="200">
       <figcaption>
-        <a href="/docs/CODING-IOT.md">2. Coding IoT</a>
+        <a href="/docs/CODING-IOT.md">2. Code IoT</a>
       </figcaption>
     </td>
   </tr>

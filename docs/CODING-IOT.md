@@ -1,4 +1,19 @@
-## IoT app
+# Code IoT
+
+The car uses the [Donkey](https://github.com/wroscoe/donkey) library to drive and train the car. The library runs an event loop that execute tasks called `parts`. Since much of the data that is interesting to the IoT backend flows through the library, this is where we need to \'hook in\'.
+
+This part of the lab explains how to create a custom *Donkey library part*. See introduction here:
+
+http://docs.donkeycar.com/parts/about/
+
+## Environment
+
+First, 
+
+## First try
+
+
+## Adding AWS IoT
 
 There is a [service](../iot/index.js) written in *NodeJS* pre-installed on the car that initially will do the following:
 
