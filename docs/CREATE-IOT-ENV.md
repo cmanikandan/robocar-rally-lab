@@ -1,3 +1,7 @@
 # Create IoT backend
 
-TODO
+TODO: Add system description
+
+```bash
+.<repository root>/iot-backend/deploy.sh -s iot-backend
+```

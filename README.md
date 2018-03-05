@@ -83,6 +83,30 @@ You'll need to do the following before starting the lab:
 
 ## Preparations for lab instructors
 
-| [Create IoT environment](docs/CREATE-JITR.md)  | [SD card](sdcard/README.md) |
-|     :---:                                       | :---: |
-| [<img src="docs/setup-iot.jpg" width="200">](docs/CREATE-IOT-ENV.md)     | [<img src="docs/sdcard.jpg" width="200">](sdcard/README.md) |
+<table>
+  <tr>
+    <td>
+      <img src="docs/setup-iot.jpg" width="200">
+      <figcaption>
+        <a href="/docs/CREATE-JITR.md">1. Setup Just-In-Time-Registration</a>
+      </figcaption>
+    </td>
+    <td>
+      <img src="docs/setup-iot.jpg" width="200">
+      <figcaption>
+        <a href="/docs/CREATE-IOT-ENV.md">2. Create IoT backend</a>
+      </figcaption>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td>
+      <img src="docs/sdcard.jpg" width="200">
+      <figcaption>
+        <a href="/sdcard/README.md">[SD card</a>
+      </figcaption>
+    </td>
+  </tr>
+</table>
