@@ -72,6 +72,12 @@ You'll need to do the following before starting the lab:
         <a href="/docs/PREPARE-IOT.md">1. Prepare IoT</a>
       </figcaption>
     </td>
+    <td>
+      <img src="docs/prepare-iot-thing.jpg" width="200">
+      <figcaption>
+        <a href="/docs/CODING-IOT.md">2. Coding IoT</a>
+      </figcaption>
+    </td>
   </tr>
 </table>
 
