@@ -102,3 +102,12 @@ mkdir -p $HOME/tmp/iot-test
 To verify that JITR is properly configured, in the [AWS console](https://648414911232.signin.aws.amazon.com/console), in the IoT service left navigation pane, choose **Test**. Subscribe to the `Donkey/hello` topic.
 
 <img src="subscribe-button-topic.png" width="400">
+
+Then run the iot application using the dummy certificate:
+```bash
+export IOT_CONFIG_PATH=$HOME/tmp/iot-test/config.json
+cd <repository root>/iot
+npm start
+```
+
+Don't forget to clean up the dummy certificate in the IoT console when you're done.
