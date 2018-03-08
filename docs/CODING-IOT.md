@@ -187,7 +187,6 @@ class Iot:
   '''
   def __init__(self, config_path='/home/pi/certs/config.json'):
     c = read_config(config_path)
-    print(c)
     self.client = AWSIoTMQTTClient(c.ClientId)
     self.client.configureEndpoint(c.Host, c.Port)
     self.client.configureCredentials(c.CaCert, c.PrivateKey, c.ClientCert)
@@ -219,6 +218,21 @@ class Iot:
 ```
 
 As you can see, it defaults to `/home/pi/certs/config.json`, but it is possible for you to override.
+
+Run:
+```bash
+python test.py
+```
+
+You should see messages popping up in the [AWS IoT console](https://648414911232.signin.aws.amazon.com/console).
+
+Finally, to add the new part to the car, add the following to `/home/pi/d2/manage.py`, in `drive()` just before `V.start()`:
+```python
+  # Add iot part
+  V.add(Iot(), inputs=['angle', 'throttle'], threaded=True)
+```
+
+If you're using a local development environment, don't forget to push your new part (`iot.py`) to the donkey library on the car (`/home/pi/donkey/donkeycar/parts/`).
 
 ## The next step is up to you
 
