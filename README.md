@@ -32,87 +32,142 @@ You'll need to do the following before starting the lab:
 
 ## Instructions
 
-<table>
-  <tr>
-    <td>
-      <img src="docs/donkey-car.jpg" width="200">
-      <figcaption>
-        <a href="/docs/PREPARE-CAR.md">1. Prepare car</a>
-      </figcaption>
-    </td>
-    <td>
-      <img src="docs/steering-wheel.jpg" width="200">
-      <figcaption>
-        <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
-      </figcaption>
-    </td> 
-  </tr>
-</table>
+<!-- Styles for complex layouting -->
+<style>
+.flex-container {
+  display: flex;
+}
+
+.flex-container > div {
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
+  background-color: blue;
+}
+
+.arrow {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+</style>
+
+<!-- The drive track -->
+<div class="flex-container">
+
+<div>
+  <img src="docs/donkey-car.jpg" width="200">
+  <figcaption>
+    <a href="/docs/PREPARE-CAR.md">1. Prepare car</a>
+  </figcaption>
+</div>
+
+<div>
+  <img class="arrow" src="docs/arrow.jpg" width="100">
+</div>
+
+<div>
+  <img src="docs/steering-wheel.jpg" width="200">
+  <figcaption>
+    <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
+  </figcaption>
+</div>  
+
+</div>
 
 ---
 
-<table>
-  <tr>
-    <td>
-      <img src="docs/ai.jpg" width="200">
-      <figcaption>
-        <a href="/docs/AI.md">1. Train</a>
-      </figcaption>
-    </td>
-  </tr>
-</table>
+<!-- The ai track -->
+<div class="flex-container">
+
+<div>
+  <img src="docs/ai.jpg" width="200">
+  <figcaption>
+    <a href="/docs/AI.md">1. Train</a>
+  </figcaption>
+</div>
+
+</div>
 
 ---
 
-<table>
-  <tr>
-    <td>
-      <img src="docs/prepare-iot-thing.jpg" width="200">
-      <figcaption>
-        <a href="/docs/PREPARE-IOT.md">1. Prepare IoT</a>
-      </figcaption>
-    </td>
-    <td>
-      <img src="docs/prepare-iot-thing.jpg" width="200">
-      <figcaption>
-        <a href="/docs/CODING-IOT.md">2. Coding IoT</a>
-      </figcaption>
-    </td>
-  </tr>
-</table>
+<!-- The iot track -->
+<div class="flex-container">
+
+<div>
+  <img src="docs/prepare-iot-thing.jpg" width="200">
+  <figcaption>
+    <a href="/docs/PREPARE-IOT.md">1. Prepare IoT</a>
+  </figcaption>
+</div>
+
+<div>
+  <img class="arrow" src="docs/arrow.jpg" width="100">
+</div>
+
+<div>
+  <img src="docs/prepare-iot-thing.jpg" width="200">
+  <figcaption>
+    <a href="/docs/CODING-IOT.md">2. Coding IoT</a>
+  </figcaption>
+</div>
+
+</div>
 
 ---
 
-| [Tips n Tricks](docs/TIPS-N-TRICKS.md)          | [Help n Debug](docs/HELP.md) |
-|     :---:                                       | :---: |
-| [<img src="docs/tips-n-tricks.jpg" width="200">](docs/TIPS-N-TRICKS.md)  | [<img src="docs/debug.jpg" width="200">](docs/HELP.md) |
+<!-- Help and tips -->
+<div class="flex-container">
+
+<div>
+  <img src="docs/tips-n-tricks.jpg" width="200">
+  <figcaption>
+    <a href="/docs/TIPS-N-TRICKS.md">Tips n Tricks</a>
+  </figcaption>
+</div>
+
+<div>
+  <img src="docs/debug.jpg" width="200">
+  <figcaption>
+    <a href="/docs/HELP.md">Help n Debug</a>
+  </figcaption>
+</div>
+
+</div>
 
 ## Preparations for lab instructors
 
-<table>
-  <tr>
-    <td>
-      <img src="docs/setup-iot.jpg" width="200">
-      <figcaption>
-        <a href="/docs/CREATE-JITR.md">1. Setup Just-In-Time-Registration</a>
-      </figcaption>
-    </td>
-    <td>
-      <img src="docs/setup-iot.jpg" width="200">
-      <figcaption>
-        <a href="/docs/CREATE-IOT-ENV.md">2. Create IoT backend</a>
-      </figcaption>
-    </td>
-  </tr>
-</table>
+<!-- IoT backend setup -->
+<div class="flex-container">
 
-<table>
-  <tr>
-    <td>
-      <img src="docs/sdcard.jpg" width="200">
-      <figcaption>
-        <a href="/sdcard/README.md">[SD card</a>
-      </figcaption>
-    </td>
-  </tr>
-</table>
+<div>
+  <img src="docs/setup-iot.jpg" width="200">
+  <figcaption>
+    <a href="/docs/CREATE-JITR.md">1. Setup Just-In-Time-Registration</a>
+  </figcaption>
+</div>
+
+<div>
+  <img class="arrow" src="docs/arrow.jpg" width="100">
+</div>
+
+<div>
+  <img src="docs/setup-iot.jpg" width="200">
+  <figcaption>
+    <a href="/docs/CREATE-IOT-ENV.md">2. Create IoT backend</a>
+  </figcaption>
+</div>
+
+</div>
+
+<!-- Car preparation -->
+<div class="flex-container">
+
+<div>
+  <img src="docs/sdcard.jpg" width="200">
+  <figcaption>
+    <a href="/sdcard/README.md">SD card</a>
+  </figcaption>
+</div>
+
+</div>
