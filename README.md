@@ -32,7 +32,14 @@ You'll need to do the following before starting the lab:
 
 ## Instructions
 
-<!-- The drive track -->
+The lab instructions are divided up in 3 *tracks*, which the team can run in parallell.
+
+In the *Drive* track, you'll prepare the car for racing. You'll need to work with the [Raspberry Pi](https://www.raspberrypi.org/) that runs the car, calibrate the [PWM motor controller](https://en.wikipedia.org/wiki/Pulse-width_modulation) for steering and throttle, and finally drive the car using a remote control.
+
+In the *ML* track, you'll dig into the training of the car. You'll look at the data produced by the car when driving manually (the *Drive* track), get familiar with the [Donkey python library](https://github.com/wroscoe/donkey) and the tools it provides for working with the data, then train and evaluate your first model using a sample data set in [AWS SageMaker](https://aws.amazon.com/sagemaker/). Finally, you'll dig deeper into the neural network to see if it can be improved in some way.
+
+In the *IoT* track, you'll look at the collecting and reporting of metrics to the cloud. You'll provision the car for authenticating with [AWS IoT](https://aws.amazon.com/iot/) service using JITR, then start coding your own [Donkey python library](https://github.com/wroscoe/donkey) part to report data you think is important to the cloud. You'll also work with the data pipeline already present in the AWS account to visualize your data using tools like [Grafana](https://grafana.com/).
+
 ### The *Drive* track
 
 <table align="center">
