@@ -35,13 +35,23 @@ You'll need to do the following before starting the lab:
 <!-- The drive track -->
 ### The *Drive* track
 
-<a href="/docs/PREPARE-CAR.md">
-<img src="docs/donkey-car.jpg" width="200" align="center" hspace="10">
-</a>
-<img src="docs/arrow.jpg" width="100" align="center" hspace="10"/>
-<a href="/docs/DRIVE-CAR.md">
-<img src="docs/steering-wheel.jpg" width="200" align="center" hspace="10" />
-<a/>
+<table align="center">
+<tr>
+  <td align="center">
+    <a href="/docs/PREPARE-CAR.md"><img src="docs/donkey-car.jpg" width="200" align="center" hspace="10"></a>
+    <br/>
+    <a href="/docs/PREPARE-CAR.md">1. Prepare car</a>
+  </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="100" align="center" hspace="10"/>
+  </td>
+  <td align="center">
+    <a href="/docs/DRIVE-CAR.md"><img src="docs/steering-wheel.jpg" width="200" align="center" hspace="10" /><a/>
+    <br/>
+    <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
+  </td>
+</tr>
+</table>
 
 ### The *ML* track
 
