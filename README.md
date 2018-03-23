@@ -32,27 +32,27 @@ You'll need to do the following before starting the lab:
 
 ## Instructions
 
-<!-- Styles for complex layouting -->
-<style>
-.flex-container {
-  display: flex;
-}
-
-.flex-container > div {
-  margin: 10px;
-  padding: 20px;
-  text-align: center;
-  background-color: blue;
-}
-
-.arrow {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
-</style>
-
 <!-- The drive track -->
+### The *Drive* track
+
+<span>
+<a href="/docs/PREPARE-CAR.md">
+<img src="docs/donkey-car.jpg" width="200" align="center" hspace="10">
+</a>
+<div>
+fdsaf
+</div>
+</span>
+
+<img src="docs/arrow.jpg" width="100" align="center" hspace="10"/>
+
+<a href="/docs/DRIVE-CAR.md">
+<img src="docs/steering-wheel.jpg" width="200" align="center" hspace="10" />
+<a/>
+
+### The *ML* track
+
+
 <div class="flex-container">
 
 <div>
