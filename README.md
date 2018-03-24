@@ -62,34 +62,14 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
 
 ### The *ML* track
 
-<<<<<<< HEAD
----
-
-<table>
-  <tr>
-    <td>
-      <img src="docs/prepare-iot-thing.jpg" width="200">
-      <figcaption>
-        <a href="/docs/PREPARE-IOT.md">1. Prepare IoT</a>
-      </figcaption>
-    </td>
-    <td>
-      <img src="docs/prepare-iot-thing.jpg" width="200">
-      <figcaption>
-        <a href="/docs/CODING-IOT.md">2. Code IoT</a>
-      </figcaption>
-    </td>
-  </tr>
-=======
 <table align="center">
 <tr>
   <td align="center">
     <a href="/docs/AI.md"><img src="docs/ai.jpg" width="200"></a>
     <br/>
-    <a href="/docs/AI.md">1. Train</a>
+    <a href="/docs/AI.md">1. Getting started</a>
   </td>
 </tr>
->>>>>>> master
 </table>
 
 ### The *IoT* track
