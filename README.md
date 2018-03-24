@@ -69,6 +69,30 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <br/>
     <a href="/docs/AI.md">1. Getting started</a>
   </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="100" />
+  </td>
+  <td align="center">
+    <a href="/ml/donkey-intro.ipynb"><img src="docs/prepare-iot-thing.jpg" width="200"><a/>
+    <br/>
+    <a href="/ml/donkey-intro.ipynb">2. Sagemaker Donkey introduction</a>
+  </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="100" />
+  </td>
+  <td align="center">
+    <a href="/ml/donkey-tools.ipynb"><img src="docs/prepare-iot-thing.jpg" width="200"><a/>
+    <br/>
+    <a href="/ml/donkey-tools.ipynb">3. Donkey library tools</a>
+  </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="100" />
+  </td>
+  <td align="center">
+    <a href="/ml/donkey-train.ipynb"><img src="docs/prepare-iot-thing.jpg" width="200"><a/>
+    <br/>
+    <a href="/ml/donkey-train.ipynb">3. Sagemaker Donkey training</a>
+  </td>
 </tr>
 </table>
 
