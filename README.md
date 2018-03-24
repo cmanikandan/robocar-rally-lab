@@ -32,36 +32,37 @@ You'll need to do the following before starting the lab:
 
 ## Instructions
 
-<table>
-  <tr>
-    <td>
-      <img src="docs/donkey-car.jpg" width="200">
-      <figcaption>
-        <a href="/docs/PREPARE-CAR.md">1. Prepare car</a>
-      </figcaption>
-    </td>
-    <td>
-      <img src="docs/steering-wheel.jpg" width="200">
-      <figcaption>
-        <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
-      </figcaption>
-    </td> 
-  </tr>
+The lab instructions are divided up in 3 *tracks*, which the team can run in parallell.
+
+In the *Drive* track, you'll prepare the car for racing. You'll need to work with the [Raspberry Pi](https://www.raspberrypi.org/) that runs the car, calibrate the [PWM motor controller](https://en.wikipedia.org/wiki/Pulse-width_modulation) for steering and throttle, and finally drive the car using a remote control.
+
+In the *ML* track, you'll dig into the training of the car. You'll look at the data produced by the car when driving manually (the *Drive* track), get familiar with the [Donkey python library](https://github.com/wroscoe/donkey) and the tools it provides for working with the data, then train and evaluate your first model using a sample data set in [AWS SageMaker](https://aws.amazon.com/sagemaker/). Finally, you'll dig deeper into the neural network to see if it can be improved in some way.
+
+In the *IoT* track, you'll look at the collecting and reporting of metrics to the cloud. You'll provision the car for authenticating with [AWS IoT](https://aws.amazon.com/iot/) service using JITR, then start coding your own [Donkey python library](https://github.com/wroscoe/donkey) part to report data you think is important to the cloud. You'll also work with the data pipeline already present in the AWS account to visualize your data using tools like [Grafana](https://grafana.com/).
+
+### The *Drive* track
+
+<table align="center">
+<tr>
+  <td align="center">
+    <a href="/docs/PREPARE-CAR.md"><img src="docs/donkey-car.jpg" width="200" /></a>
+    <br/>
+    <a href="/docs/PREPARE-CAR.md">1. Prepare car</a>
+  </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="100" />
+  </td>
+  <td align="center">
+    <a href="/docs/DRIVE-CAR.md"><img src="docs/steering-wheel.jpg" width="200" /><a/>
+    <br/>
+    <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
+  </td>
+</tr>
 </table>
 
----
+### The *ML* track
 
-<table>
-  <tr>
-    <td>
-      <img src="docs/ai.jpg" width="200">
-      <figcaption>
-        <a href="/docs/AI.md">1. Train</a>
-      </figcaption>
-    </td>
-  </tr>
-</table>
-
+<<<<<<< HEAD
 ---
 
 <table>
@@ -79,40 +80,73 @@ You'll need to do the following before starting the lab:
       </figcaption>
     </td>
   </tr>
+=======
+<table align="center">
+<tr>
+  <td align="center">
+    <a href="/docs/AI.md"><img src="docs/ai.jpg" width="200"></a>
+    <br/>
+    <a href="/docs/AI.md">1. Train</a>
+  </td>
+</tr>
+>>>>>>> master
 </table>
 
----
+### The *IoT* track
 
-| [Tips n Tricks](docs/TIPS-N-TRICKS.md)          | [Help n Debug](docs/HELP.md) |
-|     :---:                                       | :---: |
-| [<img src="docs/tips-n-tricks.jpg" width="200">](docs/TIPS-N-TRICKS.md)  | [<img src="docs/debug.jpg" width="200">](docs/HELP.md) |
+<table align="center">
+<tr>
+  <td align="center">
+    <a href="/docs/PREPARE-IOT.md"><img src="docs/prepare-iot-thing.jpg" width="200"></a>
+    <br/>
+    <a href="/docs/PREPARE-IOT.md">1. Prepare IoT</a>
+  </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="100" />
+  </td>
+  <td align="center">
+    <a href="/docs/CODING-IOT.md"><img src="docs/prepare-iot-thing.jpg" width="200"><a/>
+    <br/>
+    <a href="/docs/CODING-IOT.md">2. Code IoT</a>
+  </td>
+</tr>
+</table>
+
+### Help and tips
+
+<table align="center">
+<tr>
+  <td align="center">
+    <a href="/docs/TIPS-N-TRICKS.md"><img src="docs/tips-n-tricks.jpg" width="200"></a>
+    <br/>
+    <a href="/docs/TIPS-N-TRICKS.md">Tips n Tricks</a>
+  </td>
+  <td align="center">
+    <a href="/docs/HELP.md"><img src="docs/debug.jpg" width="200"><a/>
+    <br/>
+    <a href="/docs/HELP.md">Help n Debug</a>
+  </td>
+</tr>
+</table>
 
 ## Preparations for lab instructors
 
-<table>
-  <tr>
-    <td>
-      <img src="docs/setup-iot.jpg" width="200">
-      <figcaption>
-        <a href="/docs/CREATE-JITR.md">1. Setup Just-In-Time-Registration</a>
-      </figcaption>
-    </td>
-    <td>
-      <img src="docs/setup-iot.jpg" width="200">
-      <figcaption>
-        <a href="/docs/CREATE-IOT-ENV.md">2. Create IoT backend</a>
-      </figcaption>
-    </td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td>
-      <img src="docs/sdcard.jpg" width="200">
-      <figcaption>
-        <a href="/sdcard/README.md">[SD card</a>
-      </figcaption>
-    </td>
-  </tr>
+<table align="center">
+<tr>
+  <td align="center">
+    <a href="/sdcard/README.md"><img src="docs/sdcard.jpg" width="200"></a>
+    <br/>
+    <a href="/sdcard/README.md">SD card</a>
+  </td>
+  <td align="center">
+    <a href="/docs/CREATE-JITR.md"><img src="docs/setup-iot.jpg" width="200"></a>
+    <br/>
+    <a href="/docs/CREATE-JITR.md">Setup JITR</a>
+  </td>
+  <td align="center">
+    <a href="/docs/CREATE-IOT-ENV.md"><img src="docs/setup-iot.jpg" width="200"><a/>
+    <br/>
+    <a href="/docs/CREATE-IOT-ENV.md">Create IoT backend</a>
+  </td>
+</tr>
 </table>
