@@ -53,11 +53,12 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <img src="docs/arrow.jpg" width="50" />
   </td>
   <td align="center">
-    <a href="/docs/DRIVE-CAR.md"><img src="docs/steering-wheel.jpg" width="150" /><a/>
-    </br>
-    <figcaption>
-      <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
-    </figcaption>
+    </figure>
+      <a href="/docs/DRIVE-CAR.md"><img src="docs/steering-wheel.jpg" width="150" /><a/>
+      <figcaption>
+        <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
+      </figcaption>
+    </figure>
   </td>
 </tr>
 </table>
