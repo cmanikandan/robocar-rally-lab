@@ -45,7 +45,7 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
 <table align="center">
 <tr>
   <td align="center">
-    <a href="/docs/PREPARE-CAR.md"><img src="docs/donkey-car.jpg" width="100" /></a>
+    <a href="/docs/PREPARE-CAR.md"><img src="docs/donkey-car.jpg" width="150" /></a>
     <br/>
     <a href="/docs/PREPARE-CAR.md">1. Prepare car</a>
   </td>
@@ -53,9 +53,10 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <img src="docs/arrow.jpg" width="50" />
   </td>
   <td align="center">
-    <a href="/docs/DRIVE-CAR.md"><img src="docs/steering-wheel.jpg" width="100" /><a/>
-    <br/>
-    <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
+    <a href="/docs/DRIVE-CAR.md"><img src="docs/steering-wheel.jpg" width="150" /><a/>
+    <figcaption>
+      <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
+    </figcaption>
   </td>
 </tr>
 </table>
@@ -65,7 +66,7 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
 <table align="center">
 <tr>
   <td align="center">
-    <a href="/docs/AI.md"><img src="docs/ai.jpg" width="100"></a>
+    <a href="/docs/AI.md"><img src="docs/ai.jpg" width="150"></a>
     <br/>
     <a href="/docs/AI.md">1. Getting started</a>
   </td>
@@ -73,25 +74,25 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <img src="docs/arrow.jpg" width="50" />
   </td>
   <td align="center">
-    <a href="/ml/donkey-intro.ipynb"><img src="docs/train.jpg" width="100"><a/>
+    <a href="/ml/donkey-intro.ipynb"><img src="docs/train.jpg" width="150"><a/>
     <br/>
-    <a href="/ml/donkey-intro.ipynb">2. Sagemaker Donkey introduction</a>
+    <a href="/ml/donkey-intro.ipynb">2. Sagemaker Donkey intro</a>
   </td>
   <td align="center">
     <img src="docs/arrow.jpg" width="50" />
   </td>
   <td align="center">
-    <a href="/ml/donkey-tools.ipynb"><img src="docs/train.jpg" width="100"><a/>
+    <a href="/ml/donkey-tools.ipynb"><img src="docs/train.jpg" width="150"><a/>
     <br/>
-    <a href="/ml/donkey-tools.ipynb">3. Donkey library tools</a>
+    <a href="/ml/donkey-tools.ipynb">3. Donkey tools</a>
   </td>
   <td align="center">
     <img src="docs/arrow.jpg" width="50" />
   </td>
   <td align="center">
-    <a href="/ml/donkey-train.ipynb"><img src="docs/train.jpg" width="100"><a/>
+    <a href="/ml/donkey-train.ipynb"><img src="docs/train.jpg" width="150"><a/>
     <br/>
-    <a href="/ml/donkey-train.ipynb">3. Sagemaker Donkey training</a>
+    <a href="/ml/donkey-train.ipynb">4. Sagemaker training</a>
   </td>
 </tr>
 </table>
@@ -101,7 +102,7 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
 <table align="center">
 <tr>
   <td align="center">
-    <a href="/docs/PREPARE-IOT.md"><img src="docs/prepare-iot-thing.jpg" width="200"></a>
+    <a href="/docs/PREPARE-IOT.md"><img src="docs/prepare-iot-thing.jpg" width="150"></a>
     <br/>
     <a href="/docs/PREPARE-IOT.md">1. Prepare IoT</a>
   </td>
@@ -109,7 +110,7 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <img src="docs/arrow.jpg" width="50" />
   </td>
   <td align="center">
-    <a href="/docs/CODING-IOT.md"><img src="docs/prepare-iot-thing.jpg" width="200"><a/>
+    <a href="/docs/CODING-IOT.md"><img src="docs/prepare-iot-thing.jpg" width="150"><a/>
     <br/>
     <a href="/docs/CODING-IOT.md">2. Code IoT</a>
   </td>
@@ -121,12 +122,12 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
 <table align="center">
 <tr>
   <td align="center">
-    <a href="/docs/TIPS-N-TRICKS.md"><img src="docs/tips-n-tricks.jpg" width="100"></a>
+    <a href="/docs/TIPS-N-TRICKS.md"><img src="docs/tips-n-tricks.jpg" width="150"></a>
     <br/>
     <a href="/docs/TIPS-N-TRICKS.md">Tips n Tricks</a>
   </td>
   <td align="center">
-    <a href="/docs/HELP.md"><img src="docs/debug.jpg" width="100"><a/>
+    <a href="/docs/HELP.md"><img src="docs/debug.jpg" width="150"><a/>
     <br/>
     <a href="/docs/HELP.md">Help n Debug</a>
   </td>
@@ -138,17 +139,17 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
 <table align="center">
 <tr>
   <td align="center">
-    <a href="/sdcard/README.md"><img src="docs/sdcard.jpg" width="100"></a>
+    <a href="/sdcard/README.md"><img src="docs/sdcard.jpg" width="150"></a>
     <br/>
     <a href="/sdcard/README.md">SD card</a>
   </td>
   <td align="center">
-    <a href="/docs/CREATE-JITR.md"><img src="docs/setup-iot.jpg" width="100"></a>
+    <a href="/docs/CREATE-JITR.md"><img src="docs/setup-iot.jpg" width="150"></a>
     <br/>
     <a href="/docs/CREATE-JITR.md">Setup JITR</a>
   </td>
   <td align="center">
-    <a href="/docs/CREATE-IOT-ENV.md"><img src="docs/setup-iot.jpg" width="100"><a/>
+    <a href="/docs/CREATE-IOT-ENV.md"><img src="docs/setup-iot.jpg" width="150"><a/>
     <br/>
     <a href="/docs/CREATE-IOT-ENV.md">Create IoT backend</a>
   </td>
