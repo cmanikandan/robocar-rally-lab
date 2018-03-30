@@ -71,3 +71,8 @@ You need to calibrate the steering before it can drive properly, see:
 
 The library reference can be found here:
 - [http://docs.donkeycar.com/utility/donkey](http://docs.donkeycar.com/utility/donkey)
+
+
+## Next
+
+[Manual driving](DRIVE-CAR.md)
