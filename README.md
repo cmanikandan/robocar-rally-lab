@@ -66,25 +66,17 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
 <table align="center">
 <tr>
   <td align="center">
-    <a href="/docs/AI.md"><img src="docs/ai.jpg" width="175"></a>
+    <a href="/ml/donkey-intro.ipynb"><img src="docs/ai.jpg" width="175"><a/>
     <br/>
-    <a href="/docs/AI.md">1. Getting started</a>
+    <a href="/ml/donkey-intro.ipynb">1. SageMaker intro</a>
   </td>
   <td align="center">
     <img src="docs/arrow.jpg" width="50" />
   </td>
   <td align="center">
-    <a href="/ml/donkey-intro.ipynb"><img src="docs/train.jpg" width="175"><a/>
+    <a href="/ml/donkey-tools.ipynb"><img src="docs/ml-tools.jpg" width="175"><a/>
     <br/>
-    <a href="/ml/donkey-intro.ipynb">2. Sagemaker Donkey intro</a>
-  </td>
-  <td align="center">
-    <img src="docs/arrow.jpg" width="50" />
-  </td>
-  <td align="center">
-    <a href="/ml/donkey-tools.ipynb"><img src="docs/train.jpg" width="175"><a/>
-    <br/>
-    <a href="/ml/donkey-tools.ipynb">3. Donkey tools</a>
+    <a href="/ml/donkey-tools.ipynb">2. Donkey tools</a>
   </td>
   <td align="center">
     <img src="docs/arrow.jpg" width="50" />
@@ -92,7 +84,7 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
   <td align="center">
     <a href="/ml/donkey-train.ipynb"><img src="docs/train.jpg" width="175"><a/>
     <br/>
-    <a href="/ml/donkey-train.ipynb">4. Sagemaker training</a>
+    <a href="/ml/donkey-train.ipynb">3. Training</a>
   </td>
 </tr>
 </table>
