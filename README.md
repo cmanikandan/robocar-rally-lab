@@ -1,8 +1,8 @@
 # RobocarRally - lab
 
-Compete agains your Jayway collegues in this AI-controlled car race.
+Compete agains other teams in this AI-controlled car race.
 
-You'll be divided up in 4 teams with 4 people per team. Each team will be given a `Robocar` to name and race with.
+You'll be divided up in teams with 3-4 people per team. Each team will be given a `Robocar` to name and race with.
 
 ## Prerequisites
 
