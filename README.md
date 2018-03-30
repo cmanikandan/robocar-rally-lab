@@ -136,7 +136,7 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <a href="/sdcard/README.md">SD card</a>
   </td>
   <td align="center">
-    <a href="/docs/CREATE-JITR.md"><img src="docs/setup-iot.jpg" width="175"></a>
+    <a href="/docs/CREATE-JITR.md"><img src="docs/jitr.jpg" width="175"></a>
     <br/>
     <a href="/docs/CREATE-JITR.md">Setup JITR</a>
   </td>
