@@ -56,7 +56,15 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
   <td align="center">
     <a href="/docs/DRIVE-CAR.md"><img src="docs/steering-wheel.jpg" width="175" /><a/>
     <br/>  
-    <a href="/docs/DRIVE-CAR.md">2. Drive car</a>
+    <a href="/docs/DRIVE-CAR.md">2. Manual driving</a>
+  </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="50" />
+  </td>
+  <td align="center">
+    <a href="/docs/TODO.md"><img src="docs/steering-wheel.jpg" width="175" /><a/>
+    <br/>  
+    <a href="/docs/TODO.md">2. Autonomous driving</a>
   </td>
 </tr>
 </table>
@@ -85,6 +93,14 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <a href="/ml/donkey-train.ipynb"><img src="docs/train.jpg" width="175"><a/>
     <br/>
     <a href="/ml/donkey-train.ipynb">3. Training</a>
+  </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="50" />
+  </td>
+  <td align="center">
+    <a href="/ml/donkey-nn.ipynb"><img src="docs/train.jpg" width="175"><a/>
+    <br/>
+    <a href="/ml/donkey-nn.ipynb">4. Neural networks</a>
   </td>
 </tr>
 </table>
