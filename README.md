@@ -98,7 +98,7 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <img src="docs/arrow.jpg" width="50" />
   </td>
   <td align="center">
-    <a href="/ml/donkey-nn.ipynb"><img src="docs/train.jpg" width="175"><a/>
+    <a href="/ml/donkey-nn.ipynb"><img src="docs/ml-nn.jpg" width="175"><a/>
     <br/>
     <a href="/ml/donkey-nn.ipynb">4. Neural networks</a>
   </td>
