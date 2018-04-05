@@ -35,7 +35,7 @@ The car runs a BLE service which will broadcast with a name that includes the `h
 python3 manage.py drive --js
 ```
 
-When joystick is used, the webserver is not, so you cannot follow the video stream in the browser.
+Note! When joystick is used, the webserver is not, so you cannot follow the video stream in the browser.
 
 ## Next
 
