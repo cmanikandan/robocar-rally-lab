@@ -60,3 +60,12 @@ nmap -sS -T5 -p 22 10.0.0.0/16
 ```
 
 See [https://explainshell.com/explain?cmd=nmap+10.0.0.1+-T5+-p-+-sS+](https://explainshell.com/explain?cmd=nmap+10.0.0.1+-T5+-p-+-sS+) for a description of the `nmap` options.
+
+## Problems with Donkey library import paths
+
+If you're having trouble with import paths being prepended with the git directory name after installing the [Donkey](https://github.com/wroscoe/donkey) library, try installing it without the `-e` flag:
+
+```bash
+# Assuming you've cloned the git to ~/donkey
+pip install ~/donkey
+```
