@@ -62,9 +62,9 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <img src="docs/arrow.jpg" width="50" />
   </td>
   <td align="center">
-    <a href="/docs/TODO.md"><img src="docs/autocar.jpg" width="175" /><a/>
+    <a href="/docs/AUTO-DRIVE-CAR.md"><img src="docs/autocar.jpg" width="175" /><a/>
     <br/>  
-    <a href="/docs/TODO.md">3. Autonomous driving</a>
+    <a href="/docs/AUTO-DRIVE-CAR.md">3. Autonomous driving</a>
   </td>
 </tr>
 </table>
