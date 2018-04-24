@@ -38,6 +38,13 @@
 
 ---
 
+![workflow](images/robocar-cycle.jpg)
+
+[comment]: <> ( The basic workflow )
+[comment]: <> ( Up to you what to improve )
+
+---
+
 1.     ---------> Driving
 
 2.     ---------> Machine Learning
@@ -53,7 +60,8 @@
 
 ![workflow](images/robocar-cycle.jpg)
 
-[comment]: <> ( You chose if/what you want to do )
+[comment]: <> ( The basic workflow )
+[comment]: <> ( Up to you what to improve )
 
 ---
 
