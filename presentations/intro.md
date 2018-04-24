@@ -47,6 +47,13 @@
 [comment]: <> ( There are lab instructions )
 [comment]: <> ( Some of it is already prepared )
 [comment]: <> ( You chose if/what you want to do )
+[comment]: <> ( A very important thing! Name your car in the Drive track )
+
+---
+
+![workflow](images/robocar-cycle.jpg)
+
+[comment]: <> ( You chose if/what you want to do )
 
 ---
 
