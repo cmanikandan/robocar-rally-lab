@@ -77,35 +77,47 @@ In the *IoT* track, you'll look at the collecting and reporting of metrics to th
     <a href="/docs/donkey-start.md"><img src="https://pbs.twimg.com/media/DWm5E20XUAA7Vdb.jpg" width="175"><a/>
     <br/>
     <a href="/docs/donkey-start.md">0. ML intro</a>
-  <td align="center">
-    <a href="/ml/donkey-intro.ipynb"><img src="docs/ai.jpg" width="175"><a/>
-    <br/>
-    <a href="/ml/donkey-intro.ipynb">1. SageMaker intro</a>
   </td>
   <td align="center">
     <img src="docs/arrow.jpg" width="50" />
   </td>
-  <td align="center">
-    <a href="/ml/donkey-tools.ipynb"><img src="docs/ml-tools.jpg" width="175"><a/>
-    <br/>
-    <a href="/ml/donkey-tools.ipynb">2. Donkey tools</a>
-  </td>
-  <td align="center">
-    <img src="docs/arrow.jpg" width="50" />
-  </td>
+
   <td align="center">
     <a href="/ml/donkey-train.ipynb"><img src="docs/train.jpg" width="175"><a/>
     <br/>
-    <a href="/ml/donkey-train.ipynb">3. Training</a>
+    <a href="/ml/donkey-train.ipynb">1. Donkey train</a>
   </td>
   <td align="center">
     <img src="docs/arrow.jpg" width="50" />
   </td>
+
   <td align="center">
     <a href="/ml/donkey-nn.ipynb"><img src="docs/ml-nn.jpg" width="175"><a/>
     <br/>
-    <a href="/ml/donkey-nn.ipynb">4. Neural networks</a>
+    <a href="/ml/donkey-nn.ipynb">2. Donkey CNN</a>
   </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="50" />
+  </td>
+
+  <td align="center">
+    <a href="/ml/donkey-data.ipynb"><img src="docs/ai.jpg" width="175"><a/>
+    <br/>
+    <a href="/ml/donkey-data.ipynb">3. Donkey data</a>
+  </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="50" />
+  </td>
+
+  <td align="center">
+    <a href="/ml/donkey-tools.ipynb"><img src="docs/ml-tools.jpg" width="175"><a/>
+    <br/>
+    <a href="/ml/donkey-tools.ipynb">4. Donkey tools</a>
+  </td>
+  <td align="center">
+    <img src="docs/arrow.jpg" width="50" />
+  </td>
+
 </tr>
 </table>
 
