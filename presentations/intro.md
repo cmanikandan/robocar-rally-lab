@@ -30,38 +30,31 @@
 
 # Goals
 
-#### 1. Time race against the other teams
+#### 1. To learn!
 
-#### 2. Produce some cool IoT/Training metrics
+#### 2. Time race against the other teams
 
-#### 3. Most awesome fail/crash
+#### 3. Produce some cool IoT/Training metrics
 
----
-
-![workflow](images/robocar-cycle.jpg)
-
-[comment]: <> ( The basic workflow )
-[comment]: <> ( Up to you what to improve )
+#### 4. Most awesome fail/crash
 
 ---
 
-1.     ---------> Driving
-
-2.     ---------> Machine Learning
-
-3.     ---------> IoT
-
-[comment]: <> ( There are lab instructions )
-[comment]: <> ( Some of it is already prepared )
-[comment]: <> ( You chose if/what you want to do )
-[comment]: <> ( A very important thing! Name your car in the Drive track )
+# What now?
 
 ---
 
-![workflow](images/robocar-cycle.jpg)
+# Divide up in teams
 
-[comment]: <> ( The basic workflow )
-[comment]: <> ( Up to you what to improve )
+---
+
+# Access the AWS account
+
+### You have Admin rights. No prize for misuse =)
+
+---
+
+# Get a car
 
 ---
 
