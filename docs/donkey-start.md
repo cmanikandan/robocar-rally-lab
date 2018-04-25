@@ -30,7 +30,7 @@ git clone https://github.com/jayway/robocar-rally-lab
 ### Next
 
 Open the first ML chapter:
-[Donkey Train](robocar-rally-lab/ml/donkey-train.ipynb)
+[Donkey Train](../ml/donkey-train.ipynb)
 
 ## Local
 
