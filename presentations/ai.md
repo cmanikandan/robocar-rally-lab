@@ -11,75 +11,63 @@
 
 ![](images/ai-vs-ml-vs-dl.jpg)
 
-[ai]: <> (Intelligent through rules)
-[ml]: <> (Self learning algorithm that train models using data)
-[dl]: <> (ML using neural networks. Feature extraction done by network, not by human as in ML.)
+[comment]: <> ( AI - Intelligent through rules )
+[comment]: <> ( ML - Self learning algorithm that train models using data )
+[comment]: <> ( DL - ML using deep neural networks )
 
 ---
 
-### When to use Machine Learning?
+# Machine Learning categories
+
+[comment]: <> ( description of ways in which you can let machines or algorithms loose on a data set )
+
+### Supervised
+
+[comment]: <> ( You know how the output/labels should look like )
+[comment]: <> ( Predicting labels from examples/features )
+
+### Unsupervised
+
+[comment]: <> ( You don't know the structure of the data sets )
+[comment]: <> ( Outcomes to most of the problems are largely unknown )
+
+### Reinforcement
+
+[comment]: <> ( Agents, Algorithms, Environment, State and Reward )
+[comment]: <> ( monitor the response of the actions, and measure against a reward )
 
 ---
 
-### Machine Learning
+[comment]: <> ( This Hackathon - Supervised learning )
 
-- data (x)
-- model (f)
-- loss function
-- an algorithm to tweak the model params so that the loss function is minimized
-
----
-
-### Supervised vs unsupervised vs reinforced
-### Behavioral cloning
-### Feature extraction (ML vs Deep Learning)
-
-##### Overfitting
-##### Nonlinearity
-##### Regularization / dropout
-
-###### relu
-###### Tensorflow (separate Estimators
-###### MxNet
-###### Keras
+<p align="center">
+<img src="images/supervised.jpg" width="600">
+</p>
 
 ---
 
-### Supervised learning
+<p align="center">
+<img src="https://cdn-images-1.medium.com/max/1200/1*f5eUnIX54XQH3ag3gQBIvw.png" width="400"/>
+</p>
 
-###### predicting labels from examples
-
-labels + examples -> learning algorithm -> model
-(training labels) + (training inputs)  -> ... -> model
-
-inputs + model -> outputs
-
-See zach chase github
+[comment]: <> ( data )
+[comment]: <> ( model )
+[comment]: <> ( loss function )
+[comment]: <> ( optimizer - an algorithm to tweak the model params so that the loss function is minimized )
 
 ---
 
-### Simple example: Linear regression
+![CNNs](https://adeshpande3.github.io/assets/Cover.png)
 
-- show math
-- measure quality: loss function -> squared loss
--- diagram over squared loss (see straight dope)
+[comment]: <> ( Convolution - feature extraction. Based on assumption that information in images are spatially dependent )
 
 ---
 
-### Next example(s):
-
-Different models
-- show graph
-- layers
-- nbr of units/nodes in a layer
-- activation
-
-e.g.
-tf.layers.dense(inputs=hidden_layer, units=20, activation=tf.nn.relu)
+![Donkey-CNN](images/donkey-cnn.jpg)
 
 ---
 
-### Sagemaker
+# Sagemaker
 
 ---
 
@@ -87,19 +75,8 @@ tf.layers.dense(inputs=hidden_layer, units=20, activation=tf.nn.relu)
 
 ---
 
-### Deep learning maths
+[comment]: <> ( TensorFlow )
 
-- input
-- tensor
-- activation
-- loss
-- function
-- ...
-
----
-
-### Tensorboard
-
-1. writer.add_graph() - explore this + maths first
-2. 
-
+<p align="center">
+<img src="https://lh3.googleusercontent.com/Ns1ea98duQ9csaHN7EQjl6SbnLMxg_ou9bLhZA8KLqbeSv7gg7XXGX1rqtWXgnjiJjBQpiTZWyxIhtxjnWPKTM27-J9T0QI=s688" width="600">
+</p>
