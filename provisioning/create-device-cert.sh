@@ -117,30 +117,33 @@ if [[ -z "$LOCAL" ]]; then
   fi
 
   # Check if SSH key is available
-  [ -f $HOME/.ssh/robocar_rsa ] || die "Error: No SSH key for the car in $HOME/.ssh/robocar_rsa. To create one, see docs/PREPARE-IOT.md" $TMP
+  SSH_KEY=${DEVICE_NAME}_rsa
+  echo "SSH will assume key named $KEY"
+  [ -f $HOME/.ssh/$SSH_KEY ] || die "Error: No SSH key for the car in $HOME/.ssh/${DEVIE_NAME}_rsa. To create one, see docs/PREPARE-IOT.md" $TMP
 
+  # Commented this part out because it gets stuck at the ssh command when running on a mac
   # Check if we can connect using the RSA key
-  if ! ssh -i $HOME/.ssh/robocar_rsa -T pi@$TARGET &> /dev/null
-  then
-    die "Error: $TARGET not reachable. Cannot connect to car." $TMP_DIR
-  fi
-  echo "Successfully connected to $TARGET"
+  #if ! ssh -i $HOME/.ssh/$SSH_KEY -T pi@$TARGET &> /dev/null
+  #then
+  #  die "Error: $TARGET not reachable. Cannot connect to car." $TMP_DIR
+  #fi
+  #echo "Successfully connected to $TARGET"
 
   # Move certs to device
-  ssh -i $HOME/.ssh/robocar_rsa pi@${TARGET} "mkdir -p ${DST}"
+  ssh -i $HOME/.ssh/$SSH_KEY pi@${TARGET} "mkdir -p ${DST}"
   echo "Copying private key to device..."
-  scp -i $HOME/.ssh/robocar_rsa $PRIVATE_KEY_PATH pi@${TARGET}:${DST}
+  scp -i $HOME/.ssh/$SSH_KEY $PRIVATE_KEY_PATH pi@${TARGET}:${DST}
   echo "Copying x509 cetificate to device..."
-  scp -i $HOME/.ssh/robocar_rsa $CERT_PATH pi@${TARGET}:${DST}
+  scp -i $HOME/.ssh/$SSH_KEY $CERT_PATH pi@${TARGET}:${DST}
   echo "Copying Jayway AWS IoT CA certificate to device..."
-  scp -i $HOME/.ssh/robocar_rsa $CA_CERT_PATH pi@${TARGET}:${DST}
+  scp -i $HOME/.ssh/$SSH_KEY $CA_CERT_PATH pi@${TARGET}:${DST}
   echo "Copying AWS IoT root certficate (VeriSign) to device..."
-  scp -i $HOME/.ssh/robocar_rsa $AWS_ROOT_CA_CERT pi@${TARGET}:${DST}
+  scp -i $HOME/.ssh/$SSH_KEY $AWS_ROOT_CA_CERT pi@${TARGET}:${DST}
   echo "Copying x509 certificate chain (device and JW CA) to device..."
-  scp -i $HOME/.ssh/robocar_rsa $CERT_AND_CA_CERT_PATH pi@${TARGET}:${DST}
+  scp -i $HOME/.ssh/$SSH_KEY $CERT_AND_CA_CERT_PATH pi@${TARGET}:${DST}
 
   echo "Copying IoT config file to device..."
-  scp -i $HOME/.ssh/robocar_rsa $TMP/config.json pi@${TARGET}:${DST}
+  scp -i $HOME/.ssh/$SSH_KEY $TMP/config.json pi@${TARGET}:${DST}
 
 else
 
