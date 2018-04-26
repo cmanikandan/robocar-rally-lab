@@ -53,18 +53,21 @@ The certs will automatically be copied to your device using the `SSH` key create
 
 ## Testing
 
-If the car is provisioned correctly, it will publish a message to the [AWS IoT topic](https://docs.aws.amazon.com/iot/latest/developerguide/topics.html) `Donkey/hello`:
+If the car is provisioned correctly, it will publish a message every time it boots up to the [AWS IoT topic](https://docs.aws.amazon.com/iot/latest/developerguide/topics.html) `Donkey/hello`:
 ```json
 {
   "Name": "yourhostname"
 }
 ```
 
-To verify that the car is properly configured, in the [AWS console](https://648414911232.signin.aws.amazon.com/console), in the IoT service left navigation pane, choose **Test**. Subscribe to the `Donkey/hello` topic.
+To verify that the car is properly configured, you need to subscribe to the topic and reboot the car:
 
-<img src="subscribe-button-topic.png" width="400">
+  1. In the [AWS console](https://648414911232.signin.aws.amazon.com/console), in the IoT service left  navigation pane, choose **Test**. Subscribe to the `Donkey/hello` topic.
 
-**Ask your team members if you can reboot the car!**
+  <img src="subscribe-button-topic.png" width="400">
+
+  2. **Ask your team members if you can reboot the car!**
+
 ```bash
 # Ask your team members before rebooting...
 # Also, make sure you run this command on the car, not on your host machine =)

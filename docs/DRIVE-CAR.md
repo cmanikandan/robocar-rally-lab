@@ -32,6 +32,7 @@ We've created a BLE app for IOS you can use for driving. It's available on [Test
 The car runs a BLE service which will broadcast with a name that includes the `hostname` you configured in the previous steps, so it should be easy to find. Once connected, you need to start your car with the `joystick` flag turned on:
 
 ```bash
+# Run this command in the ~/d2 dir on the car
 python3 manage.py drive --js
 ```
 
